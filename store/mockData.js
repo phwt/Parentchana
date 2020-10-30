@@ -1,4 +1,6 @@
-export const checkinAPI = [
+export const checkinAPI = [];
+
+export const calendarAPI = [
   {
     kind: "calendar#event",
     etag: "XXXXXXXXXXXXXXXX",
@@ -599,5 +601,3 @@ export const checkinAPI = [
     },
   },
 ];
-
-export const calendarAPI = {};
