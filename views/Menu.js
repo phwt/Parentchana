@@ -1,5 +1,6 @@
 import React from "react";
 import { View, Text, Button } from "react-native";
+import MenuCard from "../components/menu/MenuCard";
 
 const Menu = (props) => {
   return (
@@ -13,18 +14,9 @@ const Menu = (props) => {
         title="Settings"
         onPress={() => props.navigation.navigate("Settings")}
       />
-      <Button
-        title="Pick Up"
-        onPress={() => props.navigation.navigate("Pickup")}
-      />
-      <Button
-        title="Check In"
-        onPress={() => props.navigation.navigate("CheckIn")}
-      />
-      <Button
-        title="Calendar"
-        onPress={() => props.navigation.navigate("Calendar")}
-      />
+      <MenuCard title="Pick Up" onSelect={() => props.navigation.navigate("Pickup")}/>
+      <MenuCard title="Check In" onSelect={() => props.navigation.navigate("CheckIn")}/>
+      <MenuCard title="Calendar" onSelect={() => props.navigation.navigate("Calendar")}/>
     </View>
   );
 };
