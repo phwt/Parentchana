@@ -6,6 +6,14 @@ const Menu = (props) => {
     <View>
       <Text>Main Menu</Text>
       <Button
+        title="Account"
+        onPress={() => props.navigation.navigate("Account")}
+      />
+      <Button
+        title="Settings"
+        onPress={() => props.navigation.navigate("Settings")}
+      />
+      <Button
         title="Pick Up"
         onPress={() => props.navigation.navigate("Pickup")}
       />

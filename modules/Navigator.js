@@ -3,6 +3,8 @@ import { createAppContainer } from "react-navigation";
 import { createBottomTabNavigator } from "react-navigation-tabs";
 
 import Menu from "../views/Menu";
+import Settings from "../views/settings/Settings";
+import Account from "../views/settings/Account";
 import Pickup from "../views/pickup/Pickup";
 import PickupRegister from "../views/pickup/PickupRegister";
 import CheckIn from "../views/checkin/CheckIn";
@@ -25,6 +27,8 @@ const CalendarNavigator = createBottomTabNavigator({
 
 const Navigator = createStackNavigator({
   Menu,
+  Settings,
+  Account,
   PickupNavigator,
   CheckInNavigator,
   CalendarNavigator,
