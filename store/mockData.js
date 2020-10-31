@@ -1,4 +1,70 @@
-export const checkinAPI = [];
+export const checkinAPI = [
+  // 02/11 - Arrive on-time | Depart early
+  {
+    studentId: "12345",
+    type: "arrival",
+    ontime: true,
+    timestamp: new Date("2020-11-02T07:42:12"),
+  },
+  {
+    studentId: "12345",
+    type: "departure",
+    ontime: false,
+    timestamp: new Date("2020-11-02T15:12:43"),
+  },
+  // 03/11 - Arrive on-time | Depart on-time
+  {
+    studentId: "12345",
+    type: "arrival",
+    ontime: true,
+    timestamp: new Date("2020-11-03T07:53:11"),
+  },
+  {
+    studentId: "12345",
+    type: "departure",
+    ontime: true,
+    timestamp: new Date("2020-11-03T16:59:15"),
+  },
+  // 04/11 - Absent (no arrival and departure data)
+  {
+    studentId: "12345",
+    type: "absent",
+    ontime: false,
+    timestamp: new Date("2020-11-04T09:00:00"),
+  },
+  // 05/11 - Arrive late (before 09:00 check) | Depart on-time
+  {
+    studentId: "12345",
+    type: "arrival",
+    ontime: false,
+    timestamp: new Date("2020-11-05T08:45:44"),
+  },
+  {
+    studentId: "12345",
+    type: "departure",
+    ontime: true,
+    timestamp: new Date("2020-11-05T17:12:43"),
+  },
+  // 06/11 - Arrive late (after 09:00 check) | Depart on-time
+  {
+    studentId: "12345",
+    type: "absent",
+    ontime: false,
+    timestamp: new Date("2020-11-06T09:00:00"),
+  },
+  {
+    studentId: "12345",
+    type: "arrival",
+    ontime: false,
+    timestamp: new Date("2020-11-06T11:23:44"),
+  },
+  {
+    studentId: "12345",
+    type: "departure",
+    ontime: true,
+    timestamp: new Date("2020-11-06T17:27:56"),
+  },
+];
 
 export const calendarAPI = [
   {
