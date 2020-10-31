@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, Button } from "react-native";
 import { Col, Row, Grid } from "react-native-easy-grid";
 import { BarCodeScanner } from "expo-barcode-scanner";
+import * as firebase from "firebase";
 
 const Pickup = () => {
   const [hasPermission, setHasPermission] = useState(null);
@@ -15,9 +16,20 @@ const Pickup = () => {
     })();
   }, []);
 
+  const insertStudent = (studentId) => {
+    const db = firebase.firestore();
+    (async () => {
+      await db.collection("pickup").add({
+        studentId,
+        timestamp: new Date(),
+      });
+    })();
+  };
+
   const handleBarCodeScanned = ({ type, data }) => {
     setScanned(true);
     setScanData({ type, data });
+    insertStudent("12345"); // TODO: Use student id from register page
   };
 
   if (hasPermission === null) {
