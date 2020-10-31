@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Text, StyleSheet, Button } from "react-native";
+import { View, Text, StyleSheet, Button } from "react-native";
 import { Col, Row, Grid } from "react-native-easy-grid";
 import { BarCodeScanner } from "expo-barcode-scanner";
 
@@ -20,10 +20,18 @@ const Pickup = () => {
   };
 
   if (hasPermission === null) {
-    return <Text>Requesting for camera permission</Text>;
+    return (
+      <View style={styles.centerXY}>
+        <Text>Requesting for camera permission</Text>
+      </View>
+    );
   }
   if (hasPermission === false) {
-    return <Text>No access to camera</Text>;
+    return (
+      <View style={styles.centerXY}>
+        <Text>Need access to camera</Text>
+      </View>
+    );
   }
 
   return (
@@ -45,5 +53,9 @@ const Pickup = () => {
     </Grid>
   );
 };
+
+const styles = StyleSheet.create({
+  centerXY: { flex: 1, justifyContent: "center", alignItems: "center" },
+});
 
 export default Pickup;
