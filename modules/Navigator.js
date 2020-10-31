@@ -2,6 +2,9 @@ import { createStackNavigator } from "react-navigation-stack";
 import { createAppContainer } from "react-navigation";
 import { createBottomTabNavigator } from "react-navigation-tabs";
 
+import React from "react";
+import { Ionicons } from "@expo/vector-icons";
+
 import Menu from "../views/Menu";
 import Settings from "../views/settings/Settings";
 import Account from "../views/settings/Account";
@@ -13,16 +16,58 @@ import Calendar from "../views/calendar/Calendar";
 import CalendarDetailed from "../views/calendar/CalendarDetailed";
 
 const PickupNavigator = createBottomTabNavigator({
-  Pickup,
-  PickupRegister,
+  Pickup: {
+    screen: Pickup,
+    navigationOptions: {
+      tabBarIcon: (tabInfo) => (
+        <Ionicons name="ios-qr-scanner" size={24} color={tabInfo.tintColor} />
+      ),
+    },
+  },
+  PickupRegister: {
+    screen: PickupRegister,
+    navigationOptions: {
+      tabBarIcon: (tabInfo) => (
+        <Ionicons name="md-person" size={24} color={tabInfo.tintColor} />
+      ),
+    },
+  },
 });
 const CheckInNavigator = createBottomTabNavigator({
-  CheckIn,
-  CheckInDetailed,
+  CheckIn: {
+    screen: CheckIn,
+    navigationOptions: {
+      tabBarIcon: (tabInfo) => (
+        <Ionicons name="ios-calendar" size={24} color={tabInfo.tintColor} />
+      ),
+    },
+  },
+  CheckInDetailed: {
+    screen: CheckInDetailed,
+    navigationOptions: {
+      tabBarIcon: (tabInfo) => (
+        <Ionicons name="md-list" size={24} color={tabInfo.tintColor} />
+      ),
+    },
+  },
 });
 const CalendarNavigator = createBottomTabNavigator({
-  Calendar,
-  CalendarDetailed,
+  Calendar: {
+    screen: Calendar,
+    navigationOptions: {
+      tabBarIcon: (tabInfo) => (
+        <Ionicons name="ios-calendar" size={24} color={tabInfo.tintColor} />
+      ),
+    },
+  },
+  CalendarDetailed: {
+    screen: CalendarDetailed,
+    navigationOptions: {
+      tabBarIcon: (tabInfo) => (
+        <Ionicons name="md-list" size={24} color={tabInfo.tintColor} />
+      ),
+    },
+  },
 });
 
 const Navigator = createStackNavigator({
