@@ -10,6 +10,7 @@ import Settings from "../views/settings/Settings";
 import Account from "../views/settings/Account";
 import Pickup from "../views/pickup/Pickup";
 import PickupRegister from "../views/pickup/PickupRegister";
+import PickupList from "../views/pickup/PickupList";
 import CheckIn from "../views/checkin/CheckIn";
 import CheckInDetailed from "../views/checkin/CheckInDetailed";
 import Calendar from "../views/calendar/Calendar";
@@ -24,6 +25,7 @@ const PickupNavigator = createBottomTabNavigator({
       ),
     },
   },
+  // TODO: Hide for teacher
   PickupRegister: {
     screen: PickupRegister,
     navigationOptions: {
@@ -32,7 +34,17 @@ const PickupNavigator = createBottomTabNavigator({
       ),
     },
   },
+  // TODO: Hide for parent
+  PickupList: {
+    screen: PickupList,
+    navigationOptions: {
+      tabBarIcon: (tabInfo) => (
+        <Ionicons name="md-list" size={24} color={tabInfo.tintColor} />
+      ),
+    },
+  },
 });
+
 const CheckInNavigator = createBottomTabNavigator({
   CheckIn: {
     screen: CheckIn,
@@ -51,6 +63,7 @@ const CheckInNavigator = createBottomTabNavigator({
     },
   },
 });
+
 const CalendarNavigator = createBottomTabNavigator({
   Calendar: {
     screen: Calendar,
