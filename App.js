@@ -5,9 +5,9 @@ import Navigator from "./modules/Navigator";
 
 import * as firebase from "firebase";
 import "firebase/firestore";
-import { firebaseConfig } from "./config";
+// import { firebaseConfig } from "./config";
 
-firebase.initializeApp(firebaseConfig);
+// firebase.initializeApp(firebaseConfig);
 
 const App = () => {
   return <Navigator />;
