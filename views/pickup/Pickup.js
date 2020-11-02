@@ -16,12 +16,13 @@ const Pickup = () => {
     })();
   }, []);
 
-  const insertStudent = (studentId) => {
+  const insertStudent = () => {
     const db = firebase.firestore();
     (async () => {
       await db.collection("pickup").add({
-        studentId,
         timestamp: new Date(),
+        plate: "1 AB 2345",
+        students: ["12345", "23456", "34567"],
       });
     })();
   };
@@ -29,7 +30,7 @@ const Pickup = () => {
   const handleBarCodeScanned = ({ type, data }) => {
     setScanned(true);
     setScanData({ type, data });
-    insertStudent("12345"); // TODO: Use student id from register page
+    insertStudent();
   };
 
   if (hasPermission === null) {
