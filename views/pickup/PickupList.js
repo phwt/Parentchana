@@ -1,6 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { View, Text } from "react-native";
+import { View, Text, FlatList } from "react-native";
 import * as firebase from "firebase";
+
+const PickupItem = ({ item }) => (
+  <View>
+    <Text>{item.plate}</Text>
+    <Text>{item.timestamp.seconds}</Text>
+    <Text>{item.students.map((i) => `- ${i}${"\n"}`)}</Text>
+  </View>
+);
 
 const PickupList = () => {
   let [studentList, setStudentList] = useState([]);
@@ -17,15 +25,11 @@ const PickupList = () => {
 
   return (
     <View>
-      {studentList.map(({ id, plate, students, timestamp }) => (
-        // TODO: Render using FlatList
-        <View key={id}>
-          <Text>{plate}</Text>
-          <Text>{students}</Text>
-          <Text>{timestamp.seconds}</Text>
-          <Text>{"\n"}</Text>
-        </View>
-      ))}
+      <FlatList
+        data={studentList}
+        renderItem={PickupItem}
+        keyExtractor={(i) => i.id}
+      />
     </View>
   );
 };
