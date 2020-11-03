@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, StyleSheet, FlatList } from "react-native";
+import { Text, View, StyleSheet, FlatList } from "react-native";
 import {
   TextInput,
   FAB,
@@ -21,7 +21,7 @@ const AddStudentDialog = (props) => {
               onChangeText={props.onChangeText}
               value={props.value}
               keyboardType="numeric"
-              maxLength={5}
+              maxLength={8}
               autoFocus={true}
             />
           </Dialog.Content>
@@ -63,17 +63,31 @@ const PickupRegister = () => {
 
   return (
     <View style={StyleSheet.absoluteFill}>
-      <FlatList
-        data={registerList}
-        renderItem={({ item }) => (
-          <List.Item
-            title={item}
-            description="ชื่อ นามสกุล" // TODO: Fetch name from firebase/database
-            left={(props) => <List.Icon {...props} icon="account-circle" />}
-            onPress={() => removeStudent(item)}
-          />
-        )}
-      />
+      {registerList.length === 0 && (
+        <View style={{ marginTop: 32 }}>
+          <Text style={{ textAlign: "center", fontWeight: "bold" }}>
+            No student added
+          </Text>
+          <Text style={{ textAlign: "center" }}>
+            Add new student by pressing the + button below
+          </Text>
+        </View>
+      )}
+
+      {registerList.length > 0 && (
+        <FlatList
+          data={registerList}
+          renderItem={({ item }) => (
+            <List.Item
+              title={item}
+              description="ชื่อ นามสกุล" // TODO: Fetch name from firebase/database
+              left={(props) => <List.Icon {...props} icon="account-circle" />}
+              onPress={() => removeStudent(item)}
+            />
+          )}
+          keyExtractor={(i) => String(registerList.indexOf(i))}
+        />
+      )}
 
       <AddStudentDialog
         visible={dialogVisible}
