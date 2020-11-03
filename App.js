@@ -7,7 +7,7 @@ import * as firebase from "firebase";
 import "firebase/firestore";
 import { firebaseConfig } from "./config";
 
-firebase.initializeApp(firebaseConfig);
+if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
 
 const App = () => {
   return <Navigator />;
