@@ -1,107 +1,129 @@
 import React, { useState } from "react";
-import { Text, View, ScrollView, StyleSheet } from "react-native";
+import { Text, View, ScrollView, StyleSheet, SafeAreaView, FlatList } from "react-native";
 import { checkinAPI } from "../../store/mockData";
+
+const Item = ({ prop }) => {
+  return (
+
+    <View style={{
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+
+    }}>
+      <View style={styles.space}>
+        <Text style={styles.data}>
+          {prop.timestamp.getDate()}/{prop.timestamp.getMonth()}/{prop.timestamp.getFullYear()}
+        </Text>
+      </View>
+      <View style={styles.space}>
+        <Text style={styles.data}>
+          {prop.studentId}
+        </Text>
+      </View>
+      <View style={styles.space}>
+        <Text style={styles.data}>
+          {prop.timestamp.getHours().toString().length != 2
+            ? "0" + prop.timestamp.getHours()
+            : prop.timestamp.getHours()}
+                  :
+                  {prop.timestamp.getMinutes().toString().length != 2
+            ? "0" + prop.timestamp.getMinutes()
+            : prop.timestamp.getMinutes()}
+        </Text>
+      </View>
+      {/* {prop.type == "arrival" ? setStatus("green") : prop.type == "departure" ? setStatus("orange") : setStatus("red")}
+      <View style={styles.space}>
+        <View style={{
+          width: "12%",
+          height: "50%",
+          marginTop: "7%",
+          marginRight: "5%",
+          borderRadius: 100,
+          backgroundColor: status
+        }} />
+        <Text style={styles.data}>
+          {prop.type}
+        </Text>
+      </View> */}
+      {prop.type == "arrival" ?
+      <View style={styles.space}>
+        <View style={{
+          width: "12%",
+          height: "50%",
+          marginTop: "7%",
+          marginRight: "5%",
+          borderRadius: 100,
+          backgroundColor: "green"
+        }} />
+        <Text style={styles.data}>
+          {prop.type}
+        </Text>
+      </View> : prop.type == "departure" ?
+        <View style={styles.space}>
+          <View style={{
+            width: "12%",
+            height: "50%",
+            marginTop: "7%",
+            marginRight: "5%",
+            borderRadius: 100,
+            backgroundColor: "orange"
+          }} />
+          <Text style={styles.data}>
+            {prop.type}
+          </Text>
+        </View> :
+        <View style={styles.space}>
+          <View style={{
+            width: "12%",
+            height: "50%",
+            marginTop: "7%",
+            marginRight: "5%",
+            borderRadius: 100,
+            backgroundColor: "red"
+          }} />
+          <Text style={styles.data}>
+            {prop.type}
+          </Text>
+        </View>}
+    </View>
+  );
+};
+
 const CheckInDetailed = () => {
   let [checkinList, setcheckinList] = useState(checkinAPI);
-  return (
-    <ScrollView>
-      <View style={styles.container}>
-        <Text style={styles.text}>เข้าโรงเรียน</Text>
-        {checkinList.map((checkin) => {
-          if (checkin.type == "arrival") {
-            return (
-              <View>
-                <Text key={checkin.studentId.toString() + new Date()}>
-                  <Text style={styles.title}>รหัสนักเรียน : </Text>
-                  {checkin.studentId}
-                </Text>
-                <Text key={checkin.timestamp.getDate().toString() + new Date()}>
-                  <Text style={styles.title}>วันที่ : </Text>
-                  {checkin.timestamp.getDate()}/{checkin.timestamp.getMonth()}/
-                  {checkin.timestamp.getFullYear()}
-                </Text>
-                <Text
-                  key={checkin.timestamp.getHours().toString() + new Date()}
-                >
-                  <Text style={styles.title}>เวลา : </Text>
-                  {checkin.timestamp.getHours().toString().length != 2
-                    ? "0" + checkin.timestamp.getHours()
-                    : checkin.timestamp.getHours()}
-                  :
-                  {checkin.timestamp.getMinutes().toString().length != 2
-                    ? "0" + checkin.timestamp.getMinutes()
-                    : checkin.timestamp.getMinutes()}
-                </Text>
-                <Text key={checkin.ontime.toString() + new Date()}>
-                  <Text style={styles.title}>เดินทางมาโรงเรียน : </Text>
-                  {checkin.ontime ? "ปกติ" : "มาสาย"}
-                </Text>
-                <Text style={styles.title}>
-                  --------------------------------
-                </Text>
-              </View>
-            );
-          }
-        })}
 
-        <Text style={styles.text}>ออกโรงเรียน</Text>
-        {checkinList.map((checkin) => {
-          if (checkin.type == "departure") {
-            return (
-              <View>
-                <Text key={checkin.studentId.toString() + new Date()}>
-                  <Text style={styles.title}>รหัสนักเรียน : </Text>
-                  {checkin.studentId}
-                </Text>
-                <Text key={checkin.timestamp.getDate().toString() + new Date()}>
-                  <Text style={styles.title}>วันที่ : </Text>
-                  {checkin.timestamp.getDate()}/{checkin.timestamp.getMonth()}/
-                  {checkin.timestamp.getFullYear()}
-                </Text>
-                <Text
-                  key={checkin.timestamp.getHours().toString() + new Date()}
-                >
-                  <Text style={styles.title}>เวลา :</Text>
-                  {checkin.timestamp.getHours().toString().length != 2
-                    ? "0" + checkin.timestamp.getHours()
-                    : checkin.timestamp.getHours()}
-                  :
-                  {checkin.timestamp.getMinutes().toString().length != 2
-                    ? "0" + checkin.timestamp.getMinutes()
-                    : checkin.timestamp.getMinutes()}
-                </Text>
-                <Text style={styles.title}>
-                  --------------------------------
-                </Text>
-              </View>
-            );
-          }
-        })}
-
-        <Text style={styles.text}>ขาดเรียน</Text>
-        {checkinList.map((checkin) => {
-          if (checkin.type == "absent") {
-            return (
-              <View>
-                <Text key={checkin.studentId.toString() + new Date()}>
-                  <Text style={styles.title}>รหัสนักเรียน : </Text>
-                  {checkin.studentId}
-                </Text>
-                <Text key={checkin.timestamp.getDate().toString() + new Date()}>
-                  <Text style={styles.title}>วันที่ : </Text>
-                  {checkin.timestamp.getDate()}/{checkin.timestamp.getMonth()}/
-                  {checkin.timestamp.getFullYear()}
-                </Text>
-                <Text style={styles.title}>
-                  --------------------------------
-                </Text>
-              </View>
-            );
-          }
-        })}
-      </View>
-    </ScrollView>
+  const renderItem = ({ item }) => (
+    <View style={{
+      marginHorizontal: 10,
+      marginVertical: 5,
+    }}>
+      <Item prop={item} />
+    </View>
   );
+
+  return (
+
+    <SafeAreaView style={styles.container}>
+      <View style={{
+        //  flex: 1,
+        margin: 10,
+        flexDirection: 'row',
+      }}>
+        <View style={styles.space}><Text style={styles.title}>Date</Text></View>
+        <View style={styles.space}><Text style={styles.title}>ID</Text></View>
+        <View style={styles.space}><Text style={styles.title}>Time</Text></View>
+        <View style={styles.space}><Text style={styles.title}>Status</Text></View>
+      </View>
+
+      <FlatList
+        data={checkinList}
+        renderItem={renderItem}
+        keyExtractor={item => item.timestamp.toString() + new Date()}
+      // numColumns={3}
+      />
+    </SafeAreaView>
+  );
+
 };
 
 const styles = StyleSheet.create({
@@ -110,15 +132,20 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     marginTop: 10,
   },
-  scrollView: {
-    backgroundColor: "pink",
-    marginHorizontal: 20,
-  },
   text: {
     fontSize: 25,
   },
   title: {
     fontWeight: "bold",
+    alignSelf: "center",
+  },
+  space: {
+    width: "25%",
+    flexDirection: "row",
+  },
+  data: {
+    alignSelf: "center",
+    margin: 0
   },
 });
 
