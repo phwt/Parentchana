@@ -1,13 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, FlatList } from "react-native";
+import { Card, Title, Paragraph } from "react-native-paper";
 import * as firebase from "firebase";
+import moment from "moment";
 
 const PickupItem = ({ item }) => (
-  <View>
-    <Text>{item.plate}</Text>
-    <Text>{item.timestamp.seconds}</Text>
-    <Text>{item.students.map((i) => `- ${i}${"\n"}`)}</Text>
-  </View>
+  <Card>
+    <Card.Content>
+      <Title>{item.plate}</Title>
+      <Paragraph>
+        {moment.unix(item.timestamp.seconds).format("HH:MM - MM/DD/YYYY")}
+      </Paragraph>
+      <Paragraph>{item.students.map((i) => `- ${i}${"\n"}`)}</Paragraph>
+    </Card.Content>
+  </Card>
 );
 
 const PickupList = () => {
