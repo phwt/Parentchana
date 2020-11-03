@@ -79,7 +79,7 @@ const Pickup = () => {
       </Row>
       <Row size={25}>
         <View style={styles.centerXY}>
-          <Button title={"Test Send"} onPress={() => insertStudent()} />
+          <Button title={"Simulate Send"} onPress={() => insertStudent()} />
           {!scanned && <Text>Scan QR code at school entrance</Text>}
           {scanned && (
             <Button title={"Scan Again"} onPress={() => setScanned(false)} />
