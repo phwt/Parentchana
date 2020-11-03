@@ -1,6 +1,13 @@
 import React from "react";
 import Navigator from "./modules/Navigator";
-import { DefaultTheme, Provider as PaperProvider } from "react-native-paper";
+import {
+  DefaultTheme as PaperDefaultTheme,
+  Provider as PaperProvider,
+} from "react-native-paper";
+import {
+  DefaultTheme as NavigationDefaultTheme,
+  NavigationContainer,
+} from "@react-navigation/native";
 import Color from "./modules/Color";
 
 import * as firebase from "firebase";
@@ -10,9 +17,9 @@ import { firebaseConfig } from "./config";
 if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
 
 const theme = {
-  ...DefaultTheme,
+  ...PaperDefaultTheme,
   colors: {
-    ...DefaultTheme.colors,
+    ...PaperDefaultTheme.colors,
     primary: Color.primary,
     accent: Color.secondary,
     success: Color.success,
@@ -22,10 +29,21 @@ const theme = {
   },
 };
 
+const CombinedDefaultTheme = {
+  ...theme,
+  ...NavigationDefaultTheme,
+  colors: {
+    ...theme.colors,
+    ...NavigationDefaultTheme.colors,
+  },
+};
+
 const App = () => {
   return (
-    <PaperProvider theme={theme}>
-      <Navigator />
+    <PaperProvider theme={CombinedDefaultTheme}>
+      <NavigationContainer theme={CombinedDefaultTheme}>
+        <Navigator />
+      </NavigationContainer>
     </PaperProvider>
   );
 };
