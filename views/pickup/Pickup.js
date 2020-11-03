@@ -21,8 +21,14 @@ const Pickup = () => {
     (async () => {
       await db.collection("pickup").add({
         timestamp: new Date(),
-        plate: "1 AB 2345",
-        students: ["12345", "23456", "34567"],
+        plate: `${Math.floor(1 + Math.random()) * 9} AB ${Math.floor(
+          1000 + Math.random() * 9000
+        )}`,
+        students: [
+          `61070${Math.floor(100 + Math.random() * 900)}`,
+          `61070${Math.floor(100 + Math.random() * 900)}`,
+          `61070${Math.floor(100 + Math.random() * 900)}`,
+        ],
       });
     })();
   };
@@ -73,6 +79,7 @@ const Pickup = () => {
       </Row>
       <Row size={25}>
         <View style={styles.centerXY}>
+          <Button title={"Test Send"} onPress={() => insertStudent()} />
           {!scanned && <Text>Scan QR code at school entrance</Text>}
           {scanned && (
             <Button title={"Scan Again"} onPress={() => setScanned(false)} />
