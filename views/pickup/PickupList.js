@@ -11,7 +11,7 @@ const PickupItem = ({ item }) => (
       <Paragraph>
         {moment.unix(item.timestamp.seconds).format("HH:MM - MM/DD/YYYY")}
       </Paragraph>
-      <Paragraph>{item.students.map((i) => `- ${i}${"\n"}`)}</Paragraph>
+      <Paragraph>{item.students.map((i) => `- ${i}`).join("\n")}</Paragraph>
     </Card.Content>
   </Card>
 );
