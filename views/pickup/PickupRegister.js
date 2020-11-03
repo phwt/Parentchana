@@ -9,6 +9,39 @@ import {
   List,
 } from "react-native-paper";
 
+const AddStudentDialog = (props) => {
+  return (
+    <>
+      <Portal>
+        <Dialog visible={props.visible} onDismiss={props.onDismiss}>
+          <Dialog.Title>Add Student</Dialog.Title>
+          <Dialog.Content>
+            <TextInput
+              label="Student ID"
+              onChangeText={props.onChangeText}
+              value={props.value}
+              keyboardType="numeric"
+              maxLength={5}
+              autoFocus={true}
+            />
+          </Dialog.Content>
+          <Dialog.Actions>
+            <Button onPress={props.onDismiss}>Cancel</Button>
+            <Button onPress={props.onPress}>Add</Button>
+          </Dialog.Actions>
+        </Dialog>
+      </Portal>
+
+      <FAB
+        style={styles.fab}
+        icon="plus"
+        label="Add Student"
+        onPress={props.onPress1}
+      />
+    </>
+  );
+};
+
 const PickupRegister = () => {
   const [registerInput, setRegisterInput] = useState("");
   const [registerList, setRegisterList] = useState(["12345", "12346", "12347"]);
@@ -42,34 +75,13 @@ const PickupRegister = () => {
         )}
       />
 
-      <Portal>
-        <Dialog
-          visible={dialogVisible}
-          onDismiss={() => setDialogVisible(false)}
-        >
-          <Dialog.Title>Add Student</Dialog.Title>
-          <Dialog.Content>
-            <TextInput
-              label="Student ID"
-              onChangeText={setRegisterInput}
-              value={registerInput}
-              keyboardType="numeric"
-              maxLength={5}
-              autoFocus={true}
-            />
-          </Dialog.Content>
-          <Dialog.Actions>
-            <Button onPress={() => setDialogVisible(false)}>Cancel</Button>
-            <Button onPress={() => addStudent()}>Add</Button>
-          </Dialog.Actions>
-        </Dialog>
-      </Portal>
-
-      <FAB
-        style={styles.fab}
-        icon="plus"
-        label="Add Student"
-        onPress={() => setDialogVisible(true)}
+      <AddStudentDialog
+        visible={dialogVisible}
+        onDismiss={() => setDialogVisible(false)}
+        onChangeText={setRegisterInput}
+        value={registerInput}
+        onPress={() => addStudent()}
+        onPress1={() => setDialogVisible(true)}
       />
     </View>
   );
