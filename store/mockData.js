@@ -4,65 +4,85 @@ export const checkinAPI = [
     studentId: "12345",
     type: "arrival",
     ontime: true,
-    timestamp: new Date("2020-11-02T07:42:12"),
+    timestamp: {
+      seconds: 1604302932,
+    },
   },
   {
     studentId: "12345",
     type: "departure",
     ontime: false,
-    timestamp: new Date("2020-11-02T15:12:43"),
+    timestamp: {
+      seconds: 1604304763,
+    },
   },
   // 03/11 - Arrive on-time | Depart on-time
   {
     studentId: "12345",
     type: "arrival",
     ontime: true,
-    timestamp: new Date("2020-11-03T07:53:11"),
+    timestamp: {
+      seconds: 1604364791,
+    },
   },
   {
     studentId: "12345",
     type: "departure",
     ontime: true,
-    timestamp: new Date("2020-11-03T16:59:15"),
+    timestamp: {
+      seconds: 1604397555,
+    },
   },
   // 04/11 - Absent (no arrival and departure data)
   {
     studentId: "12345",
     type: "absent",
     ontime: false,
-    timestamp: new Date("2020-11-04T09:00:00"),
+    timestamp: {
+      seconds: 1604455200,
+    },
   },
   // 05/11 - Arrive late (before 09:00 check) | Depart on-time
   {
     studentId: "12345",
     type: "arrival",
     ontime: false,
-    timestamp: new Date("2020-11-05T08:45:44"),
+    timestamp: {
+      seconds: 1604540744,
+    },
   },
   {
     studentId: "12345",
     type: "departure",
     ontime: true,
-    timestamp: new Date("2020-11-05T17:12:43"),
+    timestamp: {
+      seconds: 1604571163,
+    },
   },
   // 06/11 - Arrive late (after 09:00 check) | Depart on-time
   {
     studentId: "12345",
     type: "absent",
     ontime: false,
-    timestamp: new Date("2020-11-06T09:00:00"),
+    timestamp: {
+      seconds: 1604628000,
+    },
   },
   {
     studentId: "12345",
     type: "arrival",
     ontime: false,
-    timestamp: new Date("2020-11-06T11:23:44"),
+    timestamp: {
+      seconds: 1604636624,
+    },
   },
   {
     studentId: "12345",
     type: "departure",
     ontime: true,
-    timestamp: new Date("2020-11-06T17:27:56"),
+    timestamp: {
+      seconds: 1604658476,
+    },
   },
 ];
 
