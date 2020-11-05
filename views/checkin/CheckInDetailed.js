@@ -1,12 +1,34 @@
 import React, { useState } from "react";
 import { Text, View, ScrollView, StyleSheet, SafeAreaView, FlatList } from "react-native";
 import { checkinAPI } from "../../store/mockData";
+import { DataTable } from 'react-native-paper';
 import moment from "moment";
 
 const Item = ({ prop }) => {
   let checkArrival = 0;
   let checkDeparture = 0;
   return (
+    // <DataTable.Row>
+    //   <DataTable.Cell style={styles.data}>{moment.unix(prop.timestamp.seconds).format("DD/MM/YYYY")}</DataTable.Cell>
+    //   <DataTable.Cell style={styles.data}>{prop.studentId}</DataTable.Cell>
+    //   <DataTable.Cell style={styles.data} children={<View style={{
+    //     width: "12%",
+    //     height: "50%",
+    //     borderRadius: 100,
+    //     backgroundColor: "green"
+    //   }} />}>
+    //     {moment.unix(prop.timestamp.seconds).format("HH:MM")}
+    //   </DataTable.Cell>
+
+
+
+
+    //   <DataTable.Cell style={styles.data}>{moment.unix(prop.timestamp.seconds).format("HH:MM")}</DataTable.Cell>
+    // </DataTable.Row>
+
+
+
+
     <View style={{
       flexDirection: 'row',
       justifyContent: 'space-between',
@@ -29,11 +51,11 @@ const Item = ({ prop }) => {
           checkArrival = 1;
           return <View style={styles.space}>
             <View style={{
-              width: "12%",
+              width: "10%",
               height: "50%",
               marginTop: "7%",
               marginRight: "5%",
-              borderRadius: 100,
+              borderRadius: 50,
               backgroundColor: prop.ontime[index] == true ? "green" : "orange"
             }} />
             <Text style={styles.data}>
@@ -46,11 +68,11 @@ const Item = ({ prop }) => {
       {checkArrival == 0 ?
         <View style={styles.space}>
           <View style={{
-            width: "12%",
+            width: "10%",
             height: "50%",
             marginTop: "7%",
             marginRight: "5%",
-            borderRadius: 100,
+            borderRadius: 50,
             backgroundColor: "red"
           }} />
           <Text style={styles.data}>
@@ -64,11 +86,11 @@ const Item = ({ prop }) => {
           checkDeparture = 1;
           return <View style={styles.space}>
             <View style={{
-              width: "12%",
+              width: "10%",
               height: "50%",
               marginTop: "7%",
               marginRight: "5%",
-              borderRadius: 100,
+              borderRadius: 50,
               backgroundColor: prop.ontime[index] == true ? "green" : "orange"
             }} />
             <Text style={styles.data}>
@@ -86,6 +108,7 @@ const Item = ({ prop }) => {
         </View> : null
       }
     </View>
+
   );
 };
 
@@ -106,7 +129,6 @@ const CheckInDetailed = () => {
     const studentId = i.studentId;
     const timestamp = moment.unix(i.timestamp.seconds).format("DD/MM/YYYY");
     let isSame = false;
-    // console.log(i);
     for (let j of data) {
       if (j.studentId === studentId && moment.unix(j.timestamp.seconds).format("DD/MM/YYYY") === timestamp) {
         // merge
@@ -146,12 +168,23 @@ const CheckInDetailed = () => {
         <View style={styles.space}><Text style={styles.title}>Departure</Text></View>
       </View>
 
+      {/* <DataTable>
+        <DataTable.Header>
+          <DataTable.Title sortDirection='descending' style={styles.data}> Date</DataTable.Title>
+          <DataTable.Title sortDirection='descending' style={styles.data}>ID</DataTable.Title>
+          <DataTable.Title sortDirection='descending' style={styles.data}>Arrival</DataTable.Title>
+          <DataTable.Title sortDirection='descending' style={styles.data}>Departure</DataTable.Title>
+        </DataTable.Header>
+      </DataTable> */}
+
       <FlatList
         data={data}
         renderItem={renderItem}
         keyExtractor={item => item.timestamp.toString() + new Date()}
       // numColumns={3}
       />
+
+
     </SafeAreaView>
   );
 
@@ -175,6 +208,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   data: {
+    // justifyContent: "center",
     alignSelf: "center",
     margin: 0
   },
