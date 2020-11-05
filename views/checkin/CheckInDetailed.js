@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import { Text, View, ScrollView, StyleSheet, SafeAreaView, FlatList } from "react-native";
 import { checkinAPI } from "../../store/mockData";
+import moment from "moment";
 
 const Item = ({ prop }) => {
+  let checkArrival = 0;
+  let checkDeparture = 0;
   return (
-
     <View style={{
       flexDirection: 'row',
       justifyContent: 'space-between',
@@ -12,66 +14,36 @@ const Item = ({ prop }) => {
     }}>
       <View style={styles.space}>
         <Text style={styles.data}>
-          {prop.timestamp.getDate()}/{prop.timestamp.getMonth()}/{prop.timestamp.getFullYear()}
+          {moment.unix(prop.timestamp.seconds).format("DD/MM/YYYY")}
         </Text>
       </View>
+
       <View style={styles.space}>
         <Text style={styles.data}>
           {prop.studentId}
         </Text>
       </View>
-      <View style={styles.space}>
-        <Text style={styles.data}>
-          {prop.timestamp.getHours().toString().length != 2
-            ? "0" + prop.timestamp.getHours()
-            : prop.timestamp.getHours()}
-                  :
-                  {prop.timestamp.getMinutes().toString().length != 2
-            ? "0" + prop.timestamp.getMinutes()
-            : prop.timestamp.getMinutes()}
-        </Text>
-      </View>
-      {/* {prop.type == "arrival" ? setStatus("green") : prop.type == "departure" ? setStatus("orange") : setStatus("red")}
-      <View style={styles.space}>
-        <View style={{
-          width: "12%",
-          height: "50%",
-          marginTop: "7%",
-          marginRight: "5%",
-          borderRadius: 100,
-          backgroundColor: status
-        }} />
-        <Text style={styles.data}>
-          {prop.type}
-        </Text>
-      </View> */}
-      {prop.type == "arrival" ?
-      <View style={styles.space}>
-        <View style={{
-          width: "12%",
-          height: "50%",
-          marginTop: "7%",
-          marginRight: "5%",
-          borderRadius: 100,
-          backgroundColor: "green"
-        }} />
-        <Text style={styles.data}>
-          {prop.type}
-        </Text>
-      </View> : prop.type == "departure" ?
-        <View style={styles.space}>
-          <View style={{
-            width: "12%",
-            height: "50%",
-            marginTop: "7%",
-            marginRight: "5%",
-            borderRadius: 100,
-            backgroundColor: "orange"
-          }} />
-          <Text style={styles.data}>
-            {prop.type}
-          </Text>
-        </View> :
+
+      {prop.type.map((itype, index) => {
+        if (itype === "arrival") {
+          checkArrival = 1;
+          return <View style={styles.space}>
+            <View style={{
+              width: "12%",
+              height: "50%",
+              marginTop: "7%",
+              marginRight: "5%",
+              borderRadius: 100,
+              backgroundColor: prop.ontime[index] == true ? "green" : "orange"
+            }} />
+            <Text style={styles.data}>
+              {moment.unix(prop.timestamp.seconds).format("HH:MM")}
+            </Text>
+          </View>;
+        }
+      })}
+
+      {checkArrival == 0 ?
         <View style={styles.space}>
           <View style={{
             width: "12%",
@@ -82,15 +54,74 @@ const Item = ({ prop }) => {
             backgroundColor: "red"
           }} />
           <Text style={styles.data}>
-            {prop.type}
+            {moment.unix(prop.timestamp.seconds).format("HH:MM")}
           </Text>
-        </View>}
+        </View> : null
+      }
+
+      {prop.type.map((itype, index) => {
+        if (itype === "departure") {
+          checkDeparture = 1;
+          return <View style={styles.space}>
+            <View style={{
+              width: "12%",
+              height: "50%",
+              marginTop: "7%",
+              marginRight: "5%",
+              borderRadius: 100,
+              backgroundColor: prop.ontime[index] == true ? "green" : "orange"
+            }} />
+            <Text style={styles.data}>
+              {moment.unix(prop.timestamp.seconds).format("HH:MM")}
+            </Text>
+          </View>;
+        }
+      })}
+
+      {checkDeparture == 0 ?
+        <View style={styles.space}>
+          <Text style={styles.data}>
+            -
+        </Text>
+        </View> : null
+      }
     </View>
   );
 };
 
 const CheckInDetailed = () => {
   let [checkinList, setcheckinList] = useState(checkinAPI);
+  const data = [];
+
+  const dataconv = checkinList.map((item) => {
+    return {
+      ...item,
+      type: [item.type],
+      ontime: [item.ontime]
+    }
+  });
+
+
+  for (let i of dataconv) {
+    const studentId = i.studentId;
+    const timestamp = moment.unix(i.timestamp.seconds).format("DD/MM/YYYY");
+    let isSame = false;
+    // console.log(i);
+    for (let j of data) {
+      if (j.studentId === studentId && moment.unix(j.timestamp.seconds).format("DD/MM/YYYY") === timestamp) {
+        // merge
+        j.type = [...i.type, ...j.type];
+        j.ontime = [...i.ontime, ...j.ontime]
+        isSame = true;
+        break;
+      }
+    }
+    if (!isSame) {
+      data.push(i);
+
+    }
+  }
+  // console.log(data);
 
   const renderItem = ({ item }) => (
     <View style={{
@@ -111,12 +142,12 @@ const CheckInDetailed = () => {
       }}>
         <View style={styles.space}><Text style={styles.title}>Date</Text></View>
         <View style={styles.space}><Text style={styles.title}>ID</Text></View>
-        <View style={styles.space}><Text style={styles.title}>Time</Text></View>
-        <View style={styles.space}><Text style={styles.title}>Status</Text></View>
+        <View style={styles.space}><Text style={styles.title}>Arrival</Text></View>
+        <View style={styles.space}><Text style={styles.title}>Departure</Text></View>
       </View>
 
       <FlatList
-        data={checkinList}
+        data={data}
         renderItem={renderItem}
         keyExtractor={item => item.timestamp.toString() + new Date()}
       // numColumns={3}

@@ -6,20 +6,20 @@ import { checkinAPI } from "../../store/mockData";
 const CheckIn = () => {
   // const [checkinList, setcheckinList] = useState(checkinAPI);
   var checkinData = {};
-  for (var i = 0; i < Object.keys(checkinAPI).length; i++) {
-    if(checkinAPI[i].type === "arrival"){
-      if(checkinAPI[i].ontime){
-        checkinData[checkinAPI[i].timestamp.getFullYear()+"-"+('0' + (checkinAPI[i].timestamp.getMonth() + 1)).slice(-2) + "-" + ('0' + checkinAPI[i].timestamp.getDate()).slice(-2)] = { textColor: 'white', startingDay: true, endingDay: true, color: '#249d3c' };
-      }
-      else {
-        checkinData[checkinAPI[i].timestamp.getFullYear()+"-"+('0' + (checkinAPI[i].timestamp.getMonth() + 1)).slice(-2) + "-" + ('0' + checkinAPI[i].timestamp.getDate()).slice(-2)] = { textColor: 'white', startingDay: true, endingDay: true, color: '#ff9a00' };
-      }
-    }
-    else if (checkinAPI[i].type === "absent") {
-      checkinData[checkinAPI[i].timestamp.getFullYear()+"-"+('0' + (checkinAPI[i].timestamp.getMonth() + 1)).slice(-2) + "-" + ('0' + checkinAPI[i].timestamp.getDate()).slice(-2)] = { textColor: 'white', startingDay: true, endingDay: true, color: '#d72f3c' };
-    } 
-  }
-  console.log(checkinData);
+  // for (var i = 0; i < Object.keys(checkinAPI).length; i++) {
+  //   if(checkinAPI[i].type === "arrival"){
+  //     if(checkinAPI[i].ontime){
+  //       checkinData[checkinAPI[i].timestamp.getFullYear()+"-"+('0' + (checkinAPI[i].timestamp.getMonth() + 1)).slice(-2) + "-" + ('0' + checkinAPI[i].timestamp.getDate()).slice(-2)] = { textColor: 'white', startingDay: true, endingDay: true, color: '#249d3c' };
+  //     }
+  //     else {
+  //       checkinData[checkinAPI[i].timestamp.getFullYear()+"-"+('0' + (checkinAPI[i].timestamp.getMonth() + 1)).slice(-2) + "-" + ('0' + checkinAPI[i].timestamp.getDate()).slice(-2)] = { textColor: 'white', startingDay: true, endingDay: true, color: '#ff9a00' };
+  //     }
+  //   }
+  //   else if (checkinAPI[i].type === "absent") {
+  //     checkinData[checkinAPI[i].timestamp.getFullYear()+"-"+('0' + (checkinAPI[i].timestamp.getMonth() + 1)).slice(-2) + "-" + ('0' + checkinAPI[i].timestamp.getDate()).slice(-2)] = { textColor: 'white', startingDay: true, endingDay: true, color: '#d72f3c' };
+  //   } 
+  // }
+  // console.log(checkinData);
 
   return (
     <CalendarList
