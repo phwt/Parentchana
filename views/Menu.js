@@ -10,6 +10,10 @@ const Menu = (props) => {
         onPress={() => props.navigation.navigate("Account")}
       />
       <Button
+        title="Login"
+        onPress={() => props.navigation.navigate("Login")}
+      />
+      <Button
         title="Settings"
         onPress={() => props.navigation.navigate("Settings")}
       />

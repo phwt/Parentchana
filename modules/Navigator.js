@@ -15,6 +15,7 @@ import CheckIn from "../views/checkin/CheckIn";
 import CheckInDetailed from "../views/checkin/CheckInDetailed";
 import Calendar from "../views/calendar/Calendar";
 import CalendarDetailed from "../views/calendar/CalendarDetailed";
+import Login from "../views/Login";
 
 const PickupNavigator = createBottomTabNavigator({
   Pickup: {
@@ -87,6 +88,7 @@ const Navigator = createStackNavigator({
   Menu,
   Settings,
   Account,
+  Login,
   PickupNavigator,
   CheckInNavigator,
   CalendarNavigator,
