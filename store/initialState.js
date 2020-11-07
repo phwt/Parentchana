@@ -26,5 +26,6 @@ export default {
         ],
       },
     ],
+    registeredStudent: ["12345", "12346", "12347"],
   },
 };

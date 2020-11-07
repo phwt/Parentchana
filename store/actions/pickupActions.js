@@ -7,3 +7,15 @@ export const loadPickupList = (students) => {
 export const createPickupItem = (student) => {
   return { type: types.CREATE_PICKUP_ITEM, student };
 };
+
+export const loadRegisteredStudent = (students) => {
+  return { type: types.LOAD_REGISTERED_STUDENT, students };
+};
+
+export const registerNewStudent = (student) => {
+  return { type: types.REGISTER_NEW_STUDENT, student };
+};
+
+export const deregisterStudent = (student) => {
+  return { type: types.DEREGISTER_STUDENT, student };
+};

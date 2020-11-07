@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Text, View, StyleSheet, FlatList } from "react-native";
 import {
   TextInput,
@@ -8,6 +8,12 @@ import {
   Portal,
   List,
 } from "react-native-paper";
+import { connect } from "react-redux";
+import {
+  loadRegisteredStudent,
+  registerNewStudent,
+  deregisterStudent,
+} from "../../store/actions/pickupActions";
 
 const AddStudentDialog = (props) => {
   return (
@@ -42,14 +48,19 @@ const AddStudentDialog = (props) => {
   );
 };
 
-const PickupRegister = () => {
+const PickupRegister = (props) => {
   const [registerInput, setRegisterInput] = useState("");
-  const [registerList, setRegisterList] = useState(["12345", "12346", "12347"]);
   const [dialogVisible, setDialogVisible] = useState(false);
 
-  const addStudent = () => {
-    if (!registerList.includes(registerInput)) {
-      setRegisterList([...registerList, registerInput]);
+  useEffect(() => {
+    (async () => {
+      await props.loadRegisteredStudent();
+    })();
+  }, []);
+
+  const addStudent = async () => {
+    if (!props.registeredStudent.includes(registerInput)) {
+      await props.registerNewStudent(registerInput);
       setRegisterInput("");
       setDialogVisible(false);
     } else {
@@ -58,36 +69,36 @@ const PickupRegister = () => {
   };
 
   const removeStudent = (id) => {
-    setRegisterList(registerList.filter((i) => i !== id));
+    props.deregisterStudent(id);
   };
 
   return (
     <View style={StyleSheet.absoluteFill}>
-      {registerList.length === 0 && (
-        <View style={{ marginTop: 32 }}>
-          <Text style={{ textAlign: "center", fontWeight: "bold" }}>
-            No student added
-          </Text>
-          <Text style={{ textAlign: "center" }}>
-            Add new student by pressing the + button below
-          </Text>
-        </View>
-      )}
+      {/*{props.registeredStudent && (*/}
+      {/*  <View style={{ marginTop: 32 }}>*/}
+      {/*    <Text style={{ textAlign: "center", fontWeight: "bold" }}>*/}
+      {/*      No student added*/}
+      {/*    </Text>*/}
+      {/*    <Text style={{ textAlign: "center" }}>*/}
+      {/*      Add new student by pressing the + button below*/}
+      {/*    </Text>*/}
+      {/*  </View>*/}
+      {/*)}*/}
 
-      {registerList.length > 0 && (
-        <FlatList
-          data={registerList}
-          renderItem={({ item }) => (
-            <List.Item
-              title={item}
-              description="ชื่อ นามสกุล" // TODO: Fetch name from firebase/database
-              left={(props) => <List.Icon {...props} icon="account-circle" />}
-              onPress={() => removeStudent(item)}
-            />
-          )}
-          keyExtractor={(i) => String(registerList.indexOf(i))}
-        />
-      )}
+      {/*{!props.registeredStudent && (*/}
+      <FlatList
+        data={props.registeredStudent}
+        renderItem={({ item }) => (
+          <List.Item
+            title={item}
+            description="ชื่อ นามสกุล" // TODO: Fetch name from firebase/database
+            left={(props) => <List.Icon {...props} icon="account-circle" />}
+            onPress={() => removeStudent(item)}
+          />
+        )}
+        keyExtractor={(i) => String(props.registeredStudent.indexOf(i))}
+      />
+      {/*)}*/}
 
       <AddStudentDialog
         visible={dialogVisible}
@@ -110,4 +121,16 @@ const styles = StyleSheet.create({
   },
 });
 
-export default PickupRegister;
+const mapStateToProps = (state) => {
+  return {
+    registeredStudent: state.pickup.registeredStudent,
+  };
+};
+
+const mapDispatchToProps = {
+  loadRegisteredStudent,
+  registerNewStudent,
+  deregisterStudent,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(PickupRegister);
