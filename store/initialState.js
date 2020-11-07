@@ -1,3 +1,5 @@
+import { calendarAPI } from "./mockData";
+
 export default {
   pickup: {
     list: [
@@ -26,5 +28,9 @@ export default {
         ],
       },
     ],
+  },
+  calendar: {
+    list: calendarAPI,
+    favorite: [],
   },
 };
