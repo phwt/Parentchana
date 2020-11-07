@@ -3,7 +3,10 @@ import { View, Text, StyleSheet, Button } from "react-native";
 import { Col, Row, Grid } from "react-native-easy-grid";
 import { BarCodeScanner } from "expo-barcode-scanner";
 import * as firebase from "firebase";
-import { createPickupItem } from "../../store/actions/pickupActions";
+import {
+  createPickupItem,
+  loadRegisteredStudent,
+} from "../../store/actions/pickupActions";
 import { connect } from "react-redux";
 
 const Pickup = (props) => {
@@ -15,6 +18,8 @@ const Pickup = (props) => {
     (async () => {
       const { status } = await BarCodeScanner.requestPermissionsAsync();
       setHasPermission(status === "granted");
+
+      await loadRegisteredStudent();
     })();
   }, []);
 
@@ -25,11 +30,7 @@ const Pickup = (props) => {
       plate: `${Math.floor(1 + Math.random()) * 9} AB ${Math.floor(
         1000 + Math.random() * 9000
       )}`,
-      students: [
-        `61070${Math.floor(100 + Math.random() * 900)}`,
-        `61070${Math.floor(100 + Math.random() * 900)}`,
-        `61070${Math.floor(100 + Math.random() * 900)}`,
-      ],
+      students: props.registeredStudent,
     });
 
     // const db = firebase.firestore();
@@ -109,8 +110,10 @@ const styles = StyleSheet.create({
   centerXY: { flex: 1, justifyContent: "center", alignItems: "center" },
 });
 
-const mapStateToProps = () => {
-  return {};
+const mapStateToProps = (state) => {
+  return {
+    registeredStudent: state.pickup.registeredStudent,
+  };
 };
 
 const mapDispatchToProps = {
