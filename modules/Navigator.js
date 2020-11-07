@@ -14,7 +14,7 @@ import PickupList from "../views/pickup/PickupList";
 import CheckIn from "../views/checkin/CheckIn";
 import CheckInDetailed from "../views/checkin/CheckInDetailed";
 import Calendar from "../views/calendar/Calendar";
-import CalendarDetailed from "../views/calendar/CalendarDetailed";
+import CalendarFavorite from "../views/calendar/CalendarFavorite";
 import Login from "../views/Login";
 
 const PickupNavigator = createBottomTabNavigator({
@@ -74,8 +74,8 @@ const CalendarNavigator = createBottomTabNavigator({
       ),
     },
   },
-  CalendarDetailed: {
-    screen: CalendarDetailed,
+  CalendarFavorite: {
+    screen: CalendarFavorite,
     navigationOptions: {
       tabBarIcon: (tabInfo) => (
         <Ionicons name="md-list" size={24} color={tabInfo.tintColor} />
