@@ -1,6 +1,7 @@
 import * as types from "../actions/actionTypes";
+import initialState from "../initialState";
 
-const pickupReducer = (state = [], action) => {
+const pickupReducer = (state = initialState.pickup, action) => {
   switch (action.type) {
     case types.LOAD_PICKUP_LIST:
       return state;
@@ -9,4 +10,4 @@ const pickupReducer = (state = [], action) => {
   }
 };
 
-export default pickupReducer
+export default pickupReducer;
