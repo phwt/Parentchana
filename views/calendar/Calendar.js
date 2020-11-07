@@ -2,11 +2,14 @@ import React, { useState } from "react";
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { Agenda } from "react-native-calendars";
 import { calendarAPI } from "../../store/mockData";
+import { Ionicons } from "@expo/vector-icons";
 
 const timeToString = (time) => {
   const date = new Date(time);
   return date.toISOString().split("T")[0];
 };
+
+// const onPressFav = (id) => {};
 
 const Calendar = () => {
   // const [calendarAPI, setcalendarAPI] = useState(calendarAPI);
@@ -21,11 +24,15 @@ const Calendar = () => {
   var calendarData = {};
   for (var i = 0; i < Object.keys(calendarAPI).length; i++) {
     //if key doesnt exist
-    if (calendarAPI[i].start.date.toString() in calendarAPI){
-      calendarData[calendarAPI[i].start.date.toString()].push({ name: calendarAPI[i].summary });
-    }
-    else{
-      calendarData[calendarAPI[i].start.date.toString()] = [{ name: calendarAPI[i].summary }];
+    if (calendarAPI[i].start.date.toString() in calendarAPI) {
+      calendarData[calendarAPI[i].start.date.toString()].push({
+        name: calendarAPI[i].summary,
+        id: calendarAPI[i].id,
+      });
+    } else {
+      calendarData[calendarAPI[i].start.date.toString()] = [
+        { name: calendarAPI[i].summary, id: calendarAPI[i].id },
+      ];
     }
     //elseif key already exist
   }
@@ -56,9 +63,15 @@ const Calendar = () => {
   // };
   const renderItem = (item) => {
     return (
-      <TouchableOpacity style={[styles.item, { height: 80 }]}>
+      <View style={[styles.item, { height: 80 }]}>
         <Text>{item.name}</Text>
-      </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.fav}
+          onPress={() => onPressFav(item.id)}
+        >
+          <Ionicons name="ios-star-outline" size={20}></Ionicons>
+        </TouchableOpacity>
+      </View>
     );
   };
   return (
@@ -96,6 +109,11 @@ const styles = StyleSheet.create({
     height: 15,
     flex: 1,
     paddingTop: 30,
+  },
+  fav: {
+    position: "absolute",
+    right: 30,
+    top: 20,
   },
 });
 export default Calendar;
