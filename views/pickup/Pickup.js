@@ -3,8 +3,10 @@ import { View, Text, StyleSheet, Button } from "react-native";
 import { Col, Row, Grid } from "react-native-easy-grid";
 import { BarCodeScanner } from "expo-barcode-scanner";
 import * as firebase from "firebase";
+import { createPickupItem } from "../../store/actions/pickupActions";
+import { connect } from "react-redux";
 
-const Pickup = () => {
+const Pickup = (props) => {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
   const [scanData, setScanData] = useState({});
@@ -17,20 +19,33 @@ const Pickup = () => {
   }, []);
 
   const insertStudent = () => {
-    const db = firebase.firestore();
-    (async () => {
-      await db.collection("pickup").add({
-        timestamp: new Date(),
-        plate: `${Math.floor(1 + Math.random()) * 9} AB ${Math.floor(
-          1000 + Math.random() * 9000
-        )}`,
-        students: [
-          `61070${Math.floor(100 + Math.random() * 900)}`,
-          `61070${Math.floor(100 + Math.random() * 900)}`,
-          `61070${Math.floor(100 + Math.random() * 900)}`,
-        ],
-      });
-    })();
+    // eslint-disable-next-line react/prop-types
+    props.createPickupItem({
+      timestamp: new Date(),
+      plate: `${Math.floor(1 + Math.random()) * 9} AB ${Math.floor(
+        1000 + Math.random() * 9000
+      )}`,
+      students: [
+        `61070${Math.floor(100 + Math.random() * 900)}`,
+        `61070${Math.floor(100 + Math.random() * 900)}`,
+        `61070${Math.floor(100 + Math.random() * 900)}`,
+      ],
+    });
+
+    // const db = firebase.firestore();
+    // (async () => {
+    //   await db.collection("pickup").add({
+    //     timestamp: new Date(),
+    //     plate: `${Math.floor(1 + Math.random()) * 9} AB ${Math.floor(
+    //       1000 + Math.random() * 9000
+    //     )}`,
+    //     students: [
+    //       `61070${Math.floor(100 + Math.random() * 900)}`,
+    //       `61070${Math.floor(100 + Math.random() * 900)}`,
+    //       `61070${Math.floor(100 + Math.random() * 900)}`,
+    //     ],
+    //   });
+    // })();
   };
 
   const handleBarCodeScanned = ({ type, data }) => {
@@ -94,4 +109,12 @@ const styles = StyleSheet.create({
   centerXY: { flex: 1, justifyContent: "center", alignItems: "center" },
 });
 
-export default Pickup;
+const mapStateToProps = () => {
+  return {};
+};
+
+const mapDispatchToProps = {
+  createPickupItem,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Pickup);
