@@ -35,4 +35,5 @@ export default {
     list: calendarAPI,
     favorite: [],
   },
+  checkin: {},
 };
