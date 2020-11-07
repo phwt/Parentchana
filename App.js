@@ -15,6 +15,9 @@ import "firebase/firestore";
 import "firebase/auth";
 import { firebaseConfig } from "./config";
 
+import configureStore from "./store/configureStore";
+import { Provider as ReduxProvider } from "react-redux";
+
 if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
 
 const theme = {
@@ -39,13 +42,17 @@ const CombinedDefaultTheme = {
   },
 };
 
+const store = configureStore();
+
 const App = () => {
   return (
-    <PaperProvider theme={CombinedDefaultTheme}>
-      <NavigationContainer theme={CombinedDefaultTheme}>
-        <Navigator />
-      </NavigationContainer>
-    </PaperProvider>
+    <ReduxProvider store={store}>
+      <PaperProvider theme={CombinedDefaultTheme}>
+        <NavigationContainer theme={CombinedDefaultTheme}>
+          <Navigator />
+        </NavigationContainer>
+      </PaperProvider>
+    </ReduxProvider>
   );
 };
 

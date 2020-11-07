@@ -1,0 +1,1 @@
+export const LOAD_PICKUP_LIST = "LOAD_PICKUP_LIST";
