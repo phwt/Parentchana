@@ -6,6 +6,7 @@ import * as firebase from "firebase";
 import {
   createPickupItem,
   loadRegisteredStudent,
+  getRegisteredPlate,
 } from "../../store/actions/pickupActions";
 import { connect } from "react-redux";
 
@@ -20,6 +21,7 @@ const Pickup = (props) => {
       setHasPermission(status === "granted");
 
       await loadRegisteredStudent();
+      await getRegisteredPlate();
     })();
   }, []);
 
@@ -27,9 +29,7 @@ const Pickup = (props) => {
     // eslint-disable-next-line react/prop-types
     props.createPickupItem({
       timestamp: new Date(),
-      plate: `${Math.floor(1 + Math.random()) * 9} AB ${Math.floor(
-        1000 + Math.random() * 9000
-      )}`,
+      plate: props.registeredPlate,
       students: props.registeredStudent,
     });
 
@@ -113,6 +113,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => {
   return {
     registeredStudent: state.pickup.registeredStudent,
+    registeredPlate: state.pickup.registeredPlate,
   };
 };
 

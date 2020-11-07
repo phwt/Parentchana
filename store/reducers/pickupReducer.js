@@ -21,6 +21,10 @@ const pickupReducer = (state = initialState.pickup, action) => {
           (student) => student !== action.student
         ),
       };
+    case types.REGISTER_PLATE:
+      return { ...state, registeredPlate: action.plate };
+    case types.GET_REGISTERED_PLATE:
+      return state;
     default:
       return state;
   }

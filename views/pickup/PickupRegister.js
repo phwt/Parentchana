@@ -13,7 +13,10 @@ import {
   loadRegisteredStudent,
   registerNewStudent,
   deregisterStudent,
+  registerPlate,
+  getRegisteredPlate,
 } from "../../store/actions/pickupActions";
+import { Grid, Row, Col } from "react-native-easy-grid";
 
 const AddStudentDialog = (props) => {
   return (
@@ -54,7 +57,8 @@ const PickupRegister = (props) => {
 
   useEffect(() => {
     (async () => {
-      await props.loadRegisteredStudent();
+      await loadRegisteredStudent();
+      await getRegisteredPlate();
     })();
   }, []);
 
@@ -73,32 +77,46 @@ const PickupRegister = (props) => {
   };
 
   return (
-    <View style={StyleSheet.absoluteFill}>
-      {/*{props.registeredStudent && (*/}
-      {/*  <View style={{ marginTop: 32 }}>*/}
-      {/*    <Text style={{ textAlign: "center", fontWeight: "bold" }}>*/}
-      {/*      No student added*/}
-      {/*    </Text>*/}
-      {/*    <Text style={{ textAlign: "center" }}>*/}
-      {/*      Add new student by pressing the + button below*/}
-      {/*    </Text>*/}
-      {/*  </View>*/}
-      {/*)}*/}
+    <Grid>
+      <Row size={10} style={{ margin: 16 }}>
+        <TextInput
+          label="Plate Number"
+          value={props.registeredPlate}
+          onChangeText={(plate) => props.registerPlate(plate)}
+          style={{
+            position: "absolute",
+            left: 0,
+            right: 0,
+          }}
+        />
+      </Row>
+      <Row size={90}>
+        {/*{props.registeredStudent && (*/}
+        {/*  <View style={{ marginTop: 32 }}>*/}
+        {/*    <Text style={{ textAlign: "center", fontWeight: "bold" }}>*/}
+        {/*      No student added*/}
+        {/*    </Text>*/}
+        {/*    <Text style={{ textAlign: "center" }}>*/}
+        {/*      Add new student by pressing the + button below*/}
+        {/*    </Text>*/}
+        {/*  </View>*/}
+        {/*)}*/}
 
-      {/*{!props.registeredStudent && (*/}
-      <FlatList
-        data={props.registeredStudent}
-        renderItem={({ item }) => (
-          <List.Item
-            title={item}
-            description="ชื่อ นามสกุล" // TODO: Fetch name from firebase/database
-            left={(props) => <List.Icon {...props} icon="account-circle" />}
-            onPress={() => removeStudent(item)}
-          />
-        )}
-        keyExtractor={(i) => String(props.registeredStudent.indexOf(i))}
-      />
-      {/*)}*/}
+        {/*{!props.registeredStudent && (*/}
+        <FlatList
+          data={props.registeredStudent}
+          renderItem={({ item }) => (
+            <List.Item
+              title={item}
+              description="ชื่อ นามสกุล" // TODO: Fetch name from firebase/database
+              left={(props) => <List.Icon {...props} icon="account-circle" />}
+              onPress={() => removeStudent(item)}
+            />
+          )}
+          keyExtractor={(i) => String(props.registeredStudent.indexOf(i))}
+        />
+        {/*)}*/}
+      </Row>
 
       <AddStudentDialog
         visible={dialogVisible}
@@ -108,7 +126,7 @@ const PickupRegister = (props) => {
         onPress={() => addStudent()}
         onPress1={() => setDialogVisible(true)}
       />
-    </View>
+    </Grid>
   );
 };
 
@@ -124,13 +142,14 @@ const styles = StyleSheet.create({
 const mapStateToProps = (state) => {
   return {
     registeredStudent: state.pickup.registeredStudent,
+    registeredPlate: state.pickup.registeredPlate,
   };
 };
 
 const mapDispatchToProps = {
-  loadRegisteredStudent,
   registerNewStudent,
   deregisterStudent,
+  registerPlate,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(PickupRegister);
