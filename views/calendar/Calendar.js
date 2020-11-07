@@ -1,73 +1,58 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { Agenda } from "react-native-calendars";
-import { calendarAPI } from "../../store/mockData";
 import { Ionicons } from "@expo/vector-icons";
+import { connect } from "react-redux";
+import {
+  loadCalendarList,
+  toggleCalendarFavorite,
+} from "../../store/actions/calendarActions";
 
-const timeToString = (time) => {
-  const date = new Date(time);
-  return date.toISOString().split("T")[0];
-};
+// const timeToString = (time) => {
+//   const date = new Date(time);
+//   return date.toISOString().split("T")[0];
+// };
 
-// const onPressFav = (id) => {};
+const Calendar = (props) => {
+  useEffect(() => {
+    (async () => {
+      // eslint-disable-next-line no-useless-catch
+      try {
+        await loadCalendarList();
+      } catch (error) {
+        throw error;
+      }
+    })();
+  }, []);
 
-const Calendar = () => {
-  // const [calendarAPI, setcalendarAPI] = useState(calendarAPI);
-  // const calendarAPI = {
-  //   "2012-05-21": [{ name: "test 1" }],
-  //   "2012-05-23": [{ name: "cat" }],
-  //   "2012-05-24": [],
-  //   "2012-05-25": [{ name: "dog" }, { name: "yo" }],
-  // };
-  // const [items, setItems] = useState(calendarAPI);
-  // console.log(calendarAPI[0].summary);
+  const toggleFavorite = (id) => {
+    props.toggleCalendarFavorite(id);
+  };
+
   var calendarData = {};
-  for (var i = 0; i < Object.keys(calendarAPI).length; i++) {
+  for (var i = 0; i < Object.keys(props.calendarAPI).length; i++) {
     //if key doesnt exist
-    if (calendarAPI[i].start.date.toString() in calendarAPI) {
-      calendarData[calendarAPI[i].start.date.toString()].push({
-        name: calendarAPI[i].summary,
-        id: calendarAPI[i].id,
+    if (props.calendarAPI[i].start.date.toString() in props.calendarAPI) {
+      calendarData[props.calendarAPI[i].start.date.toString()].push({
+        name: props.calendarAPI[i].summary,
+        id: props.calendarAPI[i].id,
       });
     } else {
-      calendarData[calendarAPI[i].start.date.toString()] = [
-        { name: calendarAPI[i].summary, id: calendarAPI[i].id },
+      calendarData[props.calendarAPI[i].start.date.toString()] = [
+        { name: props.calendarAPI[i].summary, id: props.calendarAPI[i].id },
       ];
     }
     //elseif key already exist
   }
   console.log(calendarData);
 
-  // const loadItems = (day) => {
-  //   setTimeout(() => {
-  //     for (let i = -15; i < 85; i++) {
-  //       const time = day.timestamp + i * 24 * 60 * 60 * 1000;
-  //       const strTime = timeToString(time);
-  //       if (!items[strTime]) {
-  //         items[strTime] = [];
-  //         const numItems = Math.floor(Math.random() * 3 + 1);
-  //         for (let j = 0; j < numItems; j++) {
-  //           items[strTime].push({
-  //             name: "Item for " + strTime + " #" + j,
-  //             height: Math.max(50, Math.floor(Math.random() * 150)),
-  //           });
-  //         }
-  //       }
-  //     }
-  //     const newItems = {};
-  //     Object.keys(items).forEach((key) => {
-  //       newItems[key] = items[key];
-  //     });
-  //     setItems(newItems);
-  //   }, 1000);
-  // };
   const renderItem = (item) => {
     return (
       <View style={[styles.item, { height: 80 }]}>
         <Text>{item.name}</Text>
         <TouchableOpacity
           style={styles.fav}
-          onPress={() => onPressFav(item.id)}
+          onPress={() => toggleFavorite(item.id)}
         >
           <Ionicons name="ios-star-outline" size={20}></Ionicons>
         </TouchableOpacity>
@@ -116,4 +101,16 @@ const styles = StyleSheet.create({
     top: 20,
   },
 });
-export default Calendar;
+
+const mapStateToProps = (state) => {
+  return {
+    calendarAPI: state.calendar.list,
+  };
+};
+
+const mapDispatchToProps = {
+  loadCalendarList,
+  toggleCalendarFavorite,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Calendar);
