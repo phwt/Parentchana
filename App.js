@@ -56,6 +56,14 @@ console.warn = (message) => {
 
 const store = configureStore();
 
+firebase.auth().onAuthStateChanged((user) => {
+  if (user != null) {
+    store.dispatch({ type: "SET_AUTHENTICATED_STATUS", status: true });
+  } else {
+    store.dispatch({ type: "SET_AUTHENTICATED_STATUS", status: false });
+  }
+});
+
 const App = () => {
   return (
     <ReduxProvider store={store}>

@@ -10,7 +10,6 @@ const Account = (props) => {
     try {
       await firebase.auth().signOut();
       alert("Signed Out");
-      props.setAuthenticatedStatus(false);
       props.navigation.navigate("Menu");
     } catch (error) {
       console.log(error);
