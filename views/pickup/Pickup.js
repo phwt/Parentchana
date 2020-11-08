@@ -3,10 +3,6 @@ import { View, Text, StyleSheet, Button } from "react-native";
 import { Col, Row, Grid } from "react-native-easy-grid";
 import { BarCodeScanner } from "expo-barcode-scanner";
 import * as firebase from "firebase";
-import {
-  loadRegisteredStudent,
-  getRegisteredPlate,
-} from "../../store/actions/pickupActions";
 import { connect } from "react-redux";
 
 const Pickup = (props) => {
@@ -18,30 +14,19 @@ const Pickup = (props) => {
     (async () => {
       const { status } = await BarCodeScanner.requestPermissionsAsync();
       setHasPermission(status === "granted");
-
-      await loadRegisteredStudent();
-      await getRegisteredPlate();
     })();
   }, []);
 
   const insertStudent = () => {
     const db = firebase.firestore();
 
-    db.collection("pickup").add({
-      timestamp: new Date(),
-      plate: props.registeredPlate,
-      students: props.registeredStudent,
-    });
-
-    // try {
-    //   await db.collection("pickup").add({
-    //     timestamp: new Date(),
-    //     plate: props.registeredPlate,
-    //     students: props.registeredStudent,
-    //   });
-    // } catch (error) {
-    //   alert("Check in error");
-    // }
+    (async () => {
+      await db.collection("pickup").add({
+        timestamp: new Date(),
+        plate: props.registeredPlate,
+        students: props.registeredStudent,
+      });
+    })();
   };
 
   const handleBarCodeScanned = ({ type, data }) => {
