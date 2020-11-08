@@ -20,6 +20,9 @@ const PickupList = (props) => {
   let [studentList, setStudentList] = useState([]);
   let [refreshing, setRefreshing] = useState(false);
 
+  const dayStart = moment().startOf("day").toDate();
+  const dayEnd = moment().endOf("day").toDate();
+
   const mapStudentList = (snapshot) => {
     return snapshot.docs.map((doc) => {
       return { id: doc.id, ...doc.data() };
@@ -33,6 +36,8 @@ const PickupList = (props) => {
         .firestore()
         .collection("pickup")
         .orderBy("timestamp", "desc")
+        .where("timestamp", ">", dayStart)
+        .where("timestamp", "<", dayEnd)
         .get();
       setStudentList(mapStudentList(snapshot));
       setRefreshing(false);
@@ -44,6 +49,8 @@ const PickupList = (props) => {
       .firestore()
       .collection("pickup")
       .orderBy("timestamp", "desc")
+      .where("timestamp", ">", dayStart)
+      .where("timestamp", "<", dayEnd)
       .onSnapshot((snapshot) => {
         setStudentList(mapStudentList(snapshot));
       });
