@@ -57,6 +57,16 @@ const PickupList = (props) => {
         keyExtractor={(i) => i.id}
         refreshing={refreshing}
         onRefresh={loadStudent}
+        ListEmptyComponent={() => {
+          return (
+            <View style={{ marginTop: 32 }}>
+              <Text style={{ textAlign: "center", fontWeight: "bold" }}>
+                No checked-in student
+              </Text>
+              <Text style={{ textAlign: "center" }}>Auto-Refreshing is on</Text>
+            </View>
+          );
+        }}
       />
     </View>
   );

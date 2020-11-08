@@ -91,18 +91,6 @@ const PickupRegister = (props) => {
         />
       </Row>
       <Row size={90}>
-        {/*{props.registeredStudent && (*/}
-        {/*  <View style={{ marginTop: 32 }}>*/}
-        {/*    <Text style={{ textAlign: "center", fontWeight: "bold" }}>*/}
-        {/*      No student added*/}
-        {/*    </Text>*/}
-        {/*    <Text style={{ textAlign: "center" }}>*/}
-        {/*      Add new student by pressing the + button below*/}
-        {/*    </Text>*/}
-        {/*  </View>*/}
-        {/*)}*/}
-
-        {/*{!props.registeredStudent && (*/}
         <FlatList
           data={props.registeredStudent}
           renderItem={({ item }) => (
@@ -114,6 +102,18 @@ const PickupRegister = (props) => {
             />
           )}
           keyExtractor={(i) => String(props.registeredStudent.indexOf(i))}
+          ListEmptyComponent={() => {
+            return (
+              <View style={{ marginTop: 32 }}>
+                <Text style={{ textAlign: "center", fontWeight: "bold" }}>
+                  No student added
+                </Text>
+                <Text style={{ textAlign: "center" }}>
+                  Add new student by pressing the + button below
+                </Text>
+              </View>
+            );
+          }}
         />
         {/*)}*/}
       </Row>
