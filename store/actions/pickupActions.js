@@ -4,10 +4,6 @@ export const loadPickupList = (students) => {
   return { type: types.LOAD_PICKUP_LIST, students };
 };
 
-export const createPickupItem = (student) => {
-  return { type: types.CREATE_PICKUP_ITEM, student };
-};
-
 export const loadRegisteredStudent = (students) => {
   return { type: types.LOAD_REGISTERED_STUDENT, students };
 };

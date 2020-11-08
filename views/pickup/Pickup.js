@@ -4,7 +4,6 @@ import { Col, Row, Grid } from "react-native-easy-grid";
 import { BarCodeScanner } from "expo-barcode-scanner";
 import * as firebase from "firebase";
 import {
-  createPickupItem,
   loadRegisteredStudent,
   getRegisteredPlate,
 } from "../../store/actions/pickupActions";
@@ -25,28 +24,18 @@ const Pickup = (props) => {
     })();
   }, []);
 
-  const insertStudent = () => {
-    // eslint-disable-next-line react/prop-types
-    props.createPickupItem({
-      timestamp: new Date(),
-      plate: props.registeredPlate,
-      students: props.registeredStudent,
-    });
+  const insertStudent = async () => {
+    const db = firebase.firestore();
 
-    // const db = firebase.firestore();
-    // (async () => {
-    //   await db.collection("pickup").add({
-    //     timestamp: new Date(),
-    //     plate: `${Math.floor(1 + Math.random()) * 9} AB ${Math.floor(
-    //       1000 + Math.random() * 9000
-    //     )}`,
-    //     students: [
-    //       `61070${Math.floor(100 + Math.random() * 900)}`,
-    //       `61070${Math.floor(100 + Math.random() * 900)}`,
-    //       `61070${Math.floor(100 + Math.random() * 900)}`,
-    //     ],
-    //   });
-    // })();
+    try {
+      await db.collection("pickup").add({
+        timestamp: new Date(),
+        plate: props.registeredPlate,
+        students: props.registeredStudent,
+      });
+    } catch (error) {
+      alert("Check in error");
+    }
   };
 
   const handleBarCodeScanned = ({ type, data }) => {
@@ -117,8 +106,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-const mapDispatchToProps = {
-  createPickupItem,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Pickup);
+export default connect(mapStateToProps)(Pickup);
