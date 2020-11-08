@@ -11,15 +11,8 @@ import {
 
 import Color from "./modules/Color";
 
-import * as firebase from "firebase";
-import "firebase/firestore";
-import "firebase/auth";
-import { firebaseConfig } from "./config";
-
 import configureStore from "./store/configureStore";
 import { Provider as ReduxProvider } from "react-redux";
-
-if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
 
 const theme = {
   ...PaperDefaultTheme,
@@ -43,26 +36,10 @@ const CombinedDefaultTheme = {
   },
 };
 
-import { YellowBox } from "react-native";
-import _ from "lodash";
-
-YellowBox.ignoreWarnings(["Setting a timer"]);
-const _console = _.clone(console);
-console.warn = (message) => {
-  if (message.indexOf("Setting a timer") <= -1) {
-    _console.warn(message);
-  }
-};
-
 const store = configureStore();
 
-firebase.auth().onAuthStateChanged((user) => {
-  if (user != null) {
-    store.dispatch({ type: "SET_AUTHENTICATED_STATUS", status: true });
-  } else {
-    store.dispatch({ type: "SET_AUTHENTICATED_STATUS", status: false });
-  }
-});
+import initializeFirebase from "./modules/Firebase";
+initializeFirebase(store);
 
 const App = () => {
   return (
