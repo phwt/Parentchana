@@ -24,18 +24,24 @@ const Pickup = (props) => {
     })();
   }, []);
 
-  const insertStudent = async () => {
+  const insertStudent = () => {
     const db = firebase.firestore();
 
-    try {
-      await db.collection("pickup").add({
-        timestamp: new Date(),
-        plate: props.registeredPlate,
-        students: props.registeredStudent,
-      });
-    } catch (error) {
-      alert("Check in error");
-    }
+    db.collection("pickup").add({
+      timestamp: new Date(),
+      plate: props.registeredPlate,
+      students: props.registeredStudent,
+    });
+
+    // try {
+    //   await db.collection("pickup").add({
+    //     timestamp: new Date(),
+    //     plate: props.registeredPlate,
+    //     students: props.registeredStudent,
+    //   });
+    // } catch (error) {
+    //   alert("Check in error");
+    // }
   };
 
   const handleBarCodeScanned = ({ type, data }) => {
