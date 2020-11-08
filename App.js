@@ -8,6 +8,7 @@ import {
   DefaultTheme as NavigationDefaultTheme,
   NavigationContainer,
 } from "@react-navigation/native";
+
 import Color from "./modules/Color";
 
 import * as firebase from "firebase";
@@ -49,7 +50,7 @@ const App = () => {
     <ReduxProvider store={store}>
       <PaperProvider theme={CombinedDefaultTheme}>
         <NavigationContainer theme={CombinedDefaultTheme}>
-          <Navigator />
+          <Navigator/>
         </NavigationContainer>
       </PaperProvider>
     </ReduxProvider>

@@ -7,7 +7,7 @@ import {
   StyleSheet,
   Image,
 } from "react-native";
-import { withOrientation } from "react-navigation";
+// import { withOrientation } from "react-navigation";
 
 const MenuCard = (props) => {
   return (
