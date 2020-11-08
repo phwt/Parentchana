@@ -18,6 +18,7 @@ const PickupItem = ({ item }) => (
 
 const PickupList = (props) => {
   let [studentList, setStudentList] = useState([]);
+  let [refreshing, setRefreshing] = useState(false);
 
   const mapStudentList = (snapshot) => {
     return snapshot.docs.map((doc) => {
@@ -27,12 +28,14 @@ const PickupList = (props) => {
 
   const loadStudent = () => {
     (async () => {
+      setRefreshing(true);
       const snapshot = await firebase
         .firestore()
         .collection("pickup")
-        .orderBy("timestamp")
+        .orderBy("timestamp", "desc")
         .get();
       setStudentList(mapStudentList(snapshot));
+      setRefreshing(false);
     })();
   };
 
@@ -40,7 +43,7 @@ const PickupList = (props) => {
     firebase
       .firestore()
       .collection("pickup")
-      .orderBy("timestamp")
+      .orderBy("timestamp", "desc")
       .onSnapshot((snapshot) => {
         setStudentList(mapStudentList(snapshot));
       });
@@ -48,12 +51,12 @@ const PickupList = (props) => {
 
   return (
     <View>
-      <Button onPress={loadStudent()}>Refresh</Button>
       <FlatList
         data={studentList}
         renderItem={PickupItem}
         keyExtractor={(i) => i.id}
-        inverted
+        refreshing={refreshing}
+        onRefresh={loadStudent}
       />
     </View>
   );
