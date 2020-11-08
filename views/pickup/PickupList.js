@@ -27,7 +27,11 @@ const PickupList = (props) => {
 
   const loadStudent = () => {
     (async () => {
-      const snapshot = await firebase.firestore().collection("pickup").get();
+      const snapshot = await firebase
+        .firestore()
+        .collection("pickup")
+        .orderBy("timestamp")
+        .get();
       setStudentList(mapStudentList(snapshot));
     })();
   };
@@ -36,6 +40,7 @@ const PickupList = (props) => {
     firebase
       .firestore()
       .collection("pickup")
+      .orderBy("timestamp")
       .onSnapshot((snapshot) => {
         setStudentList(mapStudentList(snapshot));
       });
@@ -48,6 +53,7 @@ const PickupList = (props) => {
         data={studentList}
         renderItem={PickupItem}
         keyExtractor={(i) => i.id}
+        inverted
       />
     </View>
   );
