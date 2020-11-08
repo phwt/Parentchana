@@ -1,18 +1,24 @@
 import React from "react";
-import { View, Text, Button } from "react-native";
+import { View, Button } from "react-native";
 import MenuCard from "../components/menu/MenuCard";
+import { connect } from "react-redux";
+import { Grid, Row, Col } from "react-native-easy-grid";
 
 const Menu = (props) => {
   return (
     <View>
-      <Button
-        title="Account"
-        onPress={() => props.navigation.navigate("Account")}
-      />
-      <Button
-        title="Login"
-        onPress={() => props.navigation.navigate("Login")}
-      />
+      {props.authenticated && (
+        <Button
+          title="Account"
+          onPress={() => props.navigation.navigate("Account")}
+        />
+      )}
+      {!props.authenticated && (
+        <Button
+          title="Login"
+          onPress={() => props.navigation.navigate("Login")}
+        />
+      )}
       <Button
         title="Settings"
         onPress={() => props.navigation.navigate("Settings")}
@@ -45,4 +51,10 @@ const Menu = (props) => {
   );
 };
 
-export default Menu;
+const mapStateToProps = (state) => {
+  return {
+    authenticated: state.auth.authenticated,
+  };
+};
+
+export default connect(mapStateToProps)(Menu);

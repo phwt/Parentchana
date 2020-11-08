@@ -1,4 +1,11 @@
 /**
+ * Authentication
+ */
+
+export const SET_AUTHENTICATED_STATUS = "SET_AUTHENTICATED_STATUS";
+export const GET_AUTHENTICATED_STATUS = "GET_AUTHENTICATED_STATUS";
+
+/**
  * Student Pick-up
  */
 export const LOAD_REGISTERED_STUDENT = "LOAD_REGISTERED_STUDENT";
