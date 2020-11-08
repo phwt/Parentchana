@@ -30,6 +30,7 @@ const Menu = (props) => {
         bgimg={require("../assets/qr-code.png")}
         bgcolor="#041743"
         onSelect={() => props.navigation.navigate("Pickup")}
+        disabled={!props.authenticated}
       />
       <MenuCard
         title="Time Check-In"
@@ -38,6 +39,7 @@ const Menu = (props) => {
         bgimg={require("../assets/clock.png")}
         bgcolor="#043c7b"
         onSelect={() => props.navigation.navigate("CheckIn")}
+        disabled={!props.authenticated}
       />
       <MenuCard
         title="Calendar"

@@ -11,12 +11,16 @@ import {
 
 const MenuCard = (props) => {
   return (
-    <View>
+    <View style={{ opacity: props.disabled ? 0.25 : 1 }}>
       <TouchableOpacity
-        style={{ ...styles.card, ...{ backgroundColor: props.bgcolor } }}
+        style={{
+          ...styles.card,
+          backgroundColor: props.bgcolor,
+        }}
         onPress={() => {
           props.onSelect();
         }}
+        disabled={props.disabled}
       >
         <Text style={styles.heading}>{props.heading}</Text>
         <Text style={styles.title}>{props.title}</Text>
