@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, FlatList } from "react-native";
 import { Card, Title, Paragraph, Button } from "react-native-paper";
-import * as firebase from "firebase";
 import moment from "moment";
+import { loadPickupStudents, onPickupListChange } from "../../modules/Firebase";
 
 const PickupItem = ({ item }) => (
   <Card>
@@ -20,40 +20,16 @@ const PickupList = (props) => {
   let [studentList, setStudentList] = useState([]);
   let [refreshing, setRefreshing] = useState(false);
 
-  const dayStart = moment().startOf("day").toDate();
-  const dayEnd = moment().endOf("day").toDate();
-
-  const mapStudentList = (snapshot) => {
-    return snapshot.docs.map((doc) => {
-      return { id: doc.id, ...doc.data() };
-    });
-  };
-
-  const loadStudent = () => {
-    (async () => {
-      setRefreshing(true);
-      const snapshot = await firebase
-        .firestore()
-        .collection("pickup")
-        .orderBy("timestamp", "desc")
-        .where("timestamp", ">", dayStart)
-        .where("timestamp", "<", dayEnd)
-        .get();
-      setStudentList(mapStudentList(snapshot));
-      setRefreshing(false);
-    })();
+  const loadStudent = async () => {
+    setRefreshing(true);
+    setStudentList(await loadPickupStudents());
+    setRefreshing(false);
   };
 
   useEffect(() => {
-    firebase
-      .firestore()
-      .collection("pickup")
-      .orderBy("timestamp", "desc")
-      .where("timestamp", ">", dayStart)
-      .where("timestamp", "<", dayEnd)
-      .onSnapshot((snapshot) => {
-        setStudentList(mapStudentList(snapshot));
-      });
+    onPickupListChange((updatedList) => {
+      setStudentList(updatedList);
+    });
   }, []);
 
   return (

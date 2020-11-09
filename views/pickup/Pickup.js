@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, Button } from "react-native";
 import { Col, Row, Grid } from "react-native-easy-grid";
 import { BarCodeScanner } from "expo-barcode-scanner";
-import * as firebase from "firebase";
 import { connect } from "react-redux";
+import { insertPickupStudent } from "../../modules/Firebase";
 
 const Pickup = (props) => {
   const [hasPermission, setHasPermission] = useState(null);
@@ -17,22 +17,14 @@ const Pickup = (props) => {
     })();
   }, []);
 
-  const insertStudent = () => {
-    const db = firebase.firestore();
-
-    (async () => {
-      await db.collection("pickup").add({
-        timestamp: new Date(),
-        plate: props.registeredPlate,
-        students: props.registeredStudent,
-      });
-    })();
-  };
-
-  const handleBarCodeScanned = ({ type, data }) => {
+  const handleBarCodeScanned = async ({ type, data }) => {
     setScanned(true);
     setScanData({ type, data });
-    insertStudent();
+    try {
+      await insertPickupStudent(props.registeredPlate, props.registeredStudent);
+    } catch (error) {
+      alert("Insert Student Error");
+    }
   };
 
   if (hasPermission === null) {
@@ -75,7 +67,12 @@ const Pickup = (props) => {
       </Row>
       <Row size={25}>
         <View style={styles.centerXY}>
-          <Button title={"Simulate Send"} onPress={() => insertStudent()} />
+          <Button
+            title={"Simulate Send"}
+            onPress={() =>
+              handleBarCodeScanned({ type: "Simulate", data: "No Data" })
+            }
+          />
           {!scanned && <Text>Scan QR code at school entrance</Text>}
           {scanned && (
             <Button title={"Scan Again"} onPress={() => setScanned(false)} />
