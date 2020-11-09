@@ -20,8 +20,7 @@ export const mapDocumentsWithId = (snapshot) =>
   snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
 
 export const insertPickupStudent = async (plate, students) => {
-  const db = firebase.firestore();
-  await db.collection("pickup").add({
+  await firebase.firestore().collection("pickup").add({
     timestamp: new Date(),
     plate,
     students,
@@ -43,13 +42,14 @@ export const loadPickupStudents = async () => {
 };
 
 export const onPickupListChange = (callback) => {
-  const db = firebase.firestore();
-  db.collection("pickup")
+  firebase
+    .firestore()
+    .collection("pickup")
     .orderBy("timestamp", "desc")
     .where("timestamp", ">", dayStart)
     .where("timestamp", "<", dayEnd)
     .onSnapshot((snapshot) => {
-      const mappedStudents = mapDocumentsWithId(snapshot)
-      callback(mappedStudents)
+      const mappedStudents = mapDocumentsWithId(snapshot);
+      callback(mappedStudents);
     });
 };
