@@ -7,3 +7,11 @@ export const setAuthenticatedStatus = (status) => {
 export const getAuthenticatedStatus = (status) => {
   return { type: types.GET_AUTHENTICATED_STATUS, status };
 };
+
+export const loginSuccess = (role, profile) => {
+  return { type: types.LOGIN_SUCCESS, role, profile };
+};
+
+export const logoutSuccess = () => {
+  return { type: types.LOGOUT_SUCCESS };
+};

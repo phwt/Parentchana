@@ -3,15 +3,26 @@ import "firebase/firestore";
 import "firebase/auth";
 import { firebaseConfig } from "../config";
 import moment from "moment";
+import * as types from "../store/actions/actionTypes";
 
 export default (store) => {
   if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
 
+  /***
+   * Roles
+   * - 0: No Role
+   * - 1: Parent
+   * - 2: Teacher
+   * - 3: Admin
+   */
+
   firebase.auth().onAuthStateChanged((user) => {
     if (user != null) {
-      store.dispatch({ type: "SET_AUTHENTICATED_STATUS", status: true });
+      store.dispatch({ type: types.SET_AUTHENTICATED_STATUS, status: true });
+      store.dispatch({ type: types.LOGIN_SUCCESS, role: 1, profile: {} }); // TODO: Get role and profile data from firebase authentication
     } else {
-      store.dispatch({ type: "SET_AUTHENTICATED_STATUS", status: false });
+      store.dispatch({ type: types.SET_AUTHENTICATED_STATUS, status: false });
+      store.dispatch({ type: types.LOGOUT_SUCCESS });
     }
   });
 };

@@ -3,6 +3,8 @@ import { calendarAPI, checkinAPI } from "./mockData";
 export default {
   auth: {
     authenticated: false,
+    role: 0,
+    profile: {},
   },
   pickup: {
     registeredPlate: "12 AB 4567",
