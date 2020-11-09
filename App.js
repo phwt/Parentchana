@@ -11,7 +11,7 @@ import {
 
 import Color from "./modules/Color";
 
-import configureStore from "./store/configureStore";
+import { store } from "./store/index";
 import { Provider as ReduxProvider } from "react-redux";
 
 const theme = {
@@ -35,8 +35,6 @@ const CombinedDefaultTheme = {
     ...NavigationDefaultTheme.colors,
   },
 };
-
-const store = configureStore();
 
 import initializeFirebase from "./modules/Firebase";
 initializeFirebase(store);
