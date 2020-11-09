@@ -1,7 +1,7 @@
 import * as types from "../actions/actionTypes";
 import initialState from "../initialState";
 
-const calendarReducer = (state = initialState.auth, action) => {
+const authReducer = (state = initialState.auth, action) => {
   switch (action.type) {
     case types.GET_AUTHENTICATED_STATUS:
       return state;
@@ -16,4 +16,4 @@ const calendarReducer = (state = initialState.auth, action) => {
   }
 };
 
-export default calendarReducer;
+export default authReducer;
