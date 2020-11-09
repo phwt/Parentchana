@@ -17,6 +17,7 @@ import {
   getRegisteredPlate,
 } from "../../store/actions/pickupActions";
 import { Grid, Row, Col } from "react-native-easy-grid";
+import { PropTypes } from "prop-types";
 
 const AddStudentDialog = (props) => {
   return (
@@ -49,6 +50,15 @@ const AddStudentDialog = (props) => {
       />
     </>
   );
+};
+
+AddStudentDialog.propTypes = {
+  visible: PropTypes.bool,
+  value: PropTypes.string,
+  onChangeText: PropTypes.func,
+  onDismiss: PropTypes.func,
+  onPress: PropTypes.func,
+  onPress1: PropTypes.func,
 };
 
 const PickupRegister = (props) => {
@@ -138,6 +148,14 @@ const styles = StyleSheet.create({
     bottom: 0,
   },
 });
+
+PickupRegister.propTypes = {
+  registeredStudent: PropTypes.array.isRequired,
+  registeredPlate: PropTypes.string.isRequired,
+  registerNewStudent: PropTypes.func.isRequired,
+  deregisterStudent: PropTypes.func.isRequired,
+  registerPlate: PropTypes.func.isRequired,
+};
 
 const mapStateToProps = (state) => {
   return {

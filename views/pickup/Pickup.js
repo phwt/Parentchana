@@ -4,6 +4,7 @@ import { Col, Row, Grid } from "react-native-easy-grid";
 import { BarCodeScanner } from "expo-barcode-scanner";
 import { connect } from "react-redux";
 import { insertPickupStudent } from "../../modules/Firebase";
+import { PropTypes } from "prop-types";
 
 const Pickup = (props) => {
   const [hasPermission, setHasPermission] = useState(null);
@@ -86,6 +87,11 @@ const Pickup = (props) => {
 const styles = StyleSheet.create({
   centerXY: { flex: 1, justifyContent: "center", alignItems: "center" },
 });
+
+Pickup.propTypes = {
+  registeredPlate: PropTypes.string.isRequired,
+  registeredStudent: PropTypes.array.isRequired,
+};
 
 const mapStateToProps = (state) => {
   return {

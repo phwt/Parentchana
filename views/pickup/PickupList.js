@@ -3,6 +3,7 @@ import { View, Text, FlatList } from "react-native";
 import { Card, Title, Paragraph, Button } from "react-native-paper";
 import moment from "moment";
 import { loadPickupStudents, onPickupListChange } from "../../modules/Firebase";
+import { PropTypes } from "prop-types";
 
 const PickupItem = ({ item }) => (
   <Card>
@@ -15,6 +16,10 @@ const PickupItem = ({ item }) => (
     </Card.Content>
   </Card>
 );
+
+PickupItem.propTypes = {
+  item: PropTypes.object.isRequired,
+};
 
 const PickupList = (props) => {
   let [studentList, setStudentList] = useState([]);
