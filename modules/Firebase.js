@@ -16,15 +16,30 @@ export default (store) => {
    * - 3: Admin
    */
 
-  firebase.auth().onAuthStateChanged((user) => {
+  firebase.auth().onAuthStateChanged(async (user) => {
     if (user != null) {
+      const profileMeta = await getUserProfileMeta(user.providerData[0].uid);
+
       store.dispatch({ type: types.SET_AUTHENTICATED_STATUS, status: true });
-      store.dispatch({ type: types.LOGIN_SUCCESS, role: 1, profile: {} }); // TODO: Get role and profile data from firebase authentication
+      store.dispatch({
+        type: types.LOGIN_SUCCESS,
+        role: profileMeta.role,
+        profile: { ...user.providerData[0], ...profileMeta.meta },
+      });
     } else {
       store.dispatch({ type: types.SET_AUTHENTICATED_STATUS, status: false });
       store.dispatch({ type: types.LOGOUT_SUCCESS });
     }
   });
+};
+
+const getUserProfileMeta = async (uid) => {
+  const snapshot = await firebase
+    .firestore()
+    .collection("users")
+    .doc(uid)
+    .get();
+  return snapshot.data();
 };
 
 export const mapDocumentsWithId = (snapshot) =>
