@@ -4,7 +4,7 @@ import reduxImmutableStateInvariant from "redux-immutable-state-invariant"; // W
 
 export default (initialState) => {
   const composeEnhancers =
-    window.__REDUX_DEVTOOLS_EXTENSIONS_COMPOSE__ || compose; // Redux Devtools Support
+    window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose; // Redux Devtools Support
   return createStore(
     rootReducer,
     initialState,
