@@ -16,37 +16,35 @@ import CheckInDetailed from "../views/checkin/CheckInDetailed";
 import Calendar from "../views/calendar/Calendar";
 import CalendarFavorite from "../views/calendar/CalendarFavorite";
 
+import { store } from "../store/index";
+
 const PickupTab = createBottomTabNavigator();
 const PickupTabs = () => (
-  <PickupTab.Navigator>
-    <PickupTab.Screen
-      name="Pickup"
-      component={Pickup}
-      options={{
-        tabBarIcon: ({ color }) => (
-          <Ionicons name="ios-qr-scanner" size={24} color={color} />
-        ),
-      }}
-    />
-    <PickupTab.Screen
-      name="PickupRegister"
-      component={PickupRegister}
-      options={{
-        tabBarIcon: ({ color }) => (
-          <Ionicons name="md-person" size={24} color={color} />
-        ),
-      }}
-    />
-    <PickupTab.Screen
-      name="PickupList"
-      component={PickupList}
-      options={{
-        tabBarIcon: ({ color }) => (
-          <Ionicons name="md-list" size={24} color={color} />
-        ),
-      }}
-    />
-  </PickupTab.Navigator>
+  <>
+    {store.getState().auth.role === 1 && (
+      <PickupTab.Navigator>
+        <PickupTab.Screen
+          name="Pickup"
+          component={Pickup}
+          options={{
+            tabBarIcon: ({ color }) => (
+              <Ionicons name="ios-qr-scanner" size={24} color={color} />
+            ),
+          }}
+        />
+        <PickupTab.Screen
+          name="PickupRegister"
+          component={PickupRegister}
+          options={{
+            tabBarIcon: ({ color }) => (
+              <Ionicons name="md-person" size={24} color={color} />
+            ),
+          }}
+        />
+      </PickupTab.Navigator>
+    )}
+    {store.getState().auth.role === 2 && <PickupList />}
+  </>
 );
 
 const CheckInTab = createBottomTabNavigator();
