@@ -34,14 +34,14 @@ export const checkinAPI = [
     },
   },
   // 04/11 - Absent (no arrival and departure data)
-  {
-    studentId: "12345",
-    type: "absent",
-    ontime: false,
-    timestamp: {
-      seconds: 1604455200,
-    },
-  },
+  // {
+  //   studentId: "12345",
+  //   type: "absent",
+  //   ontime: false,
+  //   timestamp: {
+  //     seconds: 1604455200,
+  //   },
+  // },
   // 05/11 - Arrive late (before 09:00 check) | Depart on-time
   {
     studentId: "12345",
@@ -60,14 +60,14 @@ export const checkinAPI = [
     },
   },
   // 06/11 - Arrive late (after 09:00 check) | Depart on-time
-  {
-    studentId: "12345",
-    type: "absent",
-    ontime: false,
-    timestamp: {
-      seconds: 1604628000,
-    },
-  },
+  // {
+  //   studentId: "12345",
+  //   type: "absent",
+  //   ontime: false,
+  //   timestamp: {
+  //     seconds: 1604628000,
+  //   },
+  // },
   {
     studentId: "12345",
     type: "arrival",
