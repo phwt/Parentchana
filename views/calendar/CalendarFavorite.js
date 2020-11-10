@@ -9,11 +9,12 @@ import {
   loadCalendarFavorite,
 } from "../../store/actions/calendarActions";
 import axios from "axios";
-import {calendarConfig} from "../../config";
+import { calendarConfig } from "../../config";
 
 const CalendarFavorite = (props) => {
-  let [events, setEvents] = useState([]);
+  const [events, setEvents] = useState([]);
   const [favoriteData, setFavoriteData] = useState([]);
+  const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -25,18 +26,17 @@ const CalendarFavorite = (props) => {
         );
         setEvents(data.items);
         await loadCalendarFavorite();
+        setLoaded(true);
       } catch (error) {
         throw error;
       }
     })();
   }, []);
 
-  useEffect(()=> {
+  useEffect(() => {
     setFavoriteData(
       //find fav by find the same id from calendarFavorite and calendar API
-      props.calendarFavorite.map((id) =>
-        events.find((item) => item.id === id)
-      )
+      props.calendarFavorite.map((id) => events.find((item) => item.id === id))
     );
   }, [props.calendarFavorite, events]);
 
@@ -58,27 +58,31 @@ const CalendarFavorite = (props) => {
   };
 
   return (
-    <DataTable>
-      <DataTable.Header>
-        <DataTable.Title>Date</DataTable.Title>
-        <DataTable.Title>Name</DataTable.Title>
-        <DataTable.Title>Alert</DataTable.Title>
-      </DataTable.Header>
-      <FlatList
-        style={{ width: "100%" }}
-        data={favoriteData}
-        renderItem={renderFavoriteItem}
-      />
+    <>
+      {loaded && (
+        <DataTable>
+          <DataTable.Header>
+            <DataTable.Title>Date</DataTable.Title>
+            <DataTable.Title>Name</DataTable.Title>
+            <DataTable.Title>Alert</DataTable.Title>
+          </DataTable.Header>
+          <FlatList
+            style={{ width: "100%" }}
+            data={favoriteData}
+            renderItem={renderFavoriteItem}
+          />
 
-      <DataTable.Pagination
-        page={1}
-        numberOfPages={3}
-        onPageChange={(page) => {
-          console.log(page);
-        }}
-        label="1-2 of 6"
-      />
-    </DataTable>
+          <DataTable.Pagination
+            page={1}
+            numberOfPages={3}
+            onPageChange={(page) => {
+              console.log(page);
+            }}
+            label="1-2 of 6"
+          />
+        </DataTable>
+      )}
+    </>
   );
 };
 
