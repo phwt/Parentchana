@@ -6,29 +6,31 @@ import { loadCheckinList } from "../../store/actions/checkinActions";
 import { DataTable } from "react-native-paper";
 
 const CheckInDetailed = (props) => {
+  const [checkinData, setCheckinData] = useState([])
   const [selectedRange, setSelectedRange] = useState(new Date("01/11/2020")); // TODO: Handle month selection
 
   useEffect(() => {
     (async () => {
       await loadCheckinList();
+
+      let checkinTable = {};
+      props.checkinList.map((el) => {
+        const dateKey = moment.unix(el.timestamp.seconds).startOf("day");
+        const timestamp = moment.unix(el.timestamp.seconds).toDate();
+
+        if (!(dateKey in checkinTable)) checkinTable[dateKey] = {};
+
+        checkinTable[dateKey] = {
+          ...checkinTable[dateKey],
+          [el.type]: {
+            timestamp: timestamp,
+            ontime: el.ontime,
+          },
+        };
+      });
+      setCheckinData(checkinTable)
     })();
   }, []);
-
-  let checkinTable = {};
-  props.checkinList.map((el) => {
-    const dateKey = moment.unix(el.timestamp.seconds).startOf("day");
-    const timestamp = moment.unix(el.timestamp.seconds).toDate();
-
-    if (!(dateKey in checkinTable)) checkinTable[dateKey] = {};
-
-    checkinTable[dateKey] = {
-      ...checkinTable[dateKey],
-      [el.type]: {
-        timestamp: timestamp,
-        ontime: el.ontime,
-      },
-    };
-  });
 
   const ColorDot = ({ ontime }) => (
     <View
@@ -42,7 +44,7 @@ const CheckInDetailed = (props) => {
   );
 
   const renderItem = ({ item }) => {
-    const currentItem = checkinTable[item];
+    const currentItem = checkinData[item];
     return (
       <DataTable.Row>
         <DataTable.Cell>{moment(item).format("DD/MM/YY")}</DataTable.Cell>
@@ -67,9 +69,9 @@ const CheckInDetailed = (props) => {
           <DataTable.Title>Departure</DataTable.Title>
         </DataTable.Header>
       </DataTable>
-      
+
       <FlatList
-        data={Object.keys(checkinTable)}
+        data={Object.keys(checkinData)}
         renderItem={renderItem}
         keyExtractor={(item) => item}
       />
