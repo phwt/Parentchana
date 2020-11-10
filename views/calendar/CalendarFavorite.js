@@ -8,17 +8,23 @@ import {
   loadCalendarList,
   loadCalendarFavorite,
 } from "../../store/actions/calendarActions";
+import axios from "axios";
+import {calendarConfig} from "../../config";
 
 const CalendarFavorite = (props) => {
+  let [events, setEvents] = useState([]);
   const [favoriteData, setFavoriteData] = useState([]);
 
   useEffect(() => {
     (async () => {
       try {
-        await loadCalendarList();
+        const { data } = await axios.get(
+          `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(
+            calendarConfig.calendarId
+          )}/events?key=${calendarConfig.apiKey}`
+        );
+        setEvents(data.items);
         await loadCalendarFavorite();
-        //find fav by find the same id from calendarFavorite and calendar API
-        
       } catch (error) {
         throw error;
       }
@@ -27,11 +33,12 @@ const CalendarFavorite = (props) => {
 
   useEffect(()=> {
     setFavoriteData(
+      //find fav by find the same id from calendarFavorite and calendar API
       props.calendarFavorite.map((id) =>
-        props.calendarAPI.find((item) => item.id === id)
+        events.find((item) => item.id === id)
       )
     );
-  }, [props.calendarFavorite, props.calendarAPI]);
+  }, [props.calendarFavorite, events]);
 
   const [isSwitchOn, setIsSwitchOn] = React.useState(false);
 
@@ -77,7 +84,7 @@ const CalendarFavorite = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    calendarAPI: state.calendar.list,
+    // calendarAPI: state.calendar.list,
     calendarFavorite: state.calendar.favorite,
   };
 };

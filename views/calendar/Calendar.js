@@ -8,20 +8,20 @@ import {
   toggleCalendarFavorite,
 } from "../../store/actions/calendarActions";
 
-// const timeToString = (time) => {
-//   const date = new Date(time);
-//   return date.toISOString().split("T")[0];
-// };
+import { calendarConfig } from "../../config";
+import axios from "axios";
 
 const Calendar = (props) => {
+  let [events, setEvents] = useState([]);
+
   useEffect(() => {
     (async () => {
-      // eslint-disable-next-line no-useless-catch
-      try {
-        await loadCalendarList();
-      } catch (error) {
-        throw error;
-      }
+      const { data } = await axios.get(
+        `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(
+          calendarConfig.calendarId
+        )}/events?key=${calendarConfig.apiKey}`
+      );
+      setEvents(data.items);
     })();
   }, []);
 
@@ -30,16 +30,16 @@ const Calendar = (props) => {
   };
 
   var calendarData = {};
-  for (var i = 0; i < Object.keys(props.calendarAPI).length; i++) {
+  for (var i = 0; i < Object.keys(events).length; i++) {
     //if key doesnt exist
-    if (props.calendarAPI[i].start.date.toString() in props.calendarAPI) {
-      calendarData[props.calendarAPI[i].start.date.toString()].push({
-        name: props.calendarAPI[i].summary,
-        id: props.calendarAPI[i].id,
+    if (events[i].start.date.toString() in events) {
+      calendarData[events[i].start.date.toString()].push({
+        name: events[i].summary,
+        id: events[i].id,
       });
     } else {
-      calendarData[props.calendarAPI[i].start.date.toString()] = [
-        { name: props.calendarAPI[i].summary, id: props.calendarAPI[i].id },
+      calendarData[events[i].start.date.toString()] = [
+        { name: events[i].summary, id: events[i].id },
       ];
     }
     //elseif key already exist
@@ -61,6 +61,7 @@ const Calendar = (props) => {
   };
   return (
     <View style={{ flex: 1 }}>
+      {/*{loaded && (*/}
       <Agenda
         // testID={testIDs.agenda.CONTAINER}
         items={calendarData}
@@ -71,6 +72,7 @@ const Calendar = (props) => {
         // renderEmptyDate={this.renderEmptyDate.bind(this)}
         // rowHasChanged={this.rowHasChanged.bind(this)}
       />
+      {/*)}*/}
     </View>
   );
 };
@@ -104,7 +106,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
   return {
-    calendarAPI: state.calendar.list,
+    // calendarAPI: state.calendar.list,
   };
 };
 
