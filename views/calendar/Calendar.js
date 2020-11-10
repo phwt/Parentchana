@@ -12,7 +12,8 @@ import { calendarConfig } from "../../config";
 import axios from "axios";
 
 const Calendar = (props) => {
-  let [events, setEvents] = useState([]);
+  const [events, setEvents] = useState([]);
+  const [computedEvents, setComputedEvents] = useState({});
 
   useEffect(() => {
     (async () => {
@@ -25,26 +26,19 @@ const Calendar = (props) => {
     })();
   }, []);
 
-  const toggleFavorite = (id) => {
-    props.toggleCalendarFavorite(id);
-  };
-
-  var calendarData = {};
-  for (var i = 0; i < Object.keys(events).length; i++) {
-    //if key doesnt exist
-    if (events[i].start.date.toString() in events) {
-      calendarData[events[i].start.date.toString()].push({
-        name: events[i].summary,
-        id: events[i].id,
-      });
-    } else {
-      calendarData[events[i].start.date.toString()] = [
-        { name: events[i].summary, id: events[i].id },
-      ];
-    }
-    //elseif key already exist
-  }
-  console.log(calendarData);
+  useEffect(() => {
+    let calendarData = {};
+    events.map((el) => {
+      const startDate = el.start.date.toString();
+      if (startDate in calendarData)
+        calendarData[startDate] = [
+          ...calendarData[startDate],
+          { id: el.id, name: el.summary },
+        ];
+      else calendarData[startDate] = [{ id: el.id, name: el.summary }];
+    });
+    setComputedEvents(calendarData);
+  }, [events]);
 
   const renderItem = (item) => {
     return (
@@ -52,7 +46,7 @@ const Calendar = (props) => {
         <Text>{item.name}</Text>
         <TouchableOpacity
           style={styles.fav}
-          onPress={() => toggleFavorite(item.id)}
+          onPress={() => props.toggleCalendarFavorite(item.id)}
         >
           <Ionicons name="ios-star-outline" size={20}></Ionicons>
         </TouchableOpacity>
@@ -61,10 +55,9 @@ const Calendar = (props) => {
   };
   return (
     <View style={{ flex: 1 }}>
-      {/*{loaded && (*/}
       <Agenda
         // testID={testIDs.agenda.CONTAINER}
-        items={calendarData}
+        items={computedEvents}
         // loadItemsForMonth={loadItems}
         selected={"2020-11-06"}
         renderItem={renderItem}
@@ -72,7 +65,6 @@ const Calendar = (props) => {
         // renderEmptyDate={this.renderEmptyDate.bind(this)}
         // rowHasChanged={this.rowHasChanged.bind(this)}
       />
-      {/*)}*/}
     </View>
   );
 };
