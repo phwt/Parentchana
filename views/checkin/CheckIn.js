@@ -1,11 +1,11 @@
 import React, { useEffect } from "react";
-import { Text, StyleSheet, View } from "react-native";
+import { Text, StyleSheet, View, TouchableOpacity } from "react-native";
 import { CalendarList } from "react-native-calendars";
 import moment from "moment";
 import { connect } from "react-redux";
 import { loadCheckinList } from "../../store/actions/checkinActions";
 
-const CheckIn = ({ checkinList }) => {
+const CheckIn = ({ checkinList, navigation }) => {
   useEffect(() => {
     (async () => {
       await loadCheckinList();
@@ -275,6 +275,9 @@ const CheckIn = ({ checkinList }) => {
       current={moment().utcOffset("+05:30").format("YYYY-MM-DD")}
       // pastScrollRange={24}
       // futureScrollRange={24}
+      onDayPress={() => {
+        navigation.navigate("CheckInDetailed");
+      }}
       renderHeader={(date) => {
         const header = date.toString("MMMM yyyy");
         const [month, year] = header.split(" ");
@@ -296,25 +299,25 @@ const CheckIn = ({ checkinList }) => {
           </View>
         );
       }}
-      // theme={{
-      //   'stylesheet.calendar.header': {
-      //     dayHeader: {
-      //       fontWeight: '600',
-      //       color: 'black'
-      //     }
-      //   },
-      //   'stylesheet.day.basic': {
-      //     today: {
-      //       borderColor: '#48BFE3',
-      //       borderWidth: 0.8
-      //     },
-      //     todayText: {
-      //       color: '#5390D9',
-      //       fontWeight: '800'
-      //     }
-      //   }
-      // }}
     />
+    // theme={{
+    //   'stylesheet.calendar.header': {
+    //     dayHeader: {
+    //       fontWeight: '600',
+    //       color: 'black'
+    //     }
+    //   },
+    //   'stylesheet.day.basic': {
+    //     today: {
+    //       borderColor: '#48BFE3',
+    //       borderWidth: 0.8
+    //     },
+    //     todayText: {
+    //       color: '#5390D9',
+    //       fontWeight: '800'
+    //     }
+    //   }
+    // }}
   );
 };
 
