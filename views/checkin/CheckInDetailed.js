@@ -6,19 +6,30 @@ import { loadCheckinList } from "../../store/actions/checkinActions";
 import { DataTable } from "react-native-paper";
 
 const CheckInDetailed = (props) => {
-  const [checkinData, setCheckinData] = useState([])
-  const [selectedRange, setSelectedRange] = useState(new Date("01/11/2020")); // TODO: Handle month selection
+  const [checkinData, setCheckinData] = useState([]);
+  const [selectedRange, setSelectedRange] = useState(moment(new Date("11/01/2020"))); // TODO: Handle month selection
+
+  const currentMonthDays = () => {
+    const days = {};
+    const dateStart = selectedRange.startOf("month");
+    const dateEnd = dateStart
+      .clone()
+      .add(moment().diff(dateStart, "days"), "days");
+    while (dateEnd.diff(dateStart, "days") >= 0) {
+      days[dateStart.clone()] = {};
+      dateStart.add(1, "days");
+    }
+    return days;
+  };
 
   useEffect(() => {
     (async () => {
       await loadCheckinList();
 
-      let checkinTable = {};
+      let checkinTable = currentMonthDays();
       props.checkinList.map((el) => {
         const dateKey = moment.unix(el.timestamp.seconds).startOf("day");
         const timestamp = moment.unix(el.timestamp.seconds).toDate();
-
-        if (!(dateKey in checkinTable)) checkinTable[dateKey] = {};
 
         checkinTable[dateKey] = {
           ...checkinTable[dateKey],
@@ -28,7 +39,7 @@ const CheckInDetailed = (props) => {
           },
         };
       });
-      setCheckinData(checkinTable)
+      setCheckinData(checkinTable);
     })();
   }, []);
 
@@ -45,17 +56,30 @@ const CheckInDetailed = (props) => {
 
   const renderItem = ({ item }) => {
     const currentItem = checkinData[item];
+
     return (
       <DataTable.Row>
         <DataTable.Cell>{moment(item).format("DD/MM/YY")}</DataTable.Cell>
-        <DataTable.Cell>
-          <ColorDot ontime={currentItem.arrival.ontime} />
-          {moment(currentItem.arrival.timestamp).format("HH:mm")}
-        </DataTable.Cell>
-        <DataTable.Cell>
-          <ColorDot ontime={currentItem.departure.ontime} />
-          {moment(currentItem.departure.timestamp).format("HH:mm")}
-        </DataTable.Cell>
+        {currentItem.arrival !== undefined &&
+          currentItem.departure !== undefined && (
+            <>
+              <DataTable.Cell>
+                <ColorDot ontime={currentItem.arrival.ontime} />
+                {moment(currentItem.arrival.timestamp).format("HH:mm")}
+              </DataTable.Cell>
+              <DataTable.Cell>
+                <ColorDot ontime={currentItem.departure.ontime} />
+                {moment(currentItem.departure.timestamp).format("HH:mm")}
+              </DataTable.Cell>
+            </>
+          )}
+        {currentItem.arrival === undefined &&
+          currentItem.departure === undefined && (
+            <>
+              <DataTable.Cell>Absent</DataTable.Cell>
+              <DataTable.Cell>Absent</DataTable.Cell>
+            </>
+          )}
       </DataTable.Row>
     );
   };
