@@ -7,14 +7,23 @@ import { DataTable } from "react-native-paper";
 
 const CheckInDetailed = (props) => {
   const [checkinData, setCheckinData] = useState([]);
-  const [selectedRange, setSelectedRange] = useState(moment(new Date("11/01/2020"))); // TODO: Handle month selection
+  const [selectedRange, setSelectedRange] = useState(
+    moment(new Date("11/01/2020"))
+  ); // TODO: Handle month selection
 
   const currentMonthDays = () => {
     const days = {};
     const dateStart = selectedRange.startOf("month");
-    const dateEnd = dateStart
-      .clone()
-      .add(moment().diff(dateStart, "days"), "days");
+    let dateEnd;
+
+    if (selectedRange.startOf("month").diff(moment().startOf("month")) === 0) {
+      // Current month
+      dateEnd = dateStart.clone().add(moment().diff(dateStart, "days"), "days");
+    } else {
+      // Past Month
+      dateEnd = dateStart.clone().endOf("month");
+    }
+
     while (dateEnd.diff(dateStart, "days") >= 0) {
       days[dateStart.clone()] = {};
       dateStart.add(1, "days");
