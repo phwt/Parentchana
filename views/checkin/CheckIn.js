@@ -14,6 +14,7 @@ import { loadCheckinList } from "../../store/actions/checkinActions";
 import { Row, Grid } from "react-native-easy-grid";
 import { DataTable } from "react-native-paper";
 import { currentMonthDays } from "../../modules/CheckinUtils";
+import CheckInTable from "../../components/checkin/CheckInTable";
 
 const CheckIn = ({ checkinList, navigation }) => {
   var APIBefore = [];
@@ -25,7 +26,6 @@ const CheckIn = ({ checkinList, navigation }) => {
   var startStatus = true;
   var change = Boolean;
   var checkinData = {};
-  const [checkinData2, setCheckinData2] = useState([]);
 
   var date = "";
   var type = "";
@@ -39,39 +39,6 @@ const CheckIn = ({ checkinList, navigation }) => {
       await loadCheckinList();
     })();
   }, []);
-
-  useEffect(() => {
-    (async () => {
-      await loadCheckinList();
-
-      let checkinTable = currentMonthDays(selectedRange);
-      checkinList.map((el) => {
-        const dateKey = moment.unix(el.timestamp.seconds).startOf("day");
-        const timestamp = moment.unix(el.timestamp.seconds).toDate();
-        checkinTable[dateKey] = {
-          ...checkinTable[dateKey],
-          [el.type]: {
-            timestamp: timestamp,
-            ontime: el.ontime,
-          },
-        };
-      });
-      setCheckinData2(checkinTable);
-    })();
-  }, []);
-
-  const ColorDot = ({ ontime }) => (
-    <View
-      style={{
-        width: 8,
-        height: 8,
-        borderRadius: 50,
-        backgroundColor: ontime ? "green" : "orange",
-      }}
-    />
-  );
-
-  // const [checkinList, setcheckinList] = useState(checkinAPI);
 
   for (var i = 0; i < Object.keys(checkinList).length; i++) {
     // delete object type departure from Data
@@ -306,36 +273,6 @@ const CheckIn = ({ checkinList, navigation }) => {
       }
     }
   }
-  // console.log(checkinData);
-  const renderItem = ({ item }) => {
-    const currentItem = checkinData2[item];
-    console.log(currentItem);
-    return (
-      <DataTable.Row>
-        <DataTable.Cell>{moment(item).format("DD/MM/YY")}</DataTable.Cell>
-        {currentItem.arrival !== undefined &&
-          currentItem.departure !== undefined && (
-            <>
-              <DataTable.Cell>
-                <ColorDot ontime={currentItem.arrival.ontime} />
-                {moment(currentItem.arrival.timestamp).format("HH:mm")}
-              </DataTable.Cell>
-              <DataTable.Cell>
-                <ColorDot ontime={currentItem.departure.ontime} />
-                {moment(currentItem.departure.timestamp).format("HH:mm")}
-              </DataTable.Cell>
-            </>
-          )}
-        {currentItem.arrival === undefined &&
-          currentItem.departure === undefined && (
-            <>
-              <DataTable.Cell>Absent</DataTable.Cell>
-              <DataTable.Cell>Absent</DataTable.Cell>
-            </>
-          )}
-      </DataTable.Row>
-    );
-  };
 
   return (
     <Grid>
@@ -386,18 +323,9 @@ const CheckIn = ({ checkinList, navigation }) => {
       </Row>
       <Row size={40}>
         <SafeAreaView style={styles.container}>
-          <DataTable>
-            <DataTable.Header>
-              <DataTable.Title>Date</DataTable.Title>
-              <DataTable.Title>Arrival</DataTable.Title>
-              <DataTable.Title>Departure</DataTable.Title>
-            </DataTable.Header>
-          </DataTable>
-
-          <FlatList
-            data={Object.keys(checkinData2)}
-            renderItem={renderItem}
-            keyExtractor={(item) => item}
+          <CheckInTable
+            selectedRange={selectedRange}
+            checkinList={checkinList}
           />
         </SafeAreaView>
       </Row>
