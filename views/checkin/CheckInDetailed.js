@@ -40,7 +40,7 @@ const CheckInDetailed = (props) => {
       props.checkinList.map((el) => {
         const dateKey = moment.unix(el.timestamp.seconds).startOf("day");
         const timestamp = moment.unix(el.timestamp.seconds).toDate();
-        console.log(checkinTable);
+        // console.log(checkinTable);
         checkinTable[dateKey] = {
           ...checkinTable[dateKey],
           [el.type]: {
@@ -66,7 +66,7 @@ const CheckInDetailed = (props) => {
 
   const renderItem = ({ item }) => {
     const currentItem = checkinData[item];
-
+    console.log(currentItem);
     return (
       <DataTable.Row>
         <DataTable.Cell>{moment(item).format("DD/MM/YY")}</DataTable.Cell>

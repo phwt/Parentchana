@@ -17,6 +17,7 @@ const CheckIn = ({ checkinList, navigation }) => {
   var startStatus = true;
   var change = Boolean;
   var checkinData = {};
+  const [checkinData2, setCheckinData2] = useState([]);
 
   var date = "";
   var type = "";
@@ -59,7 +60,7 @@ const CheckIn = ({ checkinList, navigation }) => {
       checkinList.map((el) => {
         const dateKey = moment.unix(el.timestamp.seconds).startOf("day");
         const timestamp = moment.unix(el.timestamp.seconds).toDate();
-        console.log(checkinTable);
+        // console.log(checkinTable);
         checkinTable[dateKey] = {
           ...checkinTable[dateKey],
           [el.type]: {
@@ -68,7 +69,7 @@ const CheckIn = ({ checkinList, navigation }) => {
           },
         };
       });
-      setCheckinData(checkinTable);
+      setCheckinData2(checkinTable);
     })();
   }, []);
 
@@ -191,9 +192,9 @@ const CheckIn = ({ checkinList, navigation }) => {
           checkOntimeBefore = API[i].ontime;
         }
       } else {
-        console.log("-------------------------------------");
-        console.log(checkTypeBefore, API[i].type);
-        console.log(checkOntimeBefore, API[i].ontime);
+        // console.log("-------------------------------------");
+        // console.log(checkTypeBefore, API[i].type);
+        // console.log(checkOntimeBefore, API[i].ontime);
         if (checkFirstItem == true) {
           checkinData[
             moment.unix(API[i].timestamp.seconds).format("YYYY-MM-DD")
@@ -320,8 +321,8 @@ const CheckIn = ({ checkinList, navigation }) => {
   }
   // console.log(checkinData);
   const renderItem = ({ item }) => {
-    const currentItem = checkinData[item];
-
+    const currentItem = checkinData2[item];
+    console.log(currentItem);
     return (
       <DataTable.Row>
         <DataTable.Cell>{moment(item).format("DD/MM/YY")}</DataTable.Cell>
@@ -349,7 +350,6 @@ const CheckIn = ({ checkinList, navigation }) => {
     );
   };
 
-  console.log(checkinData);
   return (
     <Grid>
       <Row size={60}>
@@ -406,7 +406,7 @@ const CheckIn = ({ checkinList, navigation }) => {
           </DataTable>
 
           <FlatList
-          data={Object.keys(checkinData)}
+          data={Object.keys(checkinData2)}
           renderItem={renderItem}
           keyExtractor={(item) => item}
           />
