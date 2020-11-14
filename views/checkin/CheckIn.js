@@ -1,11 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { Text, StyleSheet, View, TouchableOpacity, SafeAreaView, FlatList } from "react-native";
+import {
+  Text,
+  StyleSheet,
+  View,
+  TouchableOpacity,
+  SafeAreaView,
+  FlatList,
+} from "react-native";
 import { CalendarList, Calendar } from "react-native-calendars";
 import moment from "moment";
 import { connect } from "react-redux";
 import { loadCheckinList } from "../../store/actions/checkinActions";
 import { Row, Grid } from "react-native-easy-grid";
 import { DataTable } from "react-native-paper";
+import { currentMonthDays } from "../../modules/CheckinUtils";
 
 const CheckIn = ({ checkinList, navigation }) => {
   var APIBefore = [];
@@ -25,42 +33,21 @@ const CheckIn = ({ checkinList, navigation }) => {
   const [selectedRange, setSelectedRange] = useState(
     moment(new Date("11/01/2020"))
   );
-  
+
   useEffect(() => {
     (async () => {
       await loadCheckinList();
     })();
   }, []);
 
-  const currentMonthDays = () => {
-    const days = {};
-    const dateStart = selectedRange.startOf("month");
-    let dateEnd;
-
-    if (selectedRange.startOf("month").diff(moment().startOf("month")) === 0) {
-      // Current month
-      dateEnd = dateStart.clone().add(moment().diff(dateStart, "days"), "days");
-    } else {
-      // Past Month
-      dateEnd = dateStart.clone().endOf("month");
-    }
-
-    while (dateEnd.diff(dateStart, "days") >= 0) {
-      days[dateStart.clone()] = {};
-      dateStart.add(1, "days");
-    }
-    return days;
-  };
-
   useEffect(() => {
     (async () => {
       await loadCheckinList();
 
-      let checkinTable = currentMonthDays();
+      let checkinTable = currentMonthDays(selectedRange);
       checkinList.map((el) => {
         const dateKey = moment.unix(el.timestamp.seconds).startOf("day");
         const timestamp = moment.unix(el.timestamp.seconds).toDate();
-        // console.log(checkinTable);
         checkinTable[dateKey] = {
           ...checkinTable[dateKey],
           [el.type]: {
@@ -85,7 +72,7 @@ const CheckIn = ({ checkinList, navigation }) => {
   );
 
   // const [checkinList, setcheckinList] = useState(checkinAPI);
-  
+
   for (var i = 0; i < Object.keys(checkinList).length; i++) {
     // delete object type departure from Data
     if (checkinList[i].type !== "departure") {
@@ -149,7 +136,7 @@ const CheckIn = ({ checkinList, navigation }) => {
           checkOntimeBefore = API[i].ontime;
         } else if (
           moment.unix(API[i].timestamp.seconds).format("YYYYMMDD") - 1 ==
-          Number(checkDateBefore) &&
+            Number(checkDateBefore) &&
           checkTypeBefore == API[i].type &&
           checkOntimeBefore == API[i].ontime
         ) {
@@ -212,7 +199,7 @@ const CheckIn = ({ checkinList, navigation }) => {
           checkOntimeBefore = API[i].ontime;
         } else if (
           moment.unix(API[i].timestamp.seconds).format("YYYYMMDD") - 1 ==
-          Number(checkDateBefore) &&
+            Number(checkDateBefore) &&
           checkTypeBefore == API[i].type &&
           checkOntimeBefore == API[i].ontime
         ) {
@@ -275,7 +262,7 @@ const CheckIn = ({ checkinList, navigation }) => {
         checkOntimeBefore = API[i].ontime;
       } else if (
         moment.unix(API[i].timestamp.seconds).format("YYYYMMDD") - 1 ==
-        Number(checkDateBefore) &&
+          Number(checkDateBefore) &&
         checkTypeBefore == API[i].type &&
         checkOntimeBefore == API[i].ontime
       ) {
@@ -389,7 +376,9 @@ const CheckIn = ({ checkinList, navigation }) => {
                 <Text
                   style={{ marginLeft: 75, ...styles.textStyle }}
                 >{`${month}`}</Text>
-                <Text style={{ marginRight: 0, ...styles.textStyle }}>{year}</Text>
+                <Text style={{ marginRight: 0, ...styles.textStyle }}>
+                  {year}
+                </Text>
               </View>
             );
           }}
@@ -406,9 +395,9 @@ const CheckIn = ({ checkinList, navigation }) => {
           </DataTable>
 
           <FlatList
-          data={Object.keys(checkinData2)}
-          renderItem={renderItem}
-          keyExtractor={(item) => item}
+            data={Object.keys(checkinData2)}
+            renderItem={renderItem}
+            keyExtractor={(item) => item}
           />
         </SafeAreaView>
       </Row>

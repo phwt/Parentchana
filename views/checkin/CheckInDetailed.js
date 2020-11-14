@@ -4,6 +4,7 @@ import moment from "moment";
 import { connect } from "react-redux";
 import { loadCheckinList } from "../../store/actions/checkinActions";
 import { DataTable } from "react-native-paper";
+import { currentMonthDays } from "../../modules/CheckinUtils";
 
 const CheckInDetailed = (props) => {
   const [checkinData, setCheckinData] = useState([]);
@@ -11,36 +12,14 @@ const CheckInDetailed = (props) => {
     moment(new Date("11/01/2020"))
   ); // TODO: Handle month selection
 
-  const currentMonthDays = () => {
-    const days = {};
-    const dateStart = selectedRange.startOf("month");
-    let dateEnd;
-
-    if (selectedRange.startOf("month").diff(moment().startOf("month")) === 0) {
-      // Current month
-      dateEnd = dateStart.clone().add(moment().diff(dateStart, "days"), "days");
-    } else {
-      // Past Month
-      dateEnd = dateStart.clone().endOf("month");
-    }
-
-    while (dateEnd.diff(dateStart, "days") >= 0) {
-      days[dateStart.clone()] = {};
-      dateStart.add(1, "days");
-    }
-    return days;
-  };
-  
-
   useEffect(() => {
     (async () => {
       await loadCheckinList();
 
-      let checkinTable = currentMonthDays();
+      let checkinTable = currentMonthDays(selectedRange);
       props.checkinList.map((el) => {
         const dateKey = moment.unix(el.timestamp.seconds).startOf("day");
         const timestamp = moment.unix(el.timestamp.seconds).toDate();
-        // console.log(checkinTable);
         checkinTable[dateKey] = {
           ...checkinTable[dateKey],
           [el.type]: {
@@ -66,7 +45,6 @@ const CheckInDetailed = (props) => {
 
   const renderItem = ({ item }) => {
     const currentItem = checkinData[item];
-    console.log(currentItem);
     return (
       <DataTable.Row>
         <DataTable.Cell>{moment(item).format("DD/MM/YY")}</DataTable.Cell>
