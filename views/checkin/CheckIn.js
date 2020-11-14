@@ -1,18 +1,13 @@
-import React, { useEffect } from "react";
-import { Text, StyleSheet, View, TouchableOpacity } from "react-native";
-import { CalendarList } from "react-native-calendars";
+import React, { useEffect, useState } from "react";
+import { Text, StyleSheet, View, TouchableOpacity, SafeAreaView, FlatList } from "react-native";
+import { CalendarList, Calendar } from "react-native-calendars";
 import moment from "moment";
 import { connect } from "react-redux";
 import { loadCheckinList } from "../../store/actions/checkinActions";
+import { Row, Grid } from "react-native-easy-grid";
+import { DataTable } from "react-native-paper";
 
 const CheckIn = ({ checkinList, navigation }) => {
-  useEffect(() => {
-    (async () => {
-      await loadCheckinList();
-    })();
-  }, []);
-
-  // const [checkinList, setcheckinList] = useState(checkinAPI);
   var APIBefore = [];
   var API = [];
   var checkFirstItem = true;
@@ -26,6 +21,70 @@ const CheckIn = ({ checkinList, navigation }) => {
   var date = "";
   var type = "";
   var ff = true;
+  const [selectedRange, setSelectedRange] = useState(
+    moment(new Date("11/01/2020"))
+  );
+  
+  useEffect(() => {
+    (async () => {
+      await loadCheckinList();
+    })();
+  }, []);
+
+  const currentMonthDays = () => {
+    const days = {};
+    const dateStart = selectedRange.startOf("month");
+    let dateEnd;
+
+    if (selectedRange.startOf("month").diff(moment().startOf("month")) === 0) {
+      // Current month
+      dateEnd = dateStart.clone().add(moment().diff(dateStart, "days"), "days");
+    } else {
+      // Past Month
+      dateEnd = dateStart.clone().endOf("month");
+    }
+
+    while (dateEnd.diff(dateStart, "days") >= 0) {
+      days[dateStart.clone()] = {};
+      dateStart.add(1, "days");
+    }
+    return days;
+  };
+
+  useEffect(() => {
+    (async () => {
+      await loadCheckinList();
+
+      let checkinTable = currentMonthDays();
+      checkinList.map((el) => {
+        const dateKey = moment.unix(el.timestamp.seconds).startOf("day");
+        const timestamp = moment.unix(el.timestamp.seconds).toDate();
+        console.log(checkinTable);
+        checkinTable[dateKey] = {
+          ...checkinTable[dateKey],
+          [el.type]: {
+            timestamp: timestamp,
+            ontime: el.ontime,
+          },
+        };
+      });
+      setCheckinData(checkinTable);
+    })();
+  }, []);
+
+  const ColorDot = ({ ontime }) => (
+    <View
+      style={{
+        width: 8,
+        height: 8,
+        borderRadius: 50,
+        backgroundColor: ontime ? "green" : "orange",
+      }}
+    />
+  );
+
+  // const [checkinList, setcheckinList] = useState(checkinAPI);
+  
   for (var i = 0; i < Object.keys(checkinList).length; i++) {
     // delete object type departure from Data
     if (checkinList[i].type !== "departure") {
@@ -89,7 +148,7 @@ const CheckIn = ({ checkinList, navigation }) => {
           checkOntimeBefore = API[i].ontime;
         } else if (
           moment.unix(API[i].timestamp.seconds).format("YYYYMMDD") - 1 ==
-            Number(checkDateBefore) &&
+          Number(checkDateBefore) &&
           checkTypeBefore == API[i].type &&
           checkOntimeBefore == API[i].ontime
         ) {
@@ -152,7 +211,7 @@ const CheckIn = ({ checkinList, navigation }) => {
           checkOntimeBefore = API[i].ontime;
         } else if (
           moment.unix(API[i].timestamp.seconds).format("YYYYMMDD") - 1 ==
-            Number(checkDateBefore) &&
+          Number(checkDateBefore) &&
           checkTypeBefore == API[i].type &&
           checkOntimeBefore == API[i].ontime
         ) {
@@ -215,7 +274,7 @@ const CheckIn = ({ checkinList, navigation }) => {
         checkOntimeBefore = API[i].ontime;
       } else if (
         moment.unix(API[i].timestamp.seconds).format("YYYYMMDD") - 1 ==
-          Number(checkDateBefore) &&
+        Number(checkDateBefore) &&
         checkTypeBefore == API[i].type &&
         checkOntimeBefore == API[i].ontime
       ) {
@@ -260,46 +319,101 @@ const CheckIn = ({ checkinList, navigation }) => {
     }
   }
   // console.log(checkinData);
+  const renderItem = ({ item }) => {
+    const currentItem = checkinData[item];
 
+    return (
+      <DataTable.Row>
+        <DataTable.Cell>{moment(item).format("DD/MM/YY")}</DataTable.Cell>
+        {currentItem.arrival !== undefined &&
+          currentItem.departure !== undefined && (
+            <>
+              <DataTable.Cell>
+                <ColorDot ontime={currentItem.arrival.ontime} />
+                {moment(currentItem.arrival.timestamp).format("HH:mm")}
+              </DataTable.Cell>
+              <DataTable.Cell>
+                <ColorDot ontime={currentItem.departure.ontime} />
+                {moment(currentItem.departure.timestamp).format("HH:mm")}
+              </DataTable.Cell>
+            </>
+          )}
+        {currentItem.arrival === undefined &&
+          currentItem.departure === undefined && (
+            <>
+              <DataTable.Cell>Absent</DataTable.Cell>
+              <DataTable.Cell>Absent</DataTable.Cell>
+            </>
+          )}
+      </DataTable.Row>
+    );
+  };
+
+  console.log(checkinData);
   return (
-    <CalendarList
-      // testID={testIDs.calendarList.CONTAINER}
-      // markedDates={{
-      //   '2020-11-02': {disabled: true, startingDay: true, endingDay: true, color: 'green'},
-      //   '2020-11-17': {disabled: true, startingDay: true, endingDay: true, color: 'green'},
-      //   '2020-11-25': {disabled: true, startingDay: true, endingDay: true, color: 'green'}
+    <Grid>
+      <Row size={60}>
+        <Calendar
+          // testID={testIDs.calendarList.CONTAINER}
+          // markedDates={{
+          //   '2020-11-02': {disabled: true, startingDay: true, endingDay: true, color: 'green'},
+          //   '2020-11-17': {disabled: true, startingDay: true, endingDay: true, color: 'green'},
+          //   '2020-11-25': {disabled: true, startingDay: true, endingDay: true, color: 'green'}
 
-      // }}
-      markedDates={checkinData}
-      markingType={"period"}
-      current={moment().utcOffset("+05:30").format("YYYY-MM-DD")}
-      // pastScrollRange={24}
-      // futureScrollRange={24}
-      onDayPress={() => {
-        navigation.navigate("CheckInDetailed");
-      }}
-      renderHeader={(date) => {
-        const header = date.toString("MMMM yyyy");
-        const [month, year] = header.split(" ");
+          // }}
+          // horizontal={true}
 
-        return (
-          <View
-            style={{
-              flexDirection: "row",
-              width: "100%",
-              justifyContent: "center",
-              marginTop: 10,
-              marginBottom: 10,
-            }}
-          >
-            <Text
-              style={{ marginLeft: 5, ...styles.textStyle }}
-            >{`${month}`}</Text>
-            <Text style={{ marginRight: 5, ...styles.textStyle }}>{year}</Text>
-          </View>
-        );
-      }}
-    />
+          // pagingEnabled={true}
+          markedDates={checkinData}
+          markingType={"period"}
+          current={moment().utcOffset("+05:30").format("YYYY-MM-DD")}
+          // pastScrollRange={24}
+          // futureScrollRange={24}
+          onDayPress={() => {
+            navigation.navigate("CheckInDetailed");
+          }}
+          renderHeader={(date) => {
+            const header = date.toString("MMMM yyyy");
+            const [month, year] = header.split(" ");
+
+            return (
+              <View
+                style={{
+                  flexDirection: "row",
+                  width: "78%",
+                  justifyContent: "center",
+                  marginTop: 10,
+                  marginBottom: 10,
+                }}
+              >
+                <Text
+                  style={{ marginLeft: 75, ...styles.textStyle }}
+                >{`${month}`}</Text>
+                <Text style={{ marginRight: 0, ...styles.textStyle }}>{year}</Text>
+              </View>
+            );
+          }}
+        />
+      </Row>
+      <Row size={40}>
+        <SafeAreaView style={styles.container}>
+          <DataTable>
+            <DataTable.Header>
+              <DataTable.Title>Date</DataTable.Title>
+              <DataTable.Title>Arrival</DataTable.Title>
+              <DataTable.Title>Departure</DataTable.Title>
+            </DataTable.Header>
+          </DataTable>
+
+          <FlatList
+          data={Object.keys(checkinData)}
+          renderItem={renderItem}
+          keyExtractor={(item) => item}
+          />
+        </SafeAreaView>
+      </Row>
+    </Grid>
+
     // theme={{
     //   'stylesheet.calendar.header': {
     //     dayHeader: {

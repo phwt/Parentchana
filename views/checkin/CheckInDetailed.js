@@ -30,6 +30,7 @@ const CheckInDetailed = (props) => {
     }
     return days;
   };
+  
 
   useEffect(() => {
     (async () => {
@@ -39,7 +40,7 @@ const CheckInDetailed = (props) => {
       props.checkinList.map((el) => {
         const dateKey = moment.unix(el.timestamp.seconds).startOf("day");
         const timestamp = moment.unix(el.timestamp.seconds).toDate();
-
+        console.log(checkinTable);
         checkinTable[dateKey] = {
           ...checkinTable[dateKey],
           [el.type]: {
