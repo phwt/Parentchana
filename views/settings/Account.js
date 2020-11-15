@@ -1,9 +1,7 @@
 import React from "react";
 import { Text } from "react-native";
-import { connect } from "react-redux";
 import { Button } from "react-native-paper";
 import * as firebase from "firebase";
-import { setAuthenticatedStatus } from "../../store/actions/authActions";
 
 const Account = (props) => {
   const logout = async () => {
@@ -27,14 +25,4 @@ const Account = (props) => {
   );
 };
 
-const mapStateToProps = (state) => {
-  return {
-    authenticated: state.auth.authenticated,
-  };
-};
-
-const mapDispatchToProps = {
-  setAuthenticatedStatus,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Account);
+export default Account;

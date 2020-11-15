@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { TextInput, Button } from "react-native-paper";
 import * as firebase from "firebase";
-import { connect } from "react-redux";
 
 const Login = (props) => {
   const [email, setEmail] = useState("");
@@ -9,7 +8,6 @@ const Login = (props) => {
 
   const login = async () => {
     try {
-      firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
       await firebase.auth().signInWithEmailAndPassword(email, password);
       alert("User signed in");
       props.navigation.navigate("Menu");
@@ -49,10 +47,4 @@ const Login = (props) => {
   );
 };
 
-const mapStateToProps = (state) => {
-  return {
-    authenticated: state.auth.authenticated,
-  };
-};
-
-export default connect(mapStateToProps)(Login);
+export default Login;
