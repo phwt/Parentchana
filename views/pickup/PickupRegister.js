@@ -73,7 +73,7 @@ const PickupRegister = (props) => {
   const addStudentHandler = useCallback(() => {
     if (!registeredStudents.includes(registerInput)) {
       dispatch(addPickupStudent(registerInput));
-      // setRegisterInput("");
+      setRegisterInput("");
       setDialogVisible(false);
     } else {
       alert("Student already exist!");
@@ -140,7 +140,7 @@ const PickupRegister = (props) => {
         onDismiss={() => setDialogVisible(false)}
         onChangeText={setRegisterInput}
         value={registerInput}
-        onPress={addStudentHandler}
+        onPress={() => addStudentHandler()}
         onPress1={() => setDialogVisible(true)}
       />
     </Grid>

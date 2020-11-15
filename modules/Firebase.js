@@ -70,6 +70,30 @@ export const loadPickupStudents = async () => {
   return mapDocumentsWithId(snapshot);
 };
 
+export const addRegisterPickupStudent = async (uid, studentId) => {
+  await firebase
+    .firestore()
+    .collection("users")
+    .doc(uid)
+    .update({
+      "meta.pickupStudents": firebase.firestore.FieldValue.arrayUnion(
+        studentId
+      ),
+    });
+};
+
+export const removeRegisterPickupStudent = async (uid, studentId) => {
+  await firebase
+    .firestore()
+    .collection("users")
+    .doc(uid)
+    .update({
+      "meta.pickupStudents": firebase.firestore.FieldValue.arrayRemove(
+        studentId
+      ),
+    });
+};
+
 export const onPickupListChange = (callback) => {
   firebase
     .firestore()
