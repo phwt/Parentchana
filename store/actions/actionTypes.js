@@ -8,11 +8,12 @@ export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 export const LOGOUT_SUCCESS = "LOGOUT_SUCCESS";
 
 /**
- * Student Pick-up
+ * Profile
  */
-export const ADD_STUDENT = "ADD_STUDENT";
-export const REMOVE_STUDENT = "REMOVE_STUDENT";
-export const CHANGE_PLATE = "CHANGE_PLATE";
+export const SET_PROFILE = "SET_PROFILE";
+export const ADD_PICKUP_STUDENT = "ADD_PICKUP_STUDENT";
+export const REMOVE_PICKUP_STUDENT = "REMOVE_PICKUP_STUDENT";
+export const CHANGE_PICKUP_PLATE = "CHANGE_PICKUP_PLATE";
 
 /**
  * Time Check-in

@@ -24,6 +24,9 @@ export default (store) => {
       store.dispatch({
         type: types.LOGIN_SUCCESS,
         role: profileMeta.role,
+      });
+      store.dispatch({
+        type: types.SET_PROFILE,
         profile: { ...user.providerData[0], ...profileMeta.meta },
       });
     } else {

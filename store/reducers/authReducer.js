@@ -8,9 +8,9 @@ const authReducer = (state = initialState.auth, action) => {
     case types.SET_AUTHENTICATED_STATUS:
       return { ...state, authenticated: action.status };
     case types.LOGIN_SUCCESS:
-      return { ...state, role: action.role, profile: action.profile };
+      return { ...state, role: action.role };
     case types.LOGOUT_SUCCESS:
-      return { ...state, role: 0, profile: {} };
+      return { ...state, role: 0 };
     default:
       return state;
   }

@@ -1,15 +1,21 @@
-import { calendarAPI, checkinAPI } from "./mockData";
+import { checkinAPI } from "./mockData";
 
 export default {
   auth: {
     authenticated: false,
     role: 0,
-    profile: {},
   },
-  pickup: {
-    registeredPlate: "12 AB 4567",
-    registeredStudents: ["12345", "12346", "12347"],
+  profile: {
+    displayName: "",
+    email: "",
+    phoneNumber: "",
+    photoURL: "",
+    pickupPlate: "",
+    pickupStudents: [],
+    providerId: "",
+    uid: "",
   },
+  pickup: {},
   calendar: {
     events: [],
     favorite: [],

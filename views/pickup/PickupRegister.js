@@ -10,10 +10,10 @@ import {
 } from "react-native-paper";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  addStudent,
-  removeStudent,
-  changePlate,
-} from "../../store/actions/pickupActions";
+  addPickupStudent,
+  removePickupStudent,
+  changePickupPlate,
+} from "../../store/actions/profileActions";
 import { Grid, Row, Col } from "react-native-easy-grid";
 import { PropTypes } from "prop-types";
 
@@ -64,15 +64,16 @@ const PickupRegister = (props) => {
   const [dialogVisible, setDialogVisible] = useState(false);
 
   const registeredStudents = useSelector(
-    (state) => state.auth.profile.students
+    (state) => state.profile.pickupStudents
   );
-  const registeredPlate = useSelector((state) => state.auth.profile.plate);
+  const registeredPlate = useSelector((state) => state.profile.pickupPlate);
+
   const dispatch = useDispatch();
 
   const addStudentHandler = useCallback(() => {
     if (!registeredStudents.includes(registerInput)) {
-      dispatch(addStudent(registerInput));
-      setRegisterInput("");
+      dispatch(addPickupStudent(registerInput));
+      // setRegisterInput("");
       setDialogVisible(false);
     } else {
       alert("Student already exist!");
@@ -81,14 +82,14 @@ const PickupRegister = (props) => {
 
   const removeStudentHandler = useCallback(
     (id) => {
-      dispatch(removeStudent(id));
+      dispatch(removePickupStudent(id));
     },
     [dispatch]
   );
 
   const changePlateHandler = useCallback(
     (plateNo) => {
-      dispatch(changePlate(plateNo));
+      dispatch(changePickupPlate(plateNo));
     },
     [dispatch]
   );

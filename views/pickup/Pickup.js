@@ -10,9 +10,9 @@ const Pickup = (props) => {
   const [scanned, setScanned] = useState(false);
   const [scanData, setScanData] = useState({});
 
-  const registeredPlate = useSelector((state) => state.pickup.registeredPlate);
+  const registeredPlate = useSelector((state) => state.profile.pickupPlate);
   const registeredStudents = useSelector(
-    (state) => state.pickup.registeredStudents
+    (state) => state.profile.pickupStudents
   );
 
   useEffect(() => {
