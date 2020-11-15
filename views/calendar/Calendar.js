@@ -1,30 +1,32 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { Agenda } from "react-native-calendars";
 import { Ionicons } from "@expo/vector-icons";
-import { connect } from "react-redux";
-import {
-  loadCalendarList,
-  toggleCalendarFavorite,
-} from "../../store/actions/calendarActions";
+import { useSelector, useDispatch } from "react-redux";
+import { toggleCalendarFavorite } from "../../store/actions/calendarActions";
 
-import { calendarConfig } from "../../config";
-import axios from "axios";
+// import { calendarConfig } from "../../config";
+// import axios from "axios";
 
 const Calendar = (props) => {
-  const [events, setEvents] = useState([]);
+  const events = useSelector((state) => state.calendar.list);
   const [computedEvents, setComputedEvents] = useState({});
+  const dispatch = useDispatch();
 
-  useEffect(() => {
-    (async () => {
-      const { data } = await axios.get(
-        `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(
-          calendarConfig.calendarId
-        )}/events?key=${calendarConfig.apiKey}`
-      );
-      setEvents(data.items);
-    })();
-  }, []);
+  const toggleFavoriteHandler = useCallback((eventId) => {
+    dispatch(toggleCalendarFavorite(eventId));
+  }, [dispatch]);
+
+  // useEffect(() => {
+  //   (async () => {
+  //     const { data } = await axios.get(
+  //       `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(
+  //         calendarConfig.calendarId
+  //       )}/events?key=${calendarConfig.apiKey}`
+  //     );
+  //     setEvents(data.items);
+  //   })();
+  // }, []);
 
   useEffect(() => {
     let calendarData = {};
@@ -46,9 +48,9 @@ const Calendar = (props) => {
         <Text>{item.name}</Text>
         <TouchableOpacity
           style={styles.fav}
-          onPress={() => props.toggleCalendarFavorite(item.id)}
+          onPress={() => toggleFavoriteHandler(item.id)}
         >
-          <Ionicons name="ios-star-outline" size={20}></Ionicons>
+          <Ionicons name="ios-star-outline" size={20}/>
         </TouchableOpacity>
       </View>
     );
@@ -96,15 +98,4 @@ const styles = StyleSheet.create({
   },
 });
 
-const mapStateToProps = (state) => {
-  return {
-    // calendarAPI: state.calendar.list,
-  };
-};
-
-const mapDispatchToProps = {
-  loadCalendarList,
-  toggleCalendarFavorite,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Calendar);
+export default Calendar;

@@ -2,43 +2,42 @@ import React, { useEffect, useState } from "react";
 import { FlatList } from "react-native-gesture-handler";
 import { DataTable } from "react-native-paper";
 import { Switch } from "react-native-paper";
-import { connect } from "react-redux";
+import { useSelector } from "react-redux";
 
-import {
-  loadCalendarList,
-  loadCalendarFavorite,
-} from "../../store/actions/calendarActions";
-import axios from "axios";
-import { calendarConfig } from "../../config";
+// import axios from "axios";
+// import { calendarConfig } from "../../config";
 
 const CalendarFavorite = (props) => {
-  const [events, setEvents] = useState([]);
-  const [favoriteData, setFavoriteData] = useState([]);
-  const [loaded, setLoaded] = useState(false);
+  // const [events, setEvents] = useState([]);
+  // const [loaded, setLoaded] = useState(false);
+
+  const events = useSelector((state) => state.calendar.list);
+  const favoriteEvents = useSelector((state) => state.calendar.favorite);
+  const [favoriteList, setFavoriteList] = useState([]);
 
   useEffect(() => {
-    (async () => {
-      try {
-        const { data } = await axios.get(
-          `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(
-            calendarConfig.calendarId
-          )}/events?key=${calendarConfig.apiKey}`
-        );
-        setEvents(data.items);
-        await loadCalendarFavorite();
-        setLoaded(true);
-      } catch (error) {
-        throw error;
-      }
-    })();
+    // (async () => {
+    //   try {
+    //     const { data } = await axios.get(
+    //       `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(
+    //         calendarConfig.calendarId
+    //       )}/events?key=${calendarConfig.apiKey}`
+    //     );
+    //     setEvents(data.items);
+    //     await loadCalendarFavorite();
+    //     setLoaded(true);
+    //   } catch (error) {
+    //     throw error;
+    //   }
+    // })();
   }, []);
 
   useEffect(() => {
-    setFavoriteData(
-      //find fav by find the same id from calendarFavorite and calendar API
-      props.calendarFavorite.map((id) => events.find((item) => item.id === id))
+    //find fav by find the same id from calendarFavorite and calendar API
+    setFavoriteList(
+      favoriteEvents.map((id) => events.find((item) => item.id === id))
     );
-  }, [props.calendarFavorite, events]);
+  }, [favoriteEvents, events]);
 
   const [isSwitchOn, setIsSwitchOn] = React.useState(false);
 
@@ -59,43 +58,29 @@ const CalendarFavorite = (props) => {
 
   return (
     <>
-      {loaded && (
-        <DataTable>
-          <DataTable.Header>
-            <DataTable.Title>Date</DataTable.Title>
-            <DataTable.Title>Name</DataTable.Title>
-            <DataTable.Title>Alert</DataTable.Title>
-          </DataTable.Header>
-          <FlatList
-            style={{ width: "100%" }}
-            data={favoriteData}
-            renderItem={renderFavoriteItem}
-          />
+      <DataTable>
+        <DataTable.Header>
+          <DataTable.Title>Date</DataTable.Title>
+          <DataTable.Title>Name</DataTable.Title>
+          <DataTable.Title>Alert</DataTable.Title>
+        </DataTable.Header>
+        <FlatList
+          style={{ width: "100%" }}
+          data={favoriteList}
+          renderItem={renderFavoriteItem}
+        />
 
-          <DataTable.Pagination
-            page={1}
-            numberOfPages={3}
-            onPageChange={(page) => {
-              console.log(page);
-            }}
-            label="1-2 of 6"
-          />
-        </DataTable>
-      )}
+        <DataTable.Pagination
+          page={1}
+          numberOfPages={3}
+          onPageChange={(page) => {
+            console.log(page);
+          }}
+          label="1-2 of 6"
+        />
+      </DataTable>
     </>
   );
 };
 
-const mapStateToProps = (state) => {
-  return {
-    // calendarAPI: state.calendar.list,
-    calendarFavorite: state.calendar.favorite,
-  };
-};
-
-const mapDispatchToProps = {
-  loadCalendarList,
-  loadCalendarFavorite,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(CalendarFavorite);
+export default CalendarFavorite;
