@@ -3,7 +3,7 @@ import initialState from "../initialState";
 
 const calendarReducer = (state = initialState.calendar, action) => {
   switch (action.type) {
-    case types.LOAD_CALENDAR_LIST:
+    case types.FETCH_CALENDAR_EVENTS:
       return { ...state, events: action.events };
     case types.TOGGLE_CALENDAR_FAVORITE:
       if (state.favorite.includes(action.id)) {

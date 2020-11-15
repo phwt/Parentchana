@@ -10,7 +10,7 @@ export const fetchCalendarEvents = () => {
       )}/events?key=${calendarConfig.apiKey}`
     );
     dispatch({
-      type: types.LOAD_CALENDAR_LIST,
+      type: types.FETCH_CALENDAR_EVENTS,
       events: data.items,
     });
   };
