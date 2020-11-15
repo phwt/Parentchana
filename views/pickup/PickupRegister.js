@@ -64,9 +64,9 @@ const PickupRegister = (props) => {
   const [dialogVisible, setDialogVisible] = useState(false);
 
   const registeredStudents = useSelector(
-    (state) => state.pickup.registeredStudents
+    (state) => state.auth.profile.students
   );
-  const registeredPlate = useSelector((state) => state.pickup.registeredPlate);
+  const registeredPlate = useSelector((state) => state.auth.profile.plate);
   const dispatch = useDispatch();
 
   const addStudentHandler = useCallback(() => {
