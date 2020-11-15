@@ -11,7 +11,7 @@ export default {
     registeredStudent: ["12345", "12346", "12347"],
   },
   calendar: {
-    list: calendarAPI,
+    events: [],
     favorite: [],
   },
   checkin: {

@@ -1,36 +1,27 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { FlatList } from "react-native-gesture-handler";
 import { DataTable } from "react-native-paper";
 import { Switch } from "react-native-paper";
-import { useSelector } from "react-redux";
-
-// import axios from "axios";
-// import { calendarConfig } from "../../config";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchCalendarEvents } from "../../store/actions/calendarActions";
 
 const CalendarFavorite = (props) => {
-  // const [events, setEvents] = useState([]);
-  // const [loaded, setLoaded] = useState(false);
-
-  const events = useSelector((state) => state.calendar.list);
+  const events = useSelector((state) => state.calendar.events);
   const favoriteEvents = useSelector((state) => state.calendar.favorite);
   const [favoriteList, setFavoriteList] = useState([]);
+  const dispatch = useDispatch();
+
+  const loadCalendarEvents = useCallback(async () => {
+    try {
+      await dispatch(fetchCalendarEvents());
+    } catch (error) {
+      console.log(error);
+    }
+  }, [dispatch]);
 
   useEffect(() => {
-    // (async () => {
-    //   try {
-    //     const { data } = await axios.get(
-    //       `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(
-    //         calendarConfig.calendarId
-    //       )}/events?key=${calendarConfig.apiKey}`
-    //     );
-    //     setEvents(data.items);
-    //     await loadCalendarFavorite();
-    //     setLoaded(true);
-    //   } catch (error) {
-    //     throw error;
-    //   }
-    // })();
-  }, []);
+    loadCalendarEvents();
+  }, [loadCalendarEvents]);
 
   useEffect(() => {
     //find fav by find the same id from calendarFavorite and calendar API

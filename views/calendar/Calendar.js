@@ -3,30 +3,34 @@ import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { Agenda } from "react-native-calendars";
 import { Ionicons } from "@expo/vector-icons";
 import { useSelector, useDispatch } from "react-redux";
-import { toggleCalendarFavorite } from "../../store/actions/calendarActions";
-
-// import { calendarConfig } from "../../config";
-// import axios from "axios";
+import {
+  fetchCalendarEvents,
+  toggleCalendarFavorite,
+} from "../../store/actions/calendarActions";
 
 const Calendar = (props) => {
-  const events = useSelector((state) => state.calendar.list);
+  const events = useSelector((state) => state.calendar.events);
   const [computedEvents, setComputedEvents] = useState({});
   const dispatch = useDispatch();
 
-  const toggleFavoriteHandler = useCallback((eventId) => {
-    dispatch(toggleCalendarFavorite(eventId));
+  const toggleFavoriteHandler = useCallback(
+    (eventId) => {
+      dispatch(toggleCalendarFavorite(eventId));
+    },
+    [dispatch]
+  );
+
+  const loadCalendarEvents = useCallback(async () => {
+    try {
+      await dispatch(fetchCalendarEvents());
+    } catch (error) {
+      console.log(error);
+    }
   }, [dispatch]);
 
-  // useEffect(() => {
-  //   (async () => {
-  //     const { data } = await axios.get(
-  //       `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(
-  //         calendarConfig.calendarId
-  //       )}/events?key=${calendarConfig.apiKey}`
-  //     );
-  //     setEvents(data.items);
-  //   })();
-  // }, []);
+  useEffect(() => {
+    loadCalendarEvents();
+  }, [loadCalendarEvents]);
 
   useEffect(() => {
     let calendarData = {};
@@ -50,7 +54,7 @@ const Calendar = (props) => {
           style={styles.fav}
           onPress={() => toggleFavoriteHandler(item.id)}
         >
-          <Ionicons name="ios-star-outline" size={20}/>
+          <Ionicons name="ios-star-outline" size={20} />
         </TouchableOpacity>
       </View>
     );
