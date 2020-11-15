@@ -3,24 +3,20 @@ import initialState from "../initialState";
 
 const pickupReducer = (state = initialState.pickup, action) => {
   switch (action.type) {
-    case types.LOAD_REGISTERED_STUDENT:
-      return state;
-    case types.REGISTER_NEW_STUDENT:
+    case types.ADD_STUDENT:
       return {
         ...state,
-        registeredStudent: [...state.registeredStudent, action.student],
+        registeredStudents: [...state.registeredStudents, action.studentId],
       };
-    case types.DEREGISTER_STUDENT:
+    case types.REMOVE_STUDENT:
       return {
         ...state,
-        registeredStudent: state.registeredStudent.filter(
-          (student) => student !== action.student
+        registeredStudents: state.registeredStudents.filter(
+          (studentId) => studentId !== action.studentId
         ),
       };
-    case types.REGISTER_PLATE:
-      return { ...state, registeredPlate: action.plate };
-    case types.GET_REGISTERED_PLATE:
-      return state;
+    case types.CHANGE_PLATE:
+      return { ...state, registeredPlate: action.plateNo };
     default:
       return state;
   }

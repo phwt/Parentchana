@@ -2,14 +2,18 @@ import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, Button } from "react-native";
 import { Col, Row, Grid } from "react-native-easy-grid";
 import { BarCodeScanner } from "expo-barcode-scanner";
-import { connect } from "react-redux";
+import { useSelector } from "react-redux";
 import { insertPickupStudent } from "../../modules/Firebase";
-import { PropTypes } from "prop-types";
 
 const Pickup = (props) => {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
   const [scanData, setScanData] = useState({});
+
+  const registeredPlate = useSelector((state) => state.pickup.registeredPlate);
+  const registeredStudents = useSelector(
+    (state) => state.pickup.registeredStudents
+  );
 
   useEffect(() => {
     (async () => {
@@ -22,8 +26,9 @@ const Pickup = (props) => {
     setScanned(true);
     setScanData({ type, data });
     try {
-      await insertPickupStudent(props.registeredPlate, props.registeredStudent);
+      await insertPickupStudent(registeredPlate, registeredStudents);
     } catch (error) {
+      console.log(error);
       alert("Insert Student Error");
     }
   };
@@ -88,16 +93,4 @@ const styles = StyleSheet.create({
   centerXY: { flex: 1, justifyContent: "center", alignItems: "center" },
 });
 
-Pickup.propTypes = {
-  registeredPlate: PropTypes.string.isRequired,
-  registeredStudent: PropTypes.array.isRequired,
-};
-
-const mapStateToProps = (state) => {
-  return {
-    registeredStudent: state.pickup.registeredStudent,
-    registeredPlate: state.pickup.registeredPlate,
-  };
-};
-
-export default connect(mapStateToProps)(Pickup);
+export default Pickup;

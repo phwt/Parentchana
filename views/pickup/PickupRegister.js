@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Text, View, StyleSheet, FlatList } from "react-native";
 import {
   TextInput,
@@ -8,13 +8,11 @@ import {
   Portal,
   List,
 } from "react-native-paper";
-import { connect } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
-  loadRegisteredStudent,
-  registerNewStudent,
-  deregisterStudent,
-  registerPlate,
-  getRegisteredPlate,
+  addStudent,
+  removeStudent,
+  changePlate,
 } from "../../store/actions/pickupActions";
 import { Grid, Row, Col } from "react-native-easy-grid";
 import { PropTypes } from "prop-types";
@@ -65,34 +63,43 @@ const PickupRegister = (props) => {
   const [registerInput, setRegisterInput] = useState("");
   const [dialogVisible, setDialogVisible] = useState(false);
 
-  useEffect(() => {
-    (async () => {
-      await loadRegisteredStudent();
-      await getRegisteredPlate();
-    })();
-  }, []);
+  const registeredStudents = useSelector(
+    (state) => state.pickup.registeredStudents
+  );
+  const registeredPlate = useSelector((state) => state.pickup.registeredPlate);
+  const dispatch = useDispatch();
 
-  const addStudent = async () => {
-    if (!props.registeredStudent.includes(registerInput)) {
-      await props.registerNewStudent(registerInput);
+  const addStudentHandler = useCallback(() => {
+    if (!registeredStudents.includes(registerInput)) {
+      dispatch(addStudent(registerInput));
       setRegisterInput("");
       setDialogVisible(false);
     } else {
       alert("Student already exist!");
     }
-  };
+  }, [dispatch]);
 
-  const removeStudent = (id) => {
-    props.deregisterStudent(id);
-  };
+  const removeStudentHandler = useCallback(
+    (id) => {
+      dispatch(removeStudent(id));
+    },
+    [dispatch]
+  );
+
+  const changePlateHandler = useCallback(
+    (plateNo) => {
+      dispatch(changePlate(plateNo));
+    },
+    [dispatch]
+  );
 
   return (
     <Grid>
       <Row size={10} style={{ margin: 16 }}>
         <TextInput
           label="Plate Number"
-          value={props.registeredPlate}
-          onChangeText={(plate) => props.registerPlate(plate)}
+          value={registeredPlate}
+          onChangeText={(plate) => changePlateHandler(plate)}
           style={{
             position: "absolute",
             left: 0,
@@ -102,16 +109,16 @@ const PickupRegister = (props) => {
       </Row>
       <Row size={90}>
         <FlatList
-          data={props.registeredStudent}
+          data={registeredStudents}
           renderItem={({ item }) => (
             <List.Item
               title={item}
               description="ชื่อ นามสกุล" // TODO: Fetch name from firebase/database
               left={(props) => <List.Icon {...props} icon="account-circle" />}
-              onPress={() => removeStudent(item)}
+              onPress={() => removeStudentHandler(item)}
             />
           )}
-          keyExtractor={(i) => String(props.registeredStudent.indexOf(i))}
+          keyExtractor={(i) => String(registeredStudents.indexOf(i))}
           ListEmptyComponent={() => {
             return (
               <View style={{ marginTop: 32 }}>
@@ -125,7 +132,6 @@ const PickupRegister = (props) => {
             );
           }}
         />
-        {/*)}*/}
       </Row>
 
       <AddStudentDialog
@@ -133,7 +139,7 @@ const PickupRegister = (props) => {
         onDismiss={() => setDialogVisible(false)}
         onChangeText={setRegisterInput}
         value={registerInput}
-        onPress={() => addStudent()}
+        onPress={addStudentHandler}
         onPress1={() => setDialogVisible(true)}
       />
     </Grid>
@@ -149,25 +155,4 @@ const styles = StyleSheet.create({
   },
 });
 
-PickupRegister.propTypes = {
-  registeredStudent: PropTypes.array.isRequired,
-  registeredPlate: PropTypes.string.isRequired,
-  registerNewStudent: PropTypes.func.isRequired,
-  deregisterStudent: PropTypes.func.isRequired,
-  registerPlate: PropTypes.func.isRequired,
-};
-
-const mapStateToProps = (state) => {
-  return {
-    registeredStudent: state.pickup.registeredStudent,
-    registeredPlate: state.pickup.registeredPlate,
-  };
-};
-
-const mapDispatchToProps = {
-  registerNewStudent,
-  deregisterStudent,
-  registerPlate,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(PickupRegister);
+export default PickupRegister;

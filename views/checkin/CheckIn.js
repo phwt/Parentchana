@@ -1,22 +1,12 @@
-import React, { useEffect, useState } from "react";
-import {
-  Text,
-  StyleSheet,
-  View,
-  TouchableOpacity,
-  SafeAreaView,
-  FlatList,
-} from "react-native";
-import { CalendarList, Calendar } from "react-native-calendars";
+import React, { useState } from "react";
+import { Text, StyleSheet, View, SafeAreaView } from "react-native";
+import { Calendar } from "react-native-calendars";
 import moment from "moment";
-import { connect } from "react-redux";
-import { loadCheckinList } from "../../store/actions/checkinActions";
+import { useSelector } from "react-redux";
 import { Row, Grid } from "react-native-easy-grid";
-import { DataTable } from "react-native-paper";
-import { currentMonthDays } from "../../modules/CheckinUtils";
 import CheckInTable from "../../components/checkin/CheckInTable";
 
-const CheckIn = ({ checkinList, navigation }) => {
+const CheckIn = ({ navigation }) => {
   var APIBefore = [];
   var API = [];
   var checkFirstItem = true;
@@ -34,11 +24,7 @@ const CheckIn = ({ checkinList, navigation }) => {
     moment(new Date("11/01/2020"))
   );
 
-  useEffect(() => {
-    (async () => {
-      await loadCheckinList();
-    })();
-  }, []);
+  const checkinList = useSelector((state) => state.checkin.list);
 
   for (var i = 0; i < Object.keys(checkinList).length; i++) {
     // delete object type departure from Data
@@ -378,8 +364,4 @@ const styles = StyleSheet.create({
   },
 });
 
-const mapStateToProps = (state) => {
-  return { checkinList: state.checkin.list };
-};
-
-export default connect(mapStateToProps)(CheckIn);
+export default CheckIn;

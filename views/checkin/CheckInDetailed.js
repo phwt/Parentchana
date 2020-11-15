@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { StyleSheet, SafeAreaView } from "react-native";
 import moment from "moment";
-import { connect } from "react-redux";
-import { loadCheckinList } from "../../store/actions/checkinActions";
+import { useSelector } from "react-redux";
 import CheckInTable from "../../components/checkin/CheckInTable";
 
 const CheckInDetailed = (props) => {
@@ -10,18 +9,11 @@ const CheckInDetailed = (props) => {
     moment(new Date("11/01/2020"))
   ); // TODO: Handle month selection
 
-  useEffect(() => {
-    (async () => {
-      await loadCheckinList();
-    })();
-  }, []);
+  const checkinList = useSelector((state) => state.checkin.list);
 
   return (
     <SafeAreaView style={styles.container}>
-      <CheckInTable
-        selectedRange={selectedRange}
-        checkinList={props.checkinList}
-      />
+      <CheckInTable selectedRange={selectedRange} checkinList={checkinList} />
     </SafeAreaView>
   );
 };
@@ -50,10 +42,4 @@ const styles = StyleSheet.create({
   },
 });
 
-const mapStateToProps = (state) => {
-  return {
-    checkinList: state.checkin.list,
-  };
-};
-
-export default connect(mapStateToProps)(CheckInDetailed);
+export default CheckInDetailed;
