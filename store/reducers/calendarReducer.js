@@ -6,13 +6,21 @@ const calendarReducer = (state = initialState.calendar, action) => {
     case types.FETCH_CALENDAR_EVENTS:
       return { ...state, events: action.events };
     case types.TOGGLE_CALENDAR_FAVORITE:
-      if (state.favorite.includes(action.id)) {
+      if (state.favorite.some((item) => item.eventId === action.eventId)) {
         return {
           ...state,
-          favorite: state.favorite.filter((id) => id != action.id),
+          favorite: state.favorite.filter(
+            (item) => item.eventId !== action.eventId
+          ),
         };
       } else {
-        return { ...state, favorite: [...state.favorite, action.id] };
+        return {
+          ...state,
+          favorite: [
+            ...state.favorite,
+            { eventId: action.eventId, identifier: action.identifier },
+          ],
+        };
       }
     default:
       return state;

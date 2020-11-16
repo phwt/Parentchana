@@ -16,6 +16,6 @@ export const fetchCalendarEvents = () => {
   };
 };
 
-export const toggleCalendarFavorite = (id) => {
-  return { type: types.TOGGLE_CALENDAR_FAVORITE, id };
+export const toggleCalendarFavorite = (eventId, identifier) => {
+  return { type: types.TOGGLE_CALENDAR_FAVORITE, eventId, identifier };
 };

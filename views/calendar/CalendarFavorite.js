@@ -26,7 +26,9 @@ const CalendarFavorite = (props) => {
   useEffect(() => {
     //find fav by find the same id from calendarFavorite and calendar API
     setFavoriteList(
-      favoriteEvents.map((id) => events.find((item) => item.id === id))
+      favoriteEvents.map((favItem) =>
+        events.find((item) => item.id === favItem.eventId)
+      )
     );
   }, [favoriteEvents, events]);
 
