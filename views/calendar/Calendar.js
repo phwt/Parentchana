@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { Agenda } from "react-native-calendars";
 import { Ionicons } from "@expo/vector-icons";
 import { useSelector, useDispatch } from "react-redux";
+import { currentMonthDays } from "../../modules/CheckinUtils";
 import moment from "moment";
 
 import {
@@ -46,29 +47,23 @@ const Calendar = (props) => {
   }, [loadCalendarEvents]);
 
   useEffect(() => {
-    let calendarData = {};
+    let calendarData = currentMonthDays(
+      moment(Date()).endOf("month"),
+      [],
+      "YYYY-MM-DD"
+    );
+    events.map((el) => {
+      const startDate = el.start.date.toString();
 
-    var start = new Date("2015-01-01");
-    var end = new Date("2025-12-31");
-    var loop = new Date(start);
-
-    while (loop <= end) {
-      events.map((el) => {
-        const startDate = el.start.date.toString();
-        const startRenderDate = moment(loop).format("YYYY-MM-DD");
-        calendarData[startRenderDate] = [];
-        if (startDate in calendarData)
-          calendarData[startDate] = [
-            ...calendarData[startDate],
-            { id: el.id, name: el.summary },
-          ];
-        else calendarData[startDate] = [{ id: el.id, name: el.summary }];
-      });
-      setComputedEvents(calendarData);
-
-      var newDate = loop.setDate(loop.getDate() + 1);
-      loop = new Date(newDate);
-    }
+      if (startDate in calendarData)
+        calendarData[startDate] = [
+          ...calendarData[startDate],
+          { id: el.id, name: el.summary },
+        ];
+      else calendarData[startDate] = [{ id: el.id, name: el.summary }];
+    });
+    setComputedEvents(calendarData);
+    console.log(calendarData);
   }, [events]);
 
   const renderItem = (item) => {
