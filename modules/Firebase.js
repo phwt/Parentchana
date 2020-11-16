@@ -106,3 +106,9 @@ export const onPickupListChange = (callback) => {
       callback(mappedStudents);
     });
 };
+
+export const changePickupPlate = async (uid, plateNo) => {
+  await firebase.firestore().collection("users").doc(uid).update({
+    "meta.pickupPlate": plateNo,
+  });
+};

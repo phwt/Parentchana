@@ -2,6 +2,7 @@ import * as types from "./actionTypes";
 import {
   addRegisterPickupStudent,
   removeRegisterPickupStudent,
+  changePickupPlate as changePickupPlateFirebase
 } from "../../modules/Firebase";
 
 export const setProfile = (profile) => {
@@ -25,5 +26,9 @@ export const removePickupStudent = (studentId) => {
 };
 
 export const changePickupPlate = (plateNo) => {
-  return { type: types.CHANGE_PICKUP_PLATE, plateNo };
+  return async (dispatch, getState) => {
+    const { profile } = getState();
+    await changePickupPlateFirebase(profile.uid, plateNo);
+    dispatch({ type: types.CHANGE_PICKUP_PLATE, plateNo });
+  };
 };
