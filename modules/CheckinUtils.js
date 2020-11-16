@@ -26,67 +26,52 @@ export const currentMonthDays = (
 };
 
 export const computeMarkedDates = (dateList) => {
-  var APIBefore = [];
-  var API = [];
-  var checkFirstItem = true;
-  var checkDateBefore = "";
-  var checkTypeBefore = "";
-  var checkOntimeBefore = Boolean;
-  var startStatus = true;
-  var change = Boolean;
-  var checkinData = {};
+  let i;
+  const APIBefore = [];
+  const API = [];
+  let checkFirstItem = true;
+  let checkDateBefore = "";
+  let checkTypeBefore = "";
+  let checkOntimeBefore = Boolean;
+  let startStatus = true;
+  const checkinData = {};
 
-  var date = "";
-  var type = "";
-  var ff = true;
+  let date = "";
+  let type = "";
+  let ff = true;
 
-  for (var i = 0; i < Object.keys(dateList).length; i++) {
+  for (i = 0; i < Object.keys(dateList).length; i++) {
     // delete object type departure from Data
     if (dateList[i].type !== "departure") {
       APIBefore.push(dateList[i]);
     }
   }
-  for (var i = 0; i < APIBefore.length; i++) {
+  for (i = 0; i < APIBefore.length; i++) {
     // check after type == absent
-    if (ff == true) {
+    if (ff) {
       API.push(APIBefore[i]);
       type = APIBefore[i].type;
       date = moment.unix(APIBefore[i].timestamp.seconds).format("YYYYMMDD");
       ff = false;
-      // console.log(moment.unix(APIBefore[i].timestamp.seconds).format("YYYYMMDD"), APIBefore[i].type);
     } else if (
-      moment.unix(APIBefore[i].timestamp.seconds).format("YYYYMMDD") == date &&
-      type == "absent" &&
-      APIBefore[i].type == "arrival"
+      moment.unix(APIBefore[i].timestamp.seconds).format("YYYYMMDD") === date &&
+      type === "absent" &&
+      APIBefore[i].type === "arrival"
     ) {
       API.pop();
       API.push(APIBefore[i]);
       type = APIBefore[i].type;
       date = moment.unix(APIBefore[i].timestamp.seconds).format("YYYYMMDD");
-
-      // console.log(moment.unix(APIBefore[i].timestamp.seconds).format("YYYYMMDD"), APIBefore[i].type);
     } else {
       API.push(APIBefore[i]);
       type = APIBefore[i].type;
       date = moment.unix(APIBefore[i].timestamp.seconds).format("YYYYMMDD");
-      // console.log(type);
-      // console.log(date);
-      // console.log(moment.unix(APIBefore[i].timestamp.seconds).format("YYYYMMDD"), APIBefore[i].type);
     }
-    // console.log("--------------------------------------");
   }
-  // console.log(API);
-  for (var i = 0; i < API.length; i++) {
-    // console.log(Number(moment.unix(API[i].timestamp.seconds).format("YYYYMMDD")) - 1 == Number("20201103"));
-    // console.log(moment.unix(API[i].timestamp.seconds).format("YYYY-MM-DD"));
-    // console.log(API[i].type);
-    // console.log(API[i].ontime);
-    // console.log(API);
-    // console.log("-------------------------------------");
-    //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  for (i = 0; i < API.length; i++) {
     if (API[i].type === "arrival") {
       if (API[i].ontime) {
-        if (checkFirstItem == true) {
+        if (checkFirstItem === true) {
           checkinData[
             moment.unix(API[i].timestamp.seconds).format("YYYY-MM-DD")
           ] = {
@@ -102,10 +87,10 @@ export const computeMarkedDates = (dateList) => {
           checkFirstItem = false;
           checkOntimeBefore = API[i].ontime;
         } else if (
-          moment.unix(API[i].timestamp.seconds).format("YYYYMMDD") - 1 ==
+          moment.unix(API[i].timestamp.seconds).format("YYYYMMDD") - 1 ===
             Number(checkDateBefore) &&
-          checkTypeBefore == API[i].type &&
-          checkOntimeBefore == API[i].ontime
+          checkTypeBefore === API[i].type &&
+          checkOntimeBefore === API[i].ontime
         ) {
           checkinData[
             moment.unix(API[i - 1].timestamp.seconds).format("YYYY-MM-DD")
@@ -146,10 +131,7 @@ export const computeMarkedDates = (dateList) => {
           checkOntimeBefore = API[i].ontime;
         }
       } else {
-        // console.log("-------------------------------------");
-        // console.log(checkTypeBefore, API[i].type);
-        // console.log(checkOntimeBefore, API[i].ontime);
-        if (checkFirstItem == true) {
+        if (checkFirstItem === true) {
           checkinData[
             moment.unix(API[i].timestamp.seconds).format("YYYY-MM-DD")
           ] = {
@@ -165,10 +147,10 @@ export const computeMarkedDates = (dateList) => {
           checkFirstItem = false;
           checkOntimeBefore = API[i].ontime;
         } else if (
-          moment.unix(API[i].timestamp.seconds).format("YYYYMMDD") - 1 ==
+          moment.unix(API[i].timestamp.seconds).format("YYYYMMDD") - 1 ===
             Number(checkDateBefore) &&
-          checkTypeBefore == API[i].type &&
-          checkOntimeBefore == API[i].ontime
+          checkTypeBefore === API[i].type &&
+          checkOntimeBefore === API[i].ontime
         ) {
           checkinData[
             moment.unix(API[i - 1].timestamp.seconds).format("YYYY-MM-DD")
@@ -210,9 +192,8 @@ export const computeMarkedDates = (dateList) => {
         }
       }
     }
-    //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     else if (API[i].type === "absent") {
-      if (checkFirstItem == true) {
+      if (checkFirstItem === true) {
         checkinData[
           moment.unix(API[i].timestamp.seconds).format("YYYY-MM-DD")
         ] = {
@@ -228,10 +209,10 @@ export const computeMarkedDates = (dateList) => {
         checkFirstItem = false;
         checkOntimeBefore = API[i].ontime;
       } else if (
-        moment.unix(API[i].timestamp.seconds).format("YYYYMMDD") - 1 ==
+        moment.unix(API[i].timestamp.seconds).format("YYYYMMDD") - 1 ===
           Number(checkDateBefore) &&
-        checkTypeBefore == API[i].type &&
-        checkOntimeBefore == API[i].ontime
+        checkTypeBefore === API[i].type &&
+        checkOntimeBefore === API[i].ontime
       ) {
         checkinData[
           moment.unix(API[i - 1].timestamp.seconds).format("YYYY-MM-DD")
