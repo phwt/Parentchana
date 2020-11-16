@@ -3,6 +3,8 @@ import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { Agenda } from "react-native-calendars";
 import { Ionicons } from "@expo/vector-icons";
 import { useSelector, useDispatch } from "react-redux";
+import moment from "moment";
+
 import {
   fetchCalendarEvents,
   toggleCalendarFavorite,
@@ -45,16 +47,28 @@ const Calendar = (props) => {
 
   useEffect(() => {
     let calendarData = {};
-    events.map((el) => {
-      const startDate = el.start.date.toString();
-      if (startDate in calendarData)
-        calendarData[startDate] = [
-          ...calendarData[startDate],
-          { id: el.id, name: el.summary },
-        ];
-      else calendarData[startDate] = [{ id: el.id, name: el.summary }];
-    });
-    setComputedEvents(calendarData);
+
+    var start = new Date("2015-01-01");
+    var end = new Date("2025-12-31");
+    var loop = new Date(start);
+
+    while (loop <= end) {
+      events.map((el) => {
+        const startDate = el.start.date.toString();
+        const startRenderDate = moment(loop).format("YYYY-MM-DD");
+        calendarData[startRenderDate] = [];
+        if (startDate in calendarData)
+          calendarData[startDate] = [
+            ...calendarData[startDate],
+            { id: el.id, name: el.summary },
+          ];
+        else calendarData[startDate] = [{ id: el.id, name: el.summary }];
+      });
+      setComputedEvents(calendarData);
+
+      var newDate = loop.setDate(loop.getDate() + 1);
+      loop = new Date(newDate);
+    }
   }, [events]);
 
   const renderItem = (item) => {
@@ -76,7 +90,7 @@ const Calendar = (props) => {
         // testID={testIDs.agenda.CONTAINER}
         items={computedEvents}
         // loadItemsForMonth={loadItems}
-        selected={"2020-11-06"}
+        selected={moment(Date.now()).format("YYYY-MM-DD")}
         renderItem={renderItem}
         // renderEmptyDate={() => {return (<View />);}}
         // renderEmptyDate={this.renderEmptyDate.bind(this)}
