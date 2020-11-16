@@ -1,6 +1,6 @@
 import moment from "moment";
 
-export const currentMonthDays = (toDate) => {
+export const currentMonthDays = (toDate, defaultItemValue = {}) => {
   const days = {};
   const dateStart = toDate.startOf("month");
   let dateEnd;
@@ -14,7 +14,7 @@ export const currentMonthDays = (toDate) => {
   }
 
   while (dateEnd.diff(dateStart, "days") >= 0) {
-    days[dateStart.clone()] = {};
+    days[dateStart.clone()] = defaultItemValue;
     dateStart.add(1, "days");
   }
   return days;
