@@ -1,6 +1,10 @@
 import moment from "moment";
 
-export const currentMonthDays = (toDate, defaultItemValue = {}) => {
+export const currentMonthDays = (
+  toDate,
+  defaultItemValue = {},
+  keyFormat = undefined
+) => {
   const days = {};
   const dateStart = toDate.startOf("month");
   let dateEnd;
@@ -14,7 +18,8 @@ export const currentMonthDays = (toDate, defaultItemValue = {}) => {
   }
 
   while (dateEnd.diff(dateStart, "days") >= 0) {
-    days[dateStart.clone()] = defaultItemValue;
+    if (keyFormat) days[dateStart.clone().format(keyFormat)] = defaultItemValue;
+    else days[dateStart.clone()] = defaultItemValue;
     dateStart.add(1, "days");
   }
   return days;
@@ -84,7 +89,7 @@ export const computeMarkedDates = (dateList) => {
         if (checkFirstItem == true) {
           checkinData[
             moment.unix(API[i].timestamp.seconds).format("YYYY-MM-DD")
-            ] = {
+          ] = {
             textColor: "white",
             startingDay: true,
             endingDay: true,
@@ -98,13 +103,13 @@ export const computeMarkedDates = (dateList) => {
           checkOntimeBefore = API[i].ontime;
         } else if (
           moment.unix(API[i].timestamp.seconds).format("YYYYMMDD") - 1 ==
-          Number(checkDateBefore) &&
+            Number(checkDateBefore) &&
           checkTypeBefore == API[i].type &&
           checkOntimeBefore == API[i].ontime
         ) {
           checkinData[
             moment.unix(API[i - 1].timestamp.seconds).format("YYYY-MM-DD")
-            ] = {
+          ] = {
             textColor: "white",
             startingDay: startStatus,
             endingDay: false,
@@ -112,7 +117,7 @@ export const computeMarkedDates = (dateList) => {
           };
           checkinData[
             moment.unix(API[i].timestamp.seconds).format("YYYY-MM-DD")
-            ] = {
+          ] = {
             textColor: "white",
             startingDay: false,
             endingDay: true,
@@ -127,7 +132,7 @@ export const computeMarkedDates = (dateList) => {
         } else {
           checkinData[
             moment.unix(API[i].timestamp.seconds).format("YYYY-MM-DD")
-            ] = {
+          ] = {
             textColor: "white",
             startingDay: true,
             endingDay: true,
@@ -147,7 +152,7 @@ export const computeMarkedDates = (dateList) => {
         if (checkFirstItem == true) {
           checkinData[
             moment.unix(API[i].timestamp.seconds).format("YYYY-MM-DD")
-            ] = {
+          ] = {
             textColor: "white",
             startingDay: true,
             endingDay: true,
@@ -161,13 +166,13 @@ export const computeMarkedDates = (dateList) => {
           checkOntimeBefore = API[i].ontime;
         } else if (
           moment.unix(API[i].timestamp.seconds).format("YYYYMMDD") - 1 ==
-          Number(checkDateBefore) &&
+            Number(checkDateBefore) &&
           checkTypeBefore == API[i].type &&
           checkOntimeBefore == API[i].ontime
         ) {
           checkinData[
             moment.unix(API[i - 1].timestamp.seconds).format("YYYY-MM-DD")
-            ] = {
+          ] = {
             textColor: "white",
             startingDay: startStatus,
             endingDay: false,
@@ -175,7 +180,7 @@ export const computeMarkedDates = (dateList) => {
           };
           checkinData[
             moment.unix(API[i].timestamp.seconds).format("YYYY-MM-DD")
-            ] = {
+          ] = {
             textColor: "white",
             startingDay: false,
             endingDay: true,
@@ -190,7 +195,7 @@ export const computeMarkedDates = (dateList) => {
         } else {
           checkinData[
             moment.unix(API[i].timestamp.seconds).format("YYYY-MM-DD")
-            ] = {
+          ] = {
             textColor: "white",
             startingDay: true,
             endingDay: true,
@@ -210,7 +215,7 @@ export const computeMarkedDates = (dateList) => {
       if (checkFirstItem == true) {
         checkinData[
           moment.unix(API[i].timestamp.seconds).format("YYYY-MM-DD")
-          ] = {
+        ] = {
           textColor: "white",
           startingDay: true,
           endingDay: true,
@@ -224,13 +229,13 @@ export const computeMarkedDates = (dateList) => {
         checkOntimeBefore = API[i].ontime;
       } else if (
         moment.unix(API[i].timestamp.seconds).format("YYYYMMDD") - 1 ==
-        Number(checkDateBefore) &&
+          Number(checkDateBefore) &&
         checkTypeBefore == API[i].type &&
         checkOntimeBefore == API[i].ontime
       ) {
         checkinData[
           moment.unix(API[i - 1].timestamp.seconds).format("YYYY-MM-DD")
-          ] = {
+        ] = {
           textColor: "white",
           startingDay: startStatus,
           endingDay: false,
@@ -238,7 +243,7 @@ export const computeMarkedDates = (dateList) => {
         };
         checkinData[
           moment.unix(API[i].timestamp.seconds).format("YYYY-MM-DD")
-          ] = {
+        ] = {
           textColor: "white",
           startingDay: false,
           endingDay: true,
@@ -253,7 +258,7 @@ export const computeMarkedDates = (dateList) => {
       } else {
         checkinData[
           moment.unix(API[i].timestamp.seconds).format("YYYY-MM-DD")
-          ] = {
+        ] = {
           textColor: "white",
           startingDay: true,
           endingDay: true,
@@ -270,4 +275,4 @@ export const computeMarkedDates = (dateList) => {
   }
 
   return checkinData;
-}
+};

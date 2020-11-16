@@ -49,6 +49,7 @@ const CheckInTable = (props) => {
 
   useEffect(() => {
     let checkinTable = currentMonthDays(props.selectedRange);
+    console.log(currentMonthDays(props.selectedRange, [], "YYYY-MM-DD"));
     props.checkinList.map((el) => {
       const dateKey = moment.unix(el.timestamp.seconds).startOf("day");
       const timestamp = moment.unix(el.timestamp.seconds).toDate();
