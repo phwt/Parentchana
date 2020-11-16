@@ -7,15 +7,15 @@ export const currentMonthDays = (
 ) => {
   const days = {};
   const dateStart = toDate.startOf("month");
-  let dateEnd;
+  let dateEnd = dateStart.clone().endOf("month");
 
-  if (toDate.startOf("month").diff(moment().startOf("month")) === 0) {
-    // Current month
-    dateEnd = dateStart.clone().add(moment().diff(dateStart, "days"), "days");
-  } else {
-    // Past Month
-    dateEnd = dateStart.clone().endOf("month");
-  }
+  // if (toDate.startOf("month").diff(moment().startOf("month")) === 0) {
+  //   // Current month
+  //   dateEnd = dateStart.clone().add(moment().diff(dateStart, "days"), "days");
+  // } else {
+  //   // Past Month
+  //   dateEnd = dateStart.clone().endOf("month");
+  // }
 
   while (dateEnd.diff(dateStart, "days") >= 0) {
     if (keyFormat) days[dateStart.clone().format(keyFormat)] = defaultItemValue;
