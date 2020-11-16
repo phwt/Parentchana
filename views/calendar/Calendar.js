@@ -17,6 +17,7 @@ import {
 
 const Calendar = (props) => {
   const events = useSelector((state) => state.calendar.events);
+  const favoriteEvents = useSelector((state) => state.calendar.favorite);
   const [computedEvents, setComputedEvents] = useState({});
   const dispatch = useDispatch();
 
@@ -74,7 +75,11 @@ const Calendar = (props) => {
           style={styles.fav}
           onPress={() => toggleFavoriteHandler(item.id)}
         >
-          <Ionicons name="ios-star-outline" size={20} />
+          {favoriteEvents.some((i) => i.eventId === item.id) ? (
+            <Ionicons name="ios-star" size={20} />
+          ) : (
+            <Ionicons name="ios-star-outline" size={20} />
+          )}
         </TouchableOpacity>
       </View>
     );
