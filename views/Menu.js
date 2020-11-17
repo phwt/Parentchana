@@ -1,28 +1,37 @@
 import React from "react";
-import { View, Button } from "react-native";
+import { View, Button, Text, TouchableOpacity } from "react-native";
 import MenuCard from "../components/menu/MenuCard";
 import { connect } from "react-redux";
 import { Grid, Row, Col } from "react-native-easy-grid";
+import { Ionicons } from "@expo/vector-icons";
 
 const Menu = (props) => {
   return (
     <View>
+      <Grid>
+        <Col>
+          <Text>YO</Text>
+        </Col>
+        <Col>
+          <Text>HA</Text>
+        </Col>
+      </Grid>
       {props.authenticated && (
-        <Button
-          title="Account"
-          onPress={() => props.navigation.navigate("Account")}
-        />
+        <TouchableOpacity onPress={() => props.navigation.navigate("Account")}>
+          <Ionicons name="md-person" size={40} />
+          <Text>Account</Text>
+        </TouchableOpacity>
       )}
       {!props.authenticated && (
-        <Button
-          title="Login"
-          onPress={() => props.navigation.navigate("Login")}
-        />
+        <TouchableOpacity onPress={() => props.navigation.navigate("Login")}>
+          <Ionicons name="md-log-in" size={40} />
+          <Text>Login</Text>
+        </TouchableOpacity>
       )}
-      <Button
-        title="Settings"
-        onPress={() => props.navigation.navigate("Settings")}
-      />
+      <TouchableOpacity onPress={() => props.navigation.navigate("Settings")}>
+        <Ionicons name="md-settings" size={40} />
+        <Text>Settings</Text>
+      </TouchableOpacity>
       <MenuCard
         title="Student Pickup"
         heading="Scan QR Code"
