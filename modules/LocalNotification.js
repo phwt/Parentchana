@@ -23,7 +23,7 @@ export const schedulePushNotification = async (eventId) => {
       body: event.summary,
       data: { data: "goes here" },
     },
-    trigger: { seconds: 2 },
+    trigger: { seconds: 2 }, // TODO: Use triggerSeconds when notification
   });
 };
 
