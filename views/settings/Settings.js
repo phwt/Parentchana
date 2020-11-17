@@ -17,7 +17,7 @@ const Settings = (props) => {
           value={isLinkAccount}
           onValueChange={value => setisLinkAccount(value)}
           trackColor={{ true: "#88c943", false: "#ff3b21" }}
-          thumbColor="orange"
+          thumbColor="white"
         />
       </View>
 
@@ -31,7 +31,7 @@ const Settings = (props) => {
           value={isTimeCheckin}
           onValueChange={value => setTimeCheckin(value)}
           trackColor={{ true: "#88c943", false: "#ff3b21" }}
-          thumbColor="orange"
+          thumbColor="white"
         />
       </View>
 
@@ -43,7 +43,7 @@ const Settings = (props) => {
           value={isCalendar}
           onValueChange={value => setCalendar(value)}
           trackColor={{ true: "#88c943", false: "#ff3b21" }}
-          thumbColor="orange"
+          thumbColor="white"
         />
       </View>
     <View style={styles.button}>
