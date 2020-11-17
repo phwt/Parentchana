@@ -32,7 +32,6 @@ const CalendarFavorite = (props) => {
   }, [favoriteEvents, events]);
 
   const renderFavoriteItem = (itemData) => {
-    console.log(itemData);
     return (
       <DataTable.Row>
         <DataTable.Cell>{itemData.item.start.date.toString()}</DataTable.Cell>

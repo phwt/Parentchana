@@ -64,7 +64,6 @@ const Calendar = (props) => {
       else calendarData[startDate] = [{ id: el.id, name: el.summary }];
     });
     setComputedEvents(calendarData);
-    console.log(calendarData);
   }, [events]);
 
   const renderItem = (item) => {

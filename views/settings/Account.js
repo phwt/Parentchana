@@ -20,8 +20,6 @@ const Account = (props) => {
   };
 
   const currentUser = useSelector(state => state.profile)
-  console.log("-----------------------------------------");
-  // console.log(currentUser);
   return (
     <>
       <Grid>

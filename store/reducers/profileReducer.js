@@ -11,13 +11,6 @@ const profileReducer = (state = initialState.profile, action) => {
         pickupStudents: [...state.pickupStudents, action.studentId],
       };
     case types.REMOVE_PICKUP_STUDENT:
-      console.log(state);
-      console.log({
-        ...state,
-        pickupStudents: state.pickupStudents.filter(
-          (studentId) => studentId !== action.studentId
-        ),
-      });
       return {
         ...state,
         pickupStudents: state.pickupStudents.filter(
