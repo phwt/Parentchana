@@ -68,16 +68,16 @@ const Calendar = (props) => {
 
   const renderItem = (item) => {
     return (
-      <View style={[styles.item, { height: 80 }]}>
-        <Text>{item.name}</Text>
+      <View style={[styles.item, { height: 50 }]}>
+        <Text style={styles.eventText}>{item.name}</Text>
         <TouchableOpacity
           style={styles.fav}
           onPress={() => toggleFavoriteHandler(item.id)}
         >
           {favoriteEvents.some((i) => i.eventId === item.id) ? (
-            <Ionicons name="ios-star" size={20} />
+            <Ionicons name="ios-star" size={25} color="white" />
           ) : (
-            <Ionicons name="ios-star-outline" size={20} />
+            <Ionicons name="ios-star-outline" size={25} color="white" />
           )}
         </TouchableOpacity>
       </View>
@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   item: {
-    backgroundColor: "white",
+    backgroundColor: "#00adf5",
     flex: 1,
     borderRadius: 5,
     padding: 10,
@@ -122,7 +122,13 @@ const styles = StyleSheet.create({
   fav: {
     position: "absolute",
     right: 30,
-    top: 20,
+    top: 15,
+  },
+  eventText: {
+    color: "white",
+    marginTop: 10,
+    marginLeft: 5,
+    fontSize: 16,
   },
 });
 
