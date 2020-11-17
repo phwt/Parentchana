@@ -23,7 +23,7 @@ const Calendar = (props) => {
 
   const toggleFavoriteHandler = useCallback(
     async (eventId) => {
-      const identifier = await schedulePushNotification();
+      const identifier = await schedulePushNotification(eventId); // TODO: Make notification toggleable
       dispatch(toggleCalendarFavorite(eventId, identifier)); // TODO: Schedule a notification
     },
     [dispatch]

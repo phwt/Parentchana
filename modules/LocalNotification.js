@@ -2,6 +2,8 @@ import Constants from "expo-constants";
 import * as Notifications from "expo-notifications";
 import * as Permissions from "expo-permissions";
 import { Platform } from "react-native";
+import { store } from "../store/index";
+import moment from "moment";
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -11,11 +13,14 @@ Notifications.setNotificationHandler({
   }),
 });
 
-export const schedulePushNotification = async () => {
+export const schedulePushNotification = async (eventId) => {
+  const state = store.getState()
+  const event = state.calendar.events.find(event => event.id === eventId)
+  const triggerSeconds = moment(event.start.date, "YYYY-MM-DD").diff(moment(), 'seconds')
   return await Notifications.scheduleNotificationAsync({
     content: {
-      title: "You've got mail! 📬",
-      body: "Here is the notification body",
+      title: "Event Notification",
+      body: event.summary,
       data: { data: "goes here" },
     },
     trigger: { seconds: 2 },
