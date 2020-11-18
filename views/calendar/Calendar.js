@@ -10,10 +10,6 @@ import {
   fetchCalendarEvents,
   toggleCalendarFavorite,
 } from "../../store/actions/calendarActions";
-import {
-  registerForPushNotificationsAsync,
-  schedulePushNotification,
-} from "../../modules/LocalNotification";
 
 const Calendar = (props) => {
   const events = useSelector((state) => state.calendar.events);
@@ -23,8 +19,7 @@ const Calendar = (props) => {
 
   const toggleFavoriteHandler = useCallback(
     async (eventId) => {
-      const identifier = await schedulePushNotification(eventId); // TODO: Make notification toggleable
-      dispatch(toggleCalendarFavorite(eventId, identifier)); // TODO: Schedule a notification
+      dispatch(toggleCalendarFavorite(eventId)); // TODO: Schedule a notification
     },
     [dispatch]
   );
@@ -36,12 +31,6 @@ const Calendar = (props) => {
       console.log(error);
     }
   }, [dispatch]);
-
-  useEffect(() => {
-    (async () => {
-      await registerForPushNotificationsAsync();
-    })();
-  }, []);
 
   useEffect(() => {
     loadCalendarEvents();

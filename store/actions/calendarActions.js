@@ -1,6 +1,7 @@
 import * as types from "./actionTypes";
 import { calendarConfig } from "../../config";
 import axios from "axios";
+import { schedulePushNotification } from "../../modules/LocalNotification";
 
 export const fetchCalendarEvents = () => {
   return async (dispatch) => {
@@ -16,6 +17,18 @@ export const fetchCalendarEvents = () => {
   };
 };
 
-export const toggleCalendarFavorite = (eventId, identifier) => {
-  return { type: types.TOGGLE_CALENDAR_FAVORITE, eventId, identifier };
+export const toggleCalendarFavorite = (eventId) => {
+  return async (dispatch, getState) => {
+    const {
+      calendar: { favorite },
+    } = getState();
+
+    if (favorite.some((favItem) => favItem.eventId === eventId)) {
+      // TODO: Remove notification schedule
+      dispatch({ type: types.REMOVE_CALENDAR_FAVORITE, eventId });
+    } else {
+      const identifier = await schedulePushNotification(eventId);
+      dispatch({ type: types.ADD_CALENDAR_FAVORITE, eventId, identifier });
+    }
+  };
 };

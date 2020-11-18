@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Navigator from "./modules/Navigator";
 import {
   DefaultTheme as PaperDefaultTheme,
@@ -37,9 +37,16 @@ const CombinedDefaultTheme = {
 };
 
 import initializeFirebase from "./modules/Firebase";
+import { registerForPushNotificationsAsync } from "./modules/LocalNotification";
 initializeFirebase(store);
 
 const App = () => {
+  useEffect(() => {
+    (async () => {
+      await registerForPushNotificationsAsync();
+    })();
+  }, []);
+
   return (
     <ReduxProvider store={store}>
       <PaperProvider theme={CombinedDefaultTheme}>
