@@ -22,9 +22,9 @@ export const scheduleEventNotification = async (eventId) => {
   );
   return await Notifications.scheduleNotificationAsync({
     content: {
-      title: "Event Notification",
+      title: event.summary,
       body: event.summary,
-      data: { data: "goes here" },
+      data: { type: "calendar", eventId },
     },
     trigger: { seconds: 2 }, // TODO: Use triggerSeconds on production
   });

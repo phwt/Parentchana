@@ -20,7 +20,7 @@ const Calendar = (props) => {
 
   const toggleFavoriteHandler = useCallback(
     async (eventId) => {
-      dispatch(toggleCalendarFavorite(eventId)); // TODO: Schedule a notification
+      dispatch(toggleCalendarFavorite(eventId));
     },
     [dispatch]
   );

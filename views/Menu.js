@@ -1,11 +1,35 @@
-import React from "react";
+import React, { useEffect, useCallback } from "react";
 import { StyleSheet, View, Button, Text, TouchableOpacity } from "react-native";
 import MenuCard from "../components/menu/MenuCard";
-import { connect } from "react-redux";
+import { connect, useDispatch } from "react-redux";
 import { Grid, Row, Col } from "react-native-easy-grid";
 import { Ionicons } from "@expo/vector-icons";
+import { toggleCalendarFavorite } from "../store/actions/calendarActions";
+import * as Notifications from "expo-notifications";
 
 const Menu = (props) => {
+  const dispatch = useDispatch();
+
+  const toggleFavoriteHandler = useCallback(
+    async (eventId) => {
+      dispatch(toggleCalendarFavorite(eventId));
+    },
+    [dispatch]
+  );
+
+  useEffect(() => {
+    const subscription = Notifications.addNotificationReceivedListener(
+      (notification) => {
+        switch (notification.request.content.data.type) {
+          case "calendar":
+            toggleFavoriteHandler(notification.request.content.data.eventId);
+            break;
+        }
+      }
+    );
+    return () => subscription.remove();
+  }, []);
+
   return (
     <View>
       <View style={styles.topMenu}>
