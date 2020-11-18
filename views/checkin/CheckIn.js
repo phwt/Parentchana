@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import { Text, StyleSheet, View, SafeAreaView } from "react-native";
+import {
+  Text,
+  StyleSheet,
+  View,
+  SafeAreaView,
+  TouchableOpacity,
+} from "react-native";
 import { Calendar } from "react-native-calendars";
 import moment from "moment";
 import { useSelector } from "react-redux";
@@ -16,14 +22,11 @@ const CheckIn = ({ navigation }) => {
 
   return (
     <Grid>
-      <Row size={60}>
+      <Row>
         <Calendar
           markedDates={computeMarkedDates(checkinList)}
           markingType={"period"}
           current={moment().utcOffset("+05:30").format("YYYY-MM-DD")}
-          onDayPress={() => {
-            navigation.navigate("CheckInDetailed");
-          }}
           renderHeader={(date) => {
             const header = date.toString("MMMM yyyy");
             const [month, year] = header.split(" ");
@@ -49,12 +52,18 @@ const CheckIn = ({ navigation }) => {
           }}
         />
       </Row>
-      <Row size={40}>
+      <Row>
         <SafeAreaView style={styles.container}>
-          <CheckInTable
-            selectedRange={selectedRange}
-            checkinList={checkinList}
-          />
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate("CheckInDetailed");
+            }}
+          >
+            <CheckInTable
+              selectedRange={selectedRange}
+              checkinList={checkinList}
+            />
+          </TouchableOpacity>
         </SafeAreaView>
       </Row>
     </Grid>

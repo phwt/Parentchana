@@ -47,28 +47,12 @@ const PickupTabs = () => (
   </>
 );
 
-const CheckInTab = createBottomTabNavigator();
-const CheckInTabs = () => (
-  <CheckInTab.Navigator>
-    <CheckInTab.Screen
-      name="CheckIn"
-      component={CheckIn}
-      options={{
-        tabBarIcon: ({ color }) => (
-          <Ionicons name="ios-calendar" size={24} color={color} />
-        ),
-      }}
-    />
-    <CheckInTab.Screen
-      name="CheckInDetailed"
-      component={CheckInDetailed}
-      options={{
-        tabBarIcon: ({ color }) => (
-          <Ionicons name="md-list" size={24} color={color} />
-        ),
-      }}
-    />
-  </CheckInTab.Navigator>
+const CheckInStack = createStackNavigator();
+const CheckInStacks = () => (
+  <CheckInStack.Navigator initialRouteName="CheckIn">
+    <CheckInStack.Screen name="CheckIn" component={CheckIn} />
+    <CheckInStack.Screen name="CheckInDetailed" component={CheckInDetailed} />
+  </CheckInStack.Navigator>
 );
 
 const CalendarTab = createBottomTabNavigator();
@@ -104,7 +88,7 @@ export default () => (
     <Stack.Screen name="Account" component={Account} />
     <Stack.Screen name="Login" component={Login} />
     <Stack.Screen name="Pickup" component={PickupTabs} />
-    <Stack.Screen name="CheckIn" component={CheckInTabs} />
+    <Stack.Screen name="CheckIn" component={CheckInStacks} />
     <Stack.Screen name="Calendar" component={CalendarTabs} />
   </Stack.Navigator>
 );
