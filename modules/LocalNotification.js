@@ -13,17 +13,20 @@ Notifications.setNotificationHandler({
   }),
 });
 
-export const schedulePushNotification = async (eventId) => {
-  const state = store.getState()
-  const event = state.calendar.events.find(event => event.id === eventId)
-  const triggerSeconds = moment(event.start.date, "YYYY-MM-DD").diff(moment(), 'seconds')
+export const scheduleEventNotification = async (eventId) => {
+  const state = store.getState();
+  const event = state.calendar.events.find((event) => event.id === eventId);
+  const triggerSeconds = moment(event.start.date, "YYYY-MM-DD").diff(
+    moment(),
+    "seconds"
+  );
   return await Notifications.scheduleNotificationAsync({
     content: {
       title: "Event Notification",
       body: event.summary,
       data: { data: "goes here" },
     },
-    trigger: { seconds: 2 }, // TODO: Use triggerSeconds when notification
+    trigger: { seconds: 2 }, // TODO: Use triggerSeconds on production
   });
 };
 

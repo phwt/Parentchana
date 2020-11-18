@@ -1,7 +1,7 @@
 import * as types from "./actionTypes";
 import { calendarConfig } from "../../config";
 import axios from "axios";
-import { schedulePushNotification } from "../../modules/LocalNotification";
+import { scheduleEventNotification } from "../../modules/LocalNotification";
 import { cancelScheduledNotificationAsync } from "expo-notifications";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -54,7 +54,7 @@ export const toggleCalendarFavorite = (eventId) => {
         JSON.stringify([...favorite, { eventId, identifier }])
       );
 
-      const identifier = await schedulePushNotification(eventId);
+      const identifier = await scheduleEventNotification(eventId);
       dispatch({ type: types.ADD_CALENDAR_FAVORITE, eventId, identifier });
     }
   };
