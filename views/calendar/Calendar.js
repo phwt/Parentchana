@@ -61,9 +61,20 @@ const Calendar = (props) => {
       if (startDate in calendarData)
         calendarData[startDate] = [
           ...calendarData[startDate],
-          { id: el.id, name: el.summary },
+          {
+            id: el.id,
+            name: el.summary,
+            date: moment(startDate, "YYYY-MM-DD"),
+          },
         ];
-      else calendarData[startDate] = [{ id: el.id, name: el.summary }];
+      else
+        calendarData[startDate] = [
+          {
+            id: el.id,
+            name: el.summary,
+            date: moment(startDate, "YYYY-MM-DD"),
+          },
+        ];
     });
     setComputedEvents(calendarData);
   }, [events]);
@@ -72,16 +83,22 @@ const Calendar = (props) => {
     return (
       <View style={[styles.item, { height: 50 }]}>
         <Text style={styles.eventText}>{item.name}</Text>
-        <TouchableOpacity
-          style={styles.fav}
-          onPress={() => toggleFavoriteHandler(item.id)}
-        >
-          {favoriteEvents.some((i) => i.eventId === item.id) ? (
-            <Ionicons name="ios-star" size={25} color="white" />
-          ) : (
-            <Ionicons name="ios-star-outline" size={25} color="white" />
-          )}
-        </TouchableOpacity>
+        {item.date.diff(moment()) > 0 && (
+          <TouchableOpacity
+            style={styles.fav}
+            onPress={() => toggleFavoriteHandler(item.id)}
+          >
+            {favoriteEvents.some((i) => i.eventId === item.id) ? (
+              <Ionicons name="ios-notifications" size={25} color="white" />
+            ) : (
+              <Ionicons
+                name="ios-notifications-outline"
+                size={25}
+                color="white"
+              />
+            )}
+          </TouchableOpacity>
+        )}
       </View>
     );
   };
