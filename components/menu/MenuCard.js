@@ -13,6 +13,7 @@ const MenuCard = (props) => {
   return (
     <View style={{ opacity: props.disabled ? 0.25 : 1 }}>
       <TouchableOpacity
+        activeOpacity={1}
         style={{
           ...styles.card,
           backgroundColor: props.bgcolor,
@@ -60,6 +61,7 @@ const styles = StyleSheet.create({
     paddingLeft: 45,
     paddingTop: 30,
     height: 180,
+    borderBottomLeftRadius: 50,
   },
 });
 
