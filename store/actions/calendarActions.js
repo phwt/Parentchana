@@ -3,6 +3,7 @@ import { calendarConfig } from "../../config";
 import axios from "axios";
 import { schedulePushNotification } from "../../modules/LocalNotification";
 import { cancelScheduledNotificationAsync } from "expo-notifications";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export const fetchCalendarEvents = () => {
   return async (dispatch) => {
@@ -18,6 +19,16 @@ export const fetchCalendarEvents = () => {
   };
 };
 
+export const fetchCalendarFavorites = () => {
+  return async (dispatch) => {
+    const favoriteList = await AsyncStorage.getItem("calendarFavorites");
+    dispatch({
+      type: types.FETCH_CALENDAR_FAVORITES,
+      favoriteList: favoriteList !== null ? JSON.parse(favoriteList) : [],
+    });
+  };
+};
+
 export const toggleCalendarFavorite = (eventId) => {
   return async (dispatch, getState) => {
     const {
@@ -25,12 +36,24 @@ export const toggleCalendarFavorite = (eventId) => {
     } = getState();
 
     if (favorite.some((favItem) => favItem.eventId === eventId)) {
+      await AsyncStorage.setItem(
+        "calendarFavorites",
+        JSON.stringify(
+          favorite.filter((favItem) => favItem.eventId !== eventId)
+        )
+      );
+
       const { identifier } = favorite.find(
         (favItem) => favItem.eventId === eventId
       );
       await cancelScheduledNotificationAsync(identifier);
       dispatch({ type: types.REMOVE_CALENDAR_FAVORITE, eventId });
     } else {
+      await AsyncStorage.setItem(
+        "calendarFavorites",
+        JSON.stringify([...favorite, { eventId, identifier }])
+      );
+
       const identifier = await schedulePushNotification(eventId);
       dispatch({ type: types.ADD_CALENDAR_FAVORITE, eventId, identifier });
     }

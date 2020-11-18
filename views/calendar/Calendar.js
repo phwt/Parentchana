@@ -8,6 +8,7 @@ import moment from "moment";
 
 import {
   fetchCalendarEvents,
+  fetchCalendarFavorites,
   toggleCalendarFavorite,
 } from "../../store/actions/calendarActions";
 
@@ -35,6 +36,18 @@ const Calendar = (props) => {
   useEffect(() => {
     loadCalendarEvents();
   }, [loadCalendarEvents]);
+
+  const loadCalendarFavorites = useCallback(async () => {
+    try {
+      await dispatch(fetchCalendarFavorites());
+    } catch (error) {
+      console.log(error);
+    }
+  }, [dispatch]);
+
+  useEffect(() => {
+    loadCalendarFavorites();
+  }, [loadCalendarFavorites]);
 
   useEffect(() => {
     let calendarData = currentMonthDays(
