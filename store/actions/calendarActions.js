@@ -2,6 +2,7 @@ import * as types from "./actionTypes";
 import { calendarConfig } from "../../config";
 import axios from "axios";
 import { schedulePushNotification } from "../../modules/LocalNotification";
+import { cancelScheduledNotificationAsync } from "expo-notifications";
 
 export const fetchCalendarEvents = () => {
   return async (dispatch) => {
@@ -24,7 +25,10 @@ export const toggleCalendarFavorite = (eventId) => {
     } = getState();
 
     if (favorite.some((favItem) => favItem.eventId === eventId)) {
-      // TODO: Remove notification schedule
+      const { identifier } = favorite.find(
+        (favItem) => favItem.eventId === eventId
+      );
+      await cancelScheduledNotificationAsync(identifier);
       dispatch({ type: types.REMOVE_CALENDAR_FAVORITE, eventId });
     } else {
       const identifier = await schedulePushNotification(eventId);
