@@ -22,7 +22,7 @@ const CheckIn = ({ navigation }) => {
 
   return (
     <Grid>
-      <Row>
+      <Row size={55}>
         <Calendar
           markedDates={computeMarkedDates(checkinList)}
           markingType={"period"}
@@ -35,7 +35,7 @@ const CheckIn = ({ navigation }) => {
               <View
                 style={{
                   flexDirection: "row",
-                  width: "78%",
+                  width: "77%",
                   justifyContent: "center",
                   marginTop: 10,
                   marginBottom: 10,
@@ -52,7 +52,7 @@ const CheckIn = ({ navigation }) => {
           }}
         />
       </Row>
-      <Row>
+      <Row size={45}>
         <SafeAreaView style={styles.container}>
           <TouchableOpacity
             onPress={() => {
