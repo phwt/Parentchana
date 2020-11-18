@@ -17,7 +17,7 @@ export const currentMonthDays = (
   //   dateEnd = dateStart.clone().endOf("month");
   // }
 
-  while (dateEnd.diff(dateStart, "days") >= 0) {
+  while (dateEnd.diff(dateStart) > 0) {
     if (keyFormat) days[dateStart.clone().format(keyFormat)] = defaultItemValue;
     else days[dateStart.clone()] = defaultItemValue;
     dateStart.add(1, "days");
