@@ -13,10 +13,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { changePickupPlate } from "../../store/actions/profileActions";
 
 const PlateChangeDialog = (props) => {
-  const [inputValue, setInputValue] = useState("");
+  const [inputValue, setInputValue] = useState(props.value);
 
   useEffect(() => {
-    setInputValue("");
+    setInputValue(props.value);
   }, [props.visible]);
 
   return (
@@ -43,9 +43,10 @@ const PlateChangeDialog = (props) => {
 };
 
 PlateChangeDialog.propTypes = {
-  visible: PropTypes.bool,
-  onDismiss: PropTypes.func,
-  onSave: PropTypes.func,
+  value: PropTypes.string.isRequired,
+  visible: PropTypes.bool.isRequired,
+  onDismiss: PropTypes.func.isRequired,
+  onSave: PropTypes.func.isRequired,
 };
 
 const PlateSection = () => {
@@ -78,6 +79,7 @@ const PlateSection = () => {
       </List.Section>
 
       <PlateChangeDialog
+        value={registeredPlate}
         visible={plateDialogVisible}
         onDismiss={() => setPlateDialogVisible(false)}
         onSave={(plateNo) => changePlateHandler(plateNo)}
