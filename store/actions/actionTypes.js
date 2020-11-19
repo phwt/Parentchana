@@ -16,6 +16,12 @@ export const REMOVE_PICKUP_STUDENT = "REMOVE_PICKUP_STUDENT";
 export const CHANGE_PICKUP_PLATE = "CHANGE_PICKUP_PLATE";
 
 /**
+ * Pick-up
+ */
+
+export const FETCH_STUDENTS = "FETCH_STUDENTS";
+
+/**
  * Time Check-in
  */
 

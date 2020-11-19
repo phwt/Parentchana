@@ -121,3 +121,8 @@ export const fetchCheckinList = async (studentId) => {
     .get();
   return mapDocumentsWithId(snapshot);
 };
+
+export const fetchStudents = async () => {
+  const snapshot = await firebase.firestore().collection("students").get();
+  return mapDocumentsWithId(snapshot);
+};

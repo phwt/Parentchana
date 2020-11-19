@@ -13,7 +13,9 @@ export default {
     providerId: "",
     uid: "",
   },
-  pickup: {},
+  pickup: {
+    students: [],
+  },
   calendar: {
     events: [],
     favorite: [],

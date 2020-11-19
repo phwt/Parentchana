@@ -3,8 +3,12 @@ import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import MenuCard from "../components/menu/MenuCard";
 import { useSelector, useDispatch } from "react-redux";
 import { Ionicons } from "@expo/vector-icons";
-import { toggleCalendarFavorite } from "../store/actions/calendarActions";
+import {
+  fetchCalendarEvents,
+  toggleCalendarFavorite,
+} from "../store/actions/calendarActions";
 import * as Notifications from "expo-notifications";
+import { fetchStudents } from "../store/actions/pickupActions";
 
 const Menu = (props) => {
   const authenticated = useSelector((state) => state.auth.authenticated);
@@ -31,6 +35,18 @@ const Menu = (props) => {
     );
     return () => subscription.remove();
   }, []);
+
+  const loadStudents = useCallback(async () => {
+    try {
+      await dispatch(fetchStudents());
+    } catch (error) {
+      console.log(error);
+    }
+  }, [dispatch]);
+
+  useEffect(() => {
+    loadStudents();
+  }, [loadStudents]);
 
   return (
     <View>
