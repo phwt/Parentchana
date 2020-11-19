@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Divider, List } from "react-native-paper";
-import { FlatList, View, Text } from "react-native";
+import { FlatList, Text } from "react-native";
 import moment from "moment";
 import { currentMonthDays } from "../../modules/CheckinUtils";
 import { Ionicons } from "@expo/vector-icons";
+import PropTypes from "prop-types";
 
 const StatusItem = ({ checkinItem, icon }) => {
   return (
@@ -25,6 +26,12 @@ const StatusItem = ({ checkinItem, icon }) => {
       )}
     </Text>
   );
+};
+
+StatusItem.propTypes = {
+  checkinItem: PropTypes.oneOfType([PropTypes.object, PropTypes.bool])
+    .isRequired,
+  icon: PropTypes.string.isRequired,
 };
 
 const CheckInRow = ({ item, checkinData }) => {
@@ -89,6 +96,11 @@ const CheckInRow = ({ item, checkinData }) => {
   );
 };
 
+CheckInRow.propTypes = {
+  item: PropTypes.string.isRequired,
+  checkinData: PropTypes.object.isRequired,
+};
+
 const CheckInTable = ({ checkinList, selectedRange }) => {
   const [checkinData, setCheckinData] = useState([]);
 
@@ -128,6 +140,11 @@ const CheckInTable = ({ checkinList, selectedRange }) => {
       />
     </>
   );
+};
+
+CheckInTable.propTypes = {
+  checkinList: PropTypes.array.isRequired,
+  selectedRange: PropTypes.object.isRequired,
 };
 
 export default CheckInTable;
