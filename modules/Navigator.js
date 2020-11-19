@@ -12,7 +12,6 @@ import Pickup from "../views/pickup/Pickup";
 import PickupRegister from "../views/pickup/PickupRegister";
 import PickupList from "../views/pickup/PickupList";
 import CheckIn from "../views/checkin/CheckIn";
-import CheckInDetailed from "../views/checkin/CheckInDetailed";
 import Calendar from "../views/calendar/Calendar";
 import CalendarFavorite from "../views/calendar/CalendarFavorite";
 
@@ -45,14 +44,6 @@ const PickupTabs = () => (
     )}
     {store.getState().auth.role === 2 && <PickupList />}
   </>
-);
-
-const CheckInStack = createStackNavigator();
-const CheckInStacks = () => (
-  <CheckInStack.Navigator initialRouteName="CheckIn">
-    <CheckInStack.Screen name="CheckIn" component={CheckIn} />
-    <CheckInStack.Screen name="CheckInDetailed" component={CheckInDetailed} />
-  </CheckInStack.Navigator>
 );
 
 const CalendarTab = createBottomTabNavigator();
@@ -88,7 +79,7 @@ export default () => (
     <Stack.Screen name="Account" component={Account} />
     <Stack.Screen name="Login" component={Login} />
     <Stack.Screen name="Pickup" component={PickupTabs} />
-    <Stack.Screen name="CheckIn" component={CheckInStacks} />
+    <Stack.Screen name="CheckIn" component={CheckIn} />
     <Stack.Screen name="Calendar" component={CalendarTabs} />
   </Stack.Navigator>
 );
