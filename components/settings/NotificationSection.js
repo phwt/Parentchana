@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Divider, List } from "react-native-paper";
 import moment from "moment";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import PropTypes from "prop-types";
 
 const EventNotificationItem = (props) => {
   return (
@@ -25,6 +26,12 @@ const EventNotificationItem = (props) => {
       onPress={() => props.setCalendarSelection(props.choice.duration)}
     />
   );
+};
+
+EventNotificationItem.propTypes = {
+  choice: PropTypes.object.isRequired,
+  calendarSelection: PropTypes.number.isRequired,
+  setCalendarSelection: PropTypes.func.isRequired,
 };
 
 const NotificationSection = () => {
