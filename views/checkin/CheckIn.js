@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   Text,
   StyleSheet,
@@ -8,9 +8,10 @@ import {
 } from "react-native";
 import { Calendar } from "react-native-calendars";
 import moment from "moment";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import CheckInTable from "../../components/checkin/CheckInTable";
 import { computeMarkedDates } from "../../modules/CheckinUtils";
+import { fetchCheckinList } from "../../store/actions/checkinActions";
 
 const CheckIn = ({ navigation }) => {
   const [selectedRange, setSelectedRange] = useState(
@@ -18,6 +19,20 @@ const CheckIn = ({ navigation }) => {
   );
 
   const checkinList = useSelector((state) => state.checkin.list);
+
+  const dispatch = useDispatch();
+
+  const loadCheckinList = useCallback(async () => {
+    try {
+      await dispatch(fetchCheckinList("12345")); // TODO: Handle student selection
+    } catch (error) {
+      console.log(error);
+    }
+  }, [dispatch]);
+
+  useEffect(() => {
+    loadCheckinList();
+  }, [loadCheckinList]);
 
   return (
     <>

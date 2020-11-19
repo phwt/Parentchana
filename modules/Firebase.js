@@ -112,3 +112,12 @@ export const changePickupPlate = async (uid, plateNo) => {
     "meta.pickupPlate": plateNo,
   });
 };
+
+export const fetchCheckinList = async (studentId) => {
+  const snapshot = await firebase
+    .firestore()
+    .collection("checkin")
+    .where("studentId", "==", studentId)
+    .get();
+  return mapDocumentsWithId(snapshot);
+};

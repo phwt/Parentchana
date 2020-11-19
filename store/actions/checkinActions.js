@@ -1,5 +1,9 @@
 import * as types from "./actionTypes";
+import { fetchCheckinList as fetchCheckinListFirebase } from "../../modules/Firebase";
 
-export const loadCheckinList = (checkinItems) => {
-  return { type: types.LOAD_CHECKIN_LIST, checkinItems };
+export const fetchCheckinList = (studentId) => {
+  return async (dispatch) => {
+    const checkinItems = await fetchCheckinListFirebase(studentId);
+    dispatch({ type: types.FETCH_CHECKIN_LIST, checkinItems });
+  };
 };

@@ -1,5 +1,3 @@
-import { checkinAPI } from "./mockData";
-
 export default {
   auth: {
     authenticated: false,
@@ -21,6 +19,6 @@ export default {
     favorite: [],
   },
   checkin: {
-    list: checkinAPI,
+    list: [],
   },
 };

@@ -19,7 +19,7 @@ export const CHANGE_PICKUP_PLATE = "CHANGE_PICKUP_PLATE";
  * Time Check-in
  */
 
-export const LOAD_CHECKIN_LIST = "LOAD_CHECKIN_LIST";
+export const FETCH_CHECKIN_LIST = "FETCH_CHECKIN_LIST";
 
 /**
  * Calendar
