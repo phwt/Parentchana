@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { DataTable } from "react-native-paper";
-import { FlatList, View } from "react-native";
+import { Divider, List } from "react-native-paper";
+import { FlatList, View, Text } from "react-native";
 import moment from "moment";
 import { currentMonthDays } from "../../modules/CheckinUtils";
+import { Ionicons } from "@expo/vector-icons";
 
 const ColorDot = ({ ontime }) => (
   <View
@@ -15,32 +16,79 @@ const ColorDot = ({ ontime }) => (
   />
 );
 
+const StatusItem = ({ checkinItem, icon }) => {
+  return (
+    <Text style={{ color: "gray" }}>
+      {checkinItem ? (
+        <>
+          <Ionicons
+            name={icon}
+            size={16}
+            color={checkinItem.ontime ? "green" : "orange"}
+          />{" "}
+          {moment(checkinItem.timestamp).format("HH:mm")}
+        </>
+      ) : (
+        <>
+          <Ionicons name={icon} size={16} color="gray" />
+          {" No Data"}
+        </>
+      )}
+    </Text>
+  );
+};
+
 const CheckInRow = ({ item, checkinData }) => {
   const currentItem = checkinData[item];
+  const title = moment(item).format("DD MMMM YYYY - dddd");
   return (
-    <DataTable.Row>
-      <DataTable.Cell>{moment(item).format("DD/MM/YY")}</DataTable.Cell>
-      {currentItem.arrival !== undefined &&
-        currentItem.departure !== undefined && (
-          <>
-            <DataTable.Cell>
-              <ColorDot ontime={currentItem.arrival.ontime} />
-              {moment(currentItem.arrival.timestamp).format("HH:mm")}
-            </DataTable.Cell>
-            <DataTable.Cell>
-              <ColorDot ontime={currentItem.departure.ontime} />
-              {moment(currentItem.departure.timestamp).format("HH:mm")}
-            </DataTable.Cell>
-          </>
-        )}
+    <>
+      {currentItem.arrival !== undefined && (
+        <List.Item
+          title={title}
+          description={() => {
+            return (
+              <>
+                <StatusItem
+                  checkinItem={currentItem.arrival}
+                  icon="md-log-in"
+                />
+                {currentItem.departure !== undefined ? (
+                  <StatusItem
+                    checkinItem={currentItem.departure}
+                    icon="md-log-out"
+                  />
+                ) : (
+                  <StatusItem checkinItem={false} icon="md-log-out" />
+                )}
+              </>
+            );
+          }}
+          left={(props) => (
+            <List.Icon
+              {...props}
+              icon="circle"
+              color={
+                currentItem.arrival.ontime && currentItem.departure.ontime
+                  ? "green"
+                  : "orange"
+              }
+            />
+          )}
+        />
+      )}
       {currentItem.arrival === undefined &&
         currentItem.departure === undefined && (
-          <>
-            <DataTable.Cell>Absent</DataTable.Cell>
-            <DataTable.Cell>Absent</DataTable.Cell>
-          </>
+          <List.Item
+            title={title}
+            description="Absent"
+            left={(props) => (
+              <List.Icon {...props} icon="circle" color="#F75B53" />
+            )}
+          />
         )}
-    </DataTable.Row>
+      <Divider />
+    </>
   );
 };
 
@@ -65,14 +113,6 @@ const CheckInTable = (props) => {
 
   return (
     <>
-      <DataTable>
-        <DataTable.Header>
-          <DataTable.Title>Date</DataTable.Title>
-          <DataTable.Title>Arrival</DataTable.Title>
-          <DataTable.Title>Departure</DataTable.Title>
-        </DataTable.Header>
-      </DataTable>
-
       <FlatList
         data={Object.keys(checkinData)}
         renderItem={({ item }) => (
