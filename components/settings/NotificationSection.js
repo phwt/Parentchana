@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Divider, List } from "react-native-paper";
 import moment from "moment";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const EventNotificationItem = (props) => {
   return (
@@ -41,6 +42,26 @@ const NotificationSection = () => {
     { duration: 0, title: "09:00 the day of the event" },
   ];
   const [calendarSelection, setCalendarSelection] = useState(0);
+
+  useEffect(() => {
+    (async () => {
+      const duration = await AsyncStorage.getItem("eventNotificationDuration");
+      if (duration) {
+        setCalendarSelection(parseInt(duration));
+      } else {
+        setCalendarSelection(0);
+      }
+    })();
+  }, []);
+
+  useEffect(() => {
+    (async () => {
+      await AsyncStorage.setItem(
+        "eventNotificationDuration",
+        calendarSelection.toString()
+      );
+    })();
+  }, [calendarSelection]);
 
   return (
     <>
