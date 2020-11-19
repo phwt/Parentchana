@@ -10,7 +10,9 @@ export const fetchCalendarEvents = () => {
     const { data } = await axios.get(
       `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(
         calendarConfig.calendarId
-      )}/events?key=${calendarConfig.apiKey}`
+      )}/events?timeMax=2020-12-31T00%3A00%3A00.000Z&timeMin=2020-11-01T00%3A00%3A00.000Z&key=${
+        calendarConfig.apiKey
+      }`
     );
     dispatch({
       type: types.FETCH_CALENDAR_EVENTS,
