@@ -4,24 +4,37 @@ import { Card, Title, Paragraph, Button } from "react-native-paper";
 import moment from "moment";
 import { loadPickupStudents, onPickupListChange } from "../../modules/Firebase";
 import { PropTypes } from "prop-types";
+import { useSelector } from "react-redux";
 
-const PickupItem = ({ item }) => (
-  <Card>
-    <Card.Content>
-      <Title>{item.plate}</Title>
-      <Paragraph>
-        {moment.unix(item.timestamp.seconds).format("HH:mm - MM/DD/YYYY")}
-      </Paragraph>
-      <Paragraph>{item.students.map((i) => `- ${i}`).join("\n")}</Paragraph>
-    </Card.Content>
-  </Card>
-);
+const PickupItem = ({ item, studentList }) => {
+  return (
+    <Card>
+      <Card.Content>
+        <Title>{item.plate}</Title>
+        <Paragraph>
+          {moment.unix(item.timestamp.seconds).format("HH:mm - MM/DD/YYYY")}
+        </Paragraph>
+        <Paragraph>
+          {item.students
+            .map((i) => {
+              const student = studentList.find((student) => student.id === i);
+              return `- ${i} | ${student.firstname} ${student.lastname}`;
+            })
+            .join("\n")}
+        </Paragraph>
+      </Card.Content>
+    </Card>
+  );
+};
 
 PickupItem.propTypes = {
   item: PropTypes.object.isRequired,
+  studentList: PropTypes.array.isRequired,
 };
 
 const PickupList = () => {
+  const studentNameList = useSelector((state) => state.pickup.students);
+
   let [studentList, setStudentList] = useState([]);
   let [refreshing, setRefreshing] = useState(false);
 
@@ -41,7 +54,9 @@ const PickupList = () => {
     <View>
       <FlatList
         data={studentList}
-        renderItem={PickupItem}
+        renderItem={({ item }) => (
+          <PickupItem item={item} studentList={studentNameList} />
+        )}
         keyExtractor={(i) => i.id}
         refreshing={refreshing}
         onRefresh={loadStudent}
