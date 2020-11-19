@@ -59,16 +59,21 @@ const StudentSection = () => {
   const registeredStudents = useSelector(
     (state) => state.profile.pickupStudents
   );
+  const studentList = useSelector((state) => state.pickup.students);
 
   const dispatch = useDispatch();
 
   const addStudentHandler = useCallback(
     (studentId) => {
-      if (!registeredStudents.includes(studentId)) {
-        dispatch(addPickupStudent(studentId));
-        setStudentDialogVisible(false);
+      if (studentList.some((student) => student.id === studentId)) {
+        if (!registeredStudents.includes(studentId)) {
+          dispatch(addPickupStudent(studentId));
+          setStudentDialogVisible(false);
+        } else {
+          alert("Student already exist!");
+        }
       } else {
-        alert("Student already exist!");
+        alert("Student not found!");
       }
     },
     [dispatch]
@@ -92,7 +97,14 @@ const StudentSection = () => {
               <Divider />
               <List.Item
                 title={item}
-                description="ชื่อ นามสกุล" // TODO: Fetch name from firebase/database
+                description={() => {
+                  const student = studentList.find(
+                    (student) => student.id === item
+                  );
+                  return (
+                    <Text>{`${student.firstname} ${student.lastname}`}</Text>
+                  );
+                }}
                 left={(props) => <List.Icon {...props} icon="account-circle" />}
                 onPress={() => removeStudentHandler(item)}
               />
