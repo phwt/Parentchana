@@ -72,7 +72,7 @@ const PlateSection = () => {
           <List.Item
             title="Plate Number"
             description={registeredPlate}
-            left={() => <List.Icon icon="car-back" />}
+            left={(props) => <List.Icon {...props} icon="car-back" />}
           />
         </TouchableOpacity>
         <Divider />
