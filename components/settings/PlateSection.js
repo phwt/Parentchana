@@ -68,13 +68,12 @@ const PlateSection = () => {
       <List.Section>
         <List.Subheader>Vehicle Info</List.Subheader>
         <Divider />
-        <TouchableOpacity onPress={() => setPlateDialogVisible(true)}>
-          <List.Item
-            title="Plate Number"
-            description={registeredPlate}
-            left={(props) => <List.Icon {...props} icon="car-back" />}
-          />
-        </TouchableOpacity>
+        <List.Item
+          title="Plate Number"
+          description={registeredPlate}
+          left={(props) => <List.Icon {...props} icon="car-back" />}
+          onPress={() => setPlateDialogVisible(true)}
+        />
         <Divider />
       </List.Section>
 
