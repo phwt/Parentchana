@@ -1,13 +1,15 @@
 import React, { useEffect, useCallback } from "react";
-import { StyleSheet, View, Button, Text, TouchableOpacity } from "react-native";
+import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import MenuCard from "../components/menu/MenuCard";
-import { connect, useDispatch } from "react-redux";
-import { Grid, Row, Col } from "react-native-easy-grid";
+import { useSelector, useDispatch } from "react-redux";
 import { Ionicons } from "@expo/vector-icons";
 import { toggleCalendarFavorite } from "../store/actions/calendarActions";
 import * as Notifications from "expo-notifications";
 
 const Menu = (props) => {
+  const authenticated = useSelector((state) => state.auth.authenticated);
+  const role = useSelector((state) => state.auth.role);
+
   const dispatch = useDispatch();
 
   const toggleFavoriteHandler = useCallback(
@@ -34,7 +36,7 @@ const Menu = (props) => {
     <View>
       <View style={styles.topMenu}>
         <View style={styles.col}>
-          {props.authenticated && (
+          {authenticated && (
             <TouchableOpacity
               onPress={() => props.navigation.navigate("Account")}
             >
@@ -42,7 +44,7 @@ const Menu = (props) => {
               <Text style={styles.topMenuText}>Account</Text>
             </TouchableOpacity>
           )}
-          {!props.authenticated && (
+          {!authenticated && (
             <TouchableOpacity
               onPress={() => props.navigation.navigate("Login")}
             >
@@ -68,7 +70,7 @@ const Menu = (props) => {
         bgimg={require("../assets/qr-code.png")}
         bgcolor="#041743"
         onSelect={() => props.navigation.navigate("Pickup")}
-        disabled={!props.authenticated}
+        disabled={!authenticated}
       />
       <MenuCard
         title="Time Check-In"
@@ -77,7 +79,7 @@ const Menu = (props) => {
         bgimg={require("../assets/clock.png")}
         bgcolor="#043c7b"
         onSelect={() => props.navigation.navigate("CheckIn")}
-        disabled={!props.authenticated || props.role !== 1}
+        disabled={!authenticated || role !== 1}
       />
       <MenuCard
         title="Calendar"
@@ -94,7 +96,7 @@ const Menu = (props) => {
           height: 100,
           width: 100,
         }}
-      ></View>
+      />
       <View
         style={{
           backgroundColor: "#043c7b",
@@ -104,7 +106,7 @@ const Menu = (props) => {
           top: 200,
           zIndex: -1,
         }}
-      ></View>
+      />
       <View
         style={{
           backgroundColor: "#209ccf",
@@ -114,16 +116,9 @@ const Menu = (props) => {
           top: 400,
           zIndex: -1,
         }}
-      ></View>
+      />
     </View>
   );
-};
-
-const mapStateToProps = (state) => {
-  return {
-    authenticated: state.auth.authenticated,
-    role: state.auth.role,
-  };
 };
 
 const styles = StyleSheet.create({
@@ -149,4 +144,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default connect(mapStateToProps)(Menu);
+export default Menu;
