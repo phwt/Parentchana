@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useState, useEffect } from "react";
 import {
   Button,
   Dialog,
@@ -24,6 +24,12 @@ import {
 import { PropTypes } from "prop-types";
 
 const AddStudentDialog = (props) => {
+  const [inputValue, setInputValue] = useState("");
+
+  useEffect(() => {
+    setInputValue("");
+  }, [props.visible]);
+
   return (
     <>
       <Portal>
@@ -32,8 +38,8 @@ const AddStudentDialog = (props) => {
           <Dialog.Content>
             <TextInput
               label="Student ID"
-              onChangeText={props.onChangeText}
-              value={props.value}
+              onChangeText={setInputValue}
+              value={inputValue}
               keyboardType="numeric"
               maxLength={8}
               autoFocus={true}
@@ -41,33 +47,59 @@ const AddStudentDialog = (props) => {
           </Dialog.Content>
           <Dialog.Actions>
             <Button onPress={props.onDismiss}>Cancel</Button>
-            <Button onPress={props.onPress}>Add</Button>
+            <Button onPress={() => props.onAddPress(inputValue)}>Add</Button>
           </Dialog.Actions>
         </Dialog>
       </Portal>
-
-      <FAB
-        style={styles.fab}
-        icon="plus"
-        label="Add Student"
-        onPress={props.onPress1}
-      />
     </>
   );
 };
 
 AddStudentDialog.propTypes = {
   visible: PropTypes.bool,
-  value: PropTypes.string,
-  onChangeText: PropTypes.func,
   onDismiss: PropTypes.func,
-  onPress: PropTypes.func,
-  onPress1: PropTypes.func,
+  onAddPress: PropTypes.func,
 };
 
-const Settings = (props) => {
-  const [registerInput, setRegisterInput] = useState("");
-  const [dialogVisible, setDialogVisible] = useState(false);
+const PlateChangeDialog = (props) => {
+  const [inputValue, setInputValue] = useState("");
+
+  useEffect(() => {
+    setInputValue("");
+  }, [props.visible]);
+
+  return (
+    <>
+      <Portal>
+        <Dialog visible={props.visible} onDismiss={props.onDismiss}>
+          <Dialog.Title>Change Plate Number</Dialog.Title>
+          <Dialog.Content>
+            <TextInput
+              label="Plate Number"
+              onChangeText={setInputValue}
+              value={inputValue}
+              autoFocus={true}
+            />
+          </Dialog.Content>
+          <Dialog.Actions>
+            <Button onPress={props.onDismiss}>Cancel</Button>
+            <Button onPress={() => props.onSave(inputValue)}>Save</Button>
+          </Dialog.Actions>
+        </Dialog>
+      </Portal>
+    </>
+  );
+};
+
+PlateChangeDialog.propTypes = {
+  visible: PropTypes.bool,
+  onDismiss: PropTypes.func,
+  onSave: PropTypes.func,
+};
+
+const Settings = () => {
+  const [studentDialogVisible, setStudentDialogVisible] = useState(false);
+  const [plateDialogVisible, setPlateDialogVisible] = useState(false);
 
   const registeredStudents = useSelector(
     (state) => state.profile.pickupStudents
@@ -76,15 +108,17 @@ const Settings = (props) => {
 
   const dispatch = useDispatch();
 
-  const addStudentHandler = useCallback(() => {
-    if (!registeredStudents.includes(registerInput)) {
-      dispatch(addPickupStudent(registerInput));
-      setRegisterInput("");
-      setDialogVisible(false);
-    } else {
-      alert("Student already exist!");
-    }
-  }, [dispatch]);
+  const addStudentHandler = useCallback(
+    (studentId) => {
+      if (!registeredStudents.includes(studentId)) {
+        dispatch(addPickupStudent(studentId));
+        setStudentDialogVisible(false);
+      } else {
+        alert("Student already exist!");
+      }
+    },
+    [dispatch]
+  );
 
   const removeStudentHandler = useCallback(
     (id) => {
@@ -96,6 +130,7 @@ const Settings = (props) => {
   const changePlateHandler = useCallback(
     (plateNo) => {
       dispatch(changePickupPlate(plateNo));
+      setPlateDialogVisible(false);
     },
     [dispatch]
   );
@@ -105,10 +140,10 @@ const Settings = (props) => {
       <List.Section>
         <List.Subheader>Vehicle Info</List.Subheader>
         <Divider />
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => setPlateDialogVisible(true)}>
           <List.Item
             title="Plate Number"
-            description="12 AB 3456"
+            description={registeredPlate}
             left={() => <List.Icon icon="car-back" />}
           />
         </TouchableOpacity>
@@ -119,12 +154,15 @@ const Settings = (props) => {
         <FlatList
           data={registeredStudents}
           renderItem={({ item }) => (
-            <List.Item
-              title={item}
-              description="ชื่อ นามสกุล" // TODO: Fetch name from firebase/database
-              left={(props) => <List.Icon {...props} icon="account-circle" />}
-              onPress={() => removeStudentHandler(item)}
-            />
+            <>
+              <Divider />
+              <List.Item
+                title={item}
+                description="ชื่อ นามสกุล" // TODO: Fetch name from firebase/database
+                left={(props) => <List.Icon {...props} icon="account-circle" />}
+                onPress={() => removeStudentHandler(item)}
+              />
+            </>
           )}
           keyExtractor={(i) => String(registeredStudents.indexOf(i))}
           ListEmptyComponent={() => {
@@ -140,27 +178,29 @@ const Settings = (props) => {
             );
           }}
         />
+        <Divider />
+        <List.Item
+          title="Add New"
+          description="Add New" // TODO: Fetch name from firebase/database
+          left={(props) => <List.Icon {...props} icon="plus" />}
+          onPress={() => setStudentDialogVisible(true)}
+        />
+        <Divider />
       </List.Section>
 
       <AddStudentDialog
-        visible={dialogVisible}
-        onDismiss={() => setDialogVisible(false)}
-        onChangeText={setRegisterInput}
-        value={registerInput}
-        onPress={() => addStudentHandler()}
-        onPress1={() => setDialogVisible(true)}
+        visible={studentDialogVisible}
+        onDismiss={() => setStudentDialogVisible(false)}
+        onAddPress={(studentId) => addStudentHandler(studentId)}
+      />
+
+      <PlateChangeDialog
+        visible={plateDialogVisible}
+        onDismiss={() => setPlateDialogVisible(false)}
+        onSave={(plateNo) => changePlateHandler(plateNo)}
       />
     </>
   );
 };
-
-const styles = StyleSheet.create({
-  fab: {
-    position: "absolute",
-    margin: 16,
-    right: 0,
-    bottom: 0,
-  },
-});
 
 export default Settings;
