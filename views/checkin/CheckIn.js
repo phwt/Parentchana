@@ -17,6 +17,7 @@ const CheckIn = ({ navigation }) => {
   const [selectedRange, setSelectedRange] = useState(
     moment(new Date("11/01/2020"))
   );
+  const [loaded, setLoaded] = useState(false);
 
   const checkinList = useSelector((state) => state.checkin.list);
 
@@ -25,6 +26,7 @@ const CheckIn = ({ navigation }) => {
   const loadCheckinList = useCallback(async () => {
     try {
       await dispatch(fetchCheckinList("12345")); // TODO: Handle student selection
+      setLoaded(true);
     } catch (error) {
       console.log(error);
     }
@@ -40,6 +42,7 @@ const CheckIn = ({ navigation }) => {
         markedDates={computeMarkedDates(checkinList)}
         markingType={"period"}
         current={moment().utcOffset("+05:30").format("YYYY-MM-DD")}
+        displayLoadingIndicator={!loaded}
         renderHeader={(date) => {
           const header = date.toString("MMMM yyyy");
           const [month, year] = header.split(" ");
