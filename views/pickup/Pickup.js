@@ -5,7 +5,7 @@ import { BarCodeScanner } from "expo-barcode-scanner";
 import { useSelector } from "react-redux";
 import { insertPickupStudent } from "../../modules/Firebase";
 
-const Pickup = (props) => {
+const Pickup = () => {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
   const [scanData, setScanData] = useState({});

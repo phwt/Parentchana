@@ -21,7 +21,7 @@ PickupItem.propTypes = {
   item: PropTypes.object.isRequired,
 };
 
-const PickupList = (props) => {
+const PickupList = () => {
   let [studentList, setStudentList] = useState([]);
   let [refreshing, setRefreshing] = useState(false);
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useCallback } from "react";
 import { Text, View, StyleSheet, FlatList } from "react-native";
 import {
   TextInput,
@@ -59,7 +59,7 @@ AddStudentDialog.propTypes = {
   onPress1: PropTypes.func,
 };
 
-const PickupRegister = (props) => {
+const PickupRegister = () => {
   const [registerInput, setRegisterInput] = useState("");
   const [dialogVisible, setDialogVisible] = useState(false);
 

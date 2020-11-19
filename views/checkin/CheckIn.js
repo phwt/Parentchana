@@ -1,11 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
-import {
-  Text,
-  StyleSheet,
-  View,
-  SafeAreaView,
-  TouchableOpacity,
-} from "react-native";
+import { Text, StyleSheet, View, SafeAreaView } from "react-native";
 import { Calendar } from "react-native-calendars";
 import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
@@ -13,7 +7,7 @@ import CheckInTable from "../../components/checkin/CheckInTable";
 import { computeMarkedDates } from "../../modules/CheckinUtils";
 import { fetchCheckinList } from "../../store/actions/checkinActions";
 
-const CheckIn = ({ navigation }) => {
+const CheckIn = () => {
   const [selectedRange, setSelectedRange] = useState(
     moment("01/10/2020", "DD/MM/YYYY")
   );

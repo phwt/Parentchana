@@ -12,7 +12,7 @@ import {
   toggleCalendarFavorite,
 } from "../../store/actions/calendarActions";
 
-const Calendar = (props) => {
+const Calendar = () => {
   const events = useSelector((state) => state.calendar.events);
   const favoriteEvents = useSelector((state) => state.calendar.favorite);
   const [computedEvents, setComputedEvents] = useState({});
@@ -105,14 +105,9 @@ const Calendar = (props) => {
   return (
     <View style={{ flex: 1 }}>
       <Agenda
-        // testID={testIDs.agenda.CONTAINER}
         items={computedEvents}
-        // loadItemsForMonth={loadItems}
         selected={moment(Date.now()).format("YYYY-MM-DD")}
         renderItem={renderItem}
-        // renderEmptyDate={() => {return (<View />);}}
-        // renderEmptyDate={this.renderEmptyDate.bind(this)}
-        // rowHasChanged={this.rowHasChanged.bind(this)}
       />
     </View>
   );

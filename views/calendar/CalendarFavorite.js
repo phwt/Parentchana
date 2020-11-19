@@ -4,7 +4,7 @@ import { DataTable } from "react-native-paper";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCalendarEvents } from "../../store/actions/calendarActions";
 
-const CalendarFavorite = (props) => {
+const CalendarFavorite = () => {
   const events = useSelector((state) => state.calendar.events);
   const favoriteEvents = useSelector((state) => state.calendar.favorite);
   const [favoriteList, setFavoriteList] = useState([]);

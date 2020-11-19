@@ -100,7 +100,7 @@ const CheckInTable = ({ checkinList, selectedRange }) => {
     const filteredList = checkinList.filter((checkinItem) => {
       return (
         moment.unix(checkinItem.timestamp.seconds).format("MM/YY") ===
-        selectedRange.clone().subtract("months", 1).format("MM/YY")
+        selectedRange.clone().subtract(1, "months").format("MM/YY")
       );
     });
     filteredList.map((el) => {
