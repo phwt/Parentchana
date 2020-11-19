@@ -69,7 +69,8 @@ const CheckInRow = ({ item, checkinData }) => {
               {...props}
               icon="circle"
               color={
-                currentItem.arrival.ontime && currentItem.departure.ontime
+                currentItem.arrival.ontime &&
+                (currentItem.departure ? currentItem.departure.ontime : true)
                   ? "green"
                   : "orange"
               }
