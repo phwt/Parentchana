@@ -99,23 +99,11 @@ const StudentSection = () => {
             </>
           )}
           keyExtractor={(i) => String(registeredStudents.indexOf(i))}
-          ListEmptyComponent={() => {
-            return (
-              <View style={{ marginTop: 32 }}>
-                <Text style={{ textAlign: "center", fontWeight: "bold" }}>
-                  No student added
-                </Text>
-                <Text style={{ textAlign: "center" }}>
-                  Add new student by pressing the + button below
-                </Text>
-              </View>
-            );
-          }}
         />
         <Divider />
         <List.Item
           title="Add New"
-          description="Add New" // TODO: Fetch name from firebase/database
+          description="Add new student"
           left={(props) => <List.Icon {...props} icon="plus" />}
           onPress={() => setStudentDialogVisible(true)}
         />
