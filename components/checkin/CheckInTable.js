@@ -30,8 +30,15 @@ const StatusItem = ({ checkinItem, icon }) => {
 const CheckInRow = ({ item, checkinData }) => {
   const currentItem = checkinData[item];
   const title = moment(item).format("DD MMMM YYYY - dddd");
+  const weekOfMonth =
+    moment(item).weeks() -
+    moment(item).add(0, "month").startOf("month").weeks() +
+    1;
   return (
     <>
+      {(moment(item).date() === 1 || moment(item).day() === 1) && (
+        <List.Subheader>Week {weekOfMonth}</List.Subheader>
+      )}
       {currentItem.arrival !== undefined && (
         <List.Item
           title={title}
