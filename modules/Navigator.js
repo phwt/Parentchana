@@ -9,7 +9,6 @@ import Settings from "../views/settings/Settings";
 import Account from "../views/settings/Account";
 import Login from "../views/Login";
 import Pickup from "../views/pickup/Pickup";
-import PickupRegister from "../views/pickup/PickupRegister";
 import PickupList from "../views/pickup/PickupList";
 import CheckIn from "../views/checkin/CheckIn";
 import Calendar from "../views/calendar/Calendar";
@@ -17,31 +16,9 @@ import CalendarFavorite from "../views/calendar/CalendarFavorite";
 
 import { store } from "../store/index";
 
-const PickupTab = createBottomTabNavigator();
 const PickupTabs = () => (
   <>
-    {store.getState().auth.role === 1 && (
-      <PickupTab.Navigator>
-        <PickupTab.Screen
-          name="Pickup"
-          component={Pickup}
-          options={{
-            tabBarIcon: ({ color }) => (
-              <Ionicons name="ios-qr-scanner" size={24} color={color} />
-            ),
-          }}
-        />
-        <PickupTab.Screen
-          name="PickupRegister"
-          component={PickupRegister}
-          options={{
-            tabBarIcon: ({ color }) => (
-              <Ionicons name="md-person" size={24} color={color} />
-            ),
-          }}
-        />
-      </PickupTab.Navigator>
-    )}
+    {store.getState().auth.role === 1 && <Pickup />}
     {store.getState().auth.role === 2 && <PickupList />}
   </>
 );
