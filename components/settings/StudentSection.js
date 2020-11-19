@@ -48,9 +48,9 @@ const AddStudentDialog = (props) => {
 };
 
 AddStudentDialog.propTypes = {
-  visible: PropTypes.bool,
-  onDismiss: PropTypes.func,
-  onAddPress: PropTypes.func,
+  visible: PropTypes.bool.isRequired,
+  onDismiss: PropTypes.func.isRequired,
+  onAddPress: PropTypes.func.isRequired,
 };
 
 const StudentSection = () => {
