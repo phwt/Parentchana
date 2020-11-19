@@ -50,11 +50,11 @@ const Calendar = (props) => {
   }, [loadCalendarFavorites]);
 
   useEffect(() => {
-    let calendarData = currentMonthDays(
-      moment(Date()).endOf("month"),
-      [],
-      "YYYY-MM-DD"
-    );
+    let calendarData = currentMonthDays({
+      toDate: moment(Date()).endOf("month"),
+      defaultItemValue: [],
+      keyFormat: "YYYY-MM-DD",
+    });
     events.map((el) => {
       const startDate = el.start.date.toString();
 

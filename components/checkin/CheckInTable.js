@@ -86,7 +86,10 @@ const CheckInTable = ({ checkinList, selectedRange }) => {
   const [checkinData, setCheckinData] = useState([]);
 
   useEffect(() => {
-    let checkinTable = currentMonthDays(selectedRange);
+    let checkinTable = currentMonthDays({
+      toDate: selectedRange,
+      weekdayOnly: true,
+    });
     const filteredList = checkinList.filter((checkinItem) => {
       return (
         moment.unix(checkinItem.timestamp.seconds).format("MM/YY") ===

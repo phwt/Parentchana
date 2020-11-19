@@ -1,10 +1,11 @@
 import moment from "moment";
 
-export const currentMonthDays = (
+export const currentMonthDays = ({
   toDate,
   defaultItemValue = {},
-  keyFormat = undefined
-) => {
+  keyFormat = undefined,
+  weekdayOnly = false,
+}) => {
   const days = {};
   const dateStart = toDate.startOf("month");
   let dateEnd = dateStart.clone().endOf("month");
@@ -18,8 +19,16 @@ export const currentMonthDays = (
   // }
 
   while (dateEnd.diff(dateStart) > 0) {
-    if (keyFormat) days[dateStart.clone().format(keyFormat)] = defaultItemValue;
-    else days[dateStart.clone()] = defaultItemValue;
+    if (
+      !(
+        weekdayOnly &&
+        (dateStart.isoWeekday() === 7 || dateStart.isoWeekday() === 6)
+      )
+    ) {
+      if (keyFormat)
+        days[dateStart.clone().format(keyFormat)] = defaultItemValue;
+      else days[dateStart.clone()] = defaultItemValue;
+    }
     dateStart.add(1, "days");
   }
   return days;
@@ -191,8 +200,7 @@ export const computeMarkedDates = (dateList) => {
           checkOntimeBefore = API[i].ontime;
         }
       }
-    }
-    else if (API[i].type === "absent") {
+    } else if (API[i].type === "absent") {
       if (checkFirstItem === true) {
         checkinData[
           moment.unix(API[i].timestamp.seconds).format("YYYY-MM-DD")
