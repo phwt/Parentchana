@@ -5,17 +5,6 @@ import moment from "moment";
 import { currentMonthDays } from "../../modules/CheckinUtils";
 import { Ionicons } from "@expo/vector-icons";
 
-const ColorDot = ({ ontime }) => (
-  <View
-    style={{
-      width: 8,
-      height: 8,
-      borderRadius: 50,
-      backgroundColor: ontime ? "green" : "orange",
-    }}
-  />
-);
-
 const StatusItem = ({ checkinItem, icon }) => {
   return (
     <Text style={{ color: "gray" }}>
@@ -93,12 +82,18 @@ const CheckInRow = ({ item, checkinData }) => {
   );
 };
 
-const CheckInTable = (props) => {
+const CheckInTable = ({ checkinList, selectedRange }) => {
   const [checkinData, setCheckinData] = useState([]);
 
   useEffect(() => {
-    let checkinTable = currentMonthDays(props.selectedRange);
-    props.checkinList.map((el) => {
+    let checkinTable = currentMonthDays(selectedRange);
+    const filteredList = checkinList.filter((checkinItem) => {
+      return (
+        moment.unix(checkinItem.timestamp.seconds).format("MM/YY") ===
+        selectedRange.clone().subtract("months", 1).format("MM/YY")
+      );
+    });
+    filteredList.map((el) => {
       const dateKey = moment.unix(el.timestamp.seconds).startOf("day");
       const timestamp = moment.unix(el.timestamp.seconds).toDate();
       checkinTable[dateKey] = {
@@ -110,7 +105,7 @@ const CheckInTable = (props) => {
       };
     });
     setCheckinData(checkinTable);
-  }, []);
+  }, [checkinList, selectedRange]);
 
   return (
     <>

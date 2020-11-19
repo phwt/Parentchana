@@ -15,7 +15,7 @@ import { fetchCheckinList } from "../../store/actions/checkinActions";
 
 const CheckIn = ({ navigation }) => {
   const [selectedRange, setSelectedRange] = useState(
-    moment(new Date("11/01/2020"))
+    moment("01/10/2020", "DD/MM/YYYY")
   );
   const [loaded, setLoaded] = useState(false);
 
@@ -42,6 +42,11 @@ const CheckIn = ({ navigation }) => {
         markedDates={computeMarkedDates(checkinList)}
         markingType={"period"}
         current={moment().utcOffset("+05:30").format("YYYY-MM-DD")}
+        onMonthChange={(month) => {
+          setSelectedRange(
+            moment(`01-${month.month}-${month.year}`, "DD-MM-YYYY")
+          );
+        }}
         displayLoadingIndicator={!loaded}
         renderHeader={(date) => {
           const header = date.toString("MMMM yyyy");
@@ -68,16 +73,7 @@ const CheckIn = ({ navigation }) => {
         }}
       />
       <SafeAreaView style={styles.container}>
-        <TouchableOpacity
-          onPress={() => {
-            navigation.navigate("CheckInDetailed");
-          }}
-        >
-          <CheckInTable
-            selectedRange={selectedRange}
-            checkinList={checkinList}
-          />
-        </TouchableOpacity>
+        <CheckInTable selectedRange={selectedRange} checkinList={checkinList} />
       </SafeAreaView>
     </>
   );
