@@ -39,8 +39,9 @@ const CalendarTabs = () => (
       name="CalendarFavorite"
       component={CalendarFavorite}
       options={{
+        title: "Event Notification",
         tabBarIcon: ({ color }) => (
-          <Ionicons name="md-list" size={24} color={color} />
+          <Ionicons name="ios-notifications" size={24} color={color} />
         ),
       }}
     />
