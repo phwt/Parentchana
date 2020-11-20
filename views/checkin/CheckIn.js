@@ -6,9 +6,8 @@ import { useDispatch, useSelector } from "react-redux";
 import CheckInTable from "../../components/checkin/CheckInTable";
 import { computeMarkedDates } from "../../modules/CheckinUtils";
 import { fetchCheckinList } from "../../store/actions/checkinActions";
-import { Appbar } from "react-native-paper";
 
-const CheckIn = ({ navigation }) => {
+const CheckIn = () => {
   const [selectedRange, setSelectedRange] = useState(
     moment("01/10/2020", "DD/MM/YYYY")
   );
@@ -33,16 +32,6 @@ const CheckIn = ({ navigation }) => {
 
   return (
     <>
-      <Appbar.Header>
-        <Appbar.BackAction
-          onPress={() => {
-            navigation.goBack();
-          }}
-        />
-        <Appbar.Content title="Time Check-in" subtitle="Showing 12345's info" />
-        <Appbar.Action icon="refresh" />
-      </Appbar.Header>
-
       <Calendar
         markedDates={computeMarkedDates(checkinList)}
         markingType={"period"}

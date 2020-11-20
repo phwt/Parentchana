@@ -11,11 +11,11 @@ import Account from "../views/settings/Account";
 import Login from "../views/Login";
 import Pickup from "../views/pickup/Pickup";
 import PickupList from "../views/pickup/PickupList";
-import CheckIn from "../views/checkin/CheckIn";
 import Calendar from "../views/calendar/Calendar";
 import CalendarFavorite from "../views/calendar/CalendarFavorite";
 
 import { store } from "../store/index";
+import CheckInWrapper from "../views/checkin/CheckinWrapper";
 
 const PickupStack = createStackNavigator();
 const PickupTabs = () => (
@@ -74,7 +74,7 @@ export default () => (
     <Stack.Screen name="Pickup" component={PickupTabs} />
     <Stack.Screen
       name="CheckIn"
-      component={CheckIn}
+      component={CheckInWrapper}
       options={{
         headerRight: () => (
           <Button
