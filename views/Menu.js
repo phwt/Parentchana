@@ -85,6 +85,7 @@ const Menu = (props) => {
         description="Picking-up: 12345"
         bgimg={require("../assets/qr-code.png")}
         bgcolor="#041743"
+        z={1}
         onSelect={() => props.navigation.navigate("Pickup")}
         disabled={!authenticated}
       />
@@ -94,6 +95,7 @@ const Menu = (props) => {
         description="Check-in: 09.14 - Late"
         bgimg={require("../assets/clock.png")}
         bgcolor="#043c7b"
+        z={0}
         onSelect={() => props.navigation.navigate("CheckIn")}
         disabled={!authenticated || role !== 1}
       />
@@ -103,9 +105,10 @@ const Menu = (props) => {
         description="Upcoming: Final Examination (21/09/20)"
         bgimg={require("../assets/calendar.png")}
         bgcolor="#209ccf"
+        z={-1}
         onSelect={() => props.navigation.navigate("Calendar")}
       />
-      <View
+      {/* <View
         style={{
           backgroundColor: "#041743",
           position: "absolute",
@@ -132,7 +135,7 @@ const Menu = (props) => {
           top: 400,
           zIndex: -1,
         }}
-      />
+      /> */}
     </View>
   );
 };
@@ -150,7 +153,7 @@ const styles = StyleSheet.create({
     paddingLeft: 50,
     paddingRight: 50,
     borderBottomLeftRadius: 50,
-    zIndex: 1,
+    zIndex: 2,
   },
   topMenuText: {
     fontSize: 10,

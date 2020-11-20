@@ -7,11 +7,10 @@ import {
   StyleSheet,
   Image,
 } from "react-native";
-// import { withOrientation } from "react-navigation";
 
 const MenuCard = (props) => {
   return (
-    <View style={{ opacity: props.disabled ? 0.25 : 1 }}>
+    <View style={{ opacity: props.disabled ? 0.25 : 1, zIndex: props.z }}>
       <TouchableOpacity
         activeOpacity={1}
         style={{
@@ -28,6 +27,15 @@ const MenuCard = (props) => {
         <Text style={styles.description}>{props.description}</Text>
         <Image style={styles.bgimg} source={props.bgimg} />
       </TouchableOpacity>
+      <View
+        style={{
+          backgroundColor: props.bgcolor,
+          position: "absolute",
+          height: 50,
+          width: 50,
+          top: -50,
+        }}
+      />
     </View>
   );
 };
