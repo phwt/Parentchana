@@ -85,6 +85,7 @@ const Menu = (props) => {
         description="Picking-up: 12345"
         bgimg={require("../assets/qr-code.png")}
         bgcolor="#041743"
+        bgdis="#b7bcc6"
         z={1}
         onSelect={() => props.navigation.navigate("Pickup")}
         disabled={!authenticated}
@@ -95,6 +96,7 @@ const Menu = (props) => {
         description="Check-in: 09.14 - Late"
         bgimg={require("../assets/clock.png")}
         bgcolor="#043c7b"
+        bgdis="#b7c5d4"
         z={0}
         onSelect={() => props.navigation.navigate("CheckIn")}
         disabled={!authenticated || role !== 1}
@@ -105,6 +107,7 @@ const Menu = (props) => {
         description="Upcoming: Final Examination (21/09/20)"
         bgimg={require("../assets/calendar.png")}
         bgcolor="#209ccf"
+        bgdis="#209ccf"
         z={-1}
         onSelect={() => props.navigation.navigate("Calendar")}
       />

@@ -10,12 +10,12 @@ import {
 
 const MenuCard = (props) => {
   return (
-    <View style={{ opacity: props.disabled ? 0.25 : 1, zIndex: props.z }}>
+    <View style={{ zIndex: props.z }}>
       <TouchableOpacity
         activeOpacity={1}
         style={{
           ...styles.card,
-          backgroundColor: props.bgcolor,
+          backgroundColor: props.disabled ? props.bgdis : props.bgcolor,
         }}
         onPress={() => {
           props.onSelect();
@@ -29,7 +29,7 @@ const MenuCard = (props) => {
       </TouchableOpacity>
       <View
         style={{
-          backgroundColor: props.bgcolor,
+          backgroundColor: props.disabled ? props.bgdis : props.bgcolor,
           position: "absolute",
           height: 50,
           width: 50,
