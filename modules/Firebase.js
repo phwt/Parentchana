@@ -5,6 +5,7 @@ import { firebaseConfig } from "../config";
 import moment from "moment";
 import * as types from "../store/actions/actionTypes";
 import { registerForPushNotificationsAsync } from "./Notification";
+import Constants from "expo-constants";
 
 let userId;
 
@@ -24,8 +25,10 @@ export default (store) => {
       const profileMeta = await getUserProfileMeta(user.providerData[0].uid);
       userId = user.providerData[0].uid;
 
-      const token = await registerForPushNotificationsAsync();
-      await setUserPushToken(token);
+      if (Constants.isDevice) {
+        const token = await registerForPushNotificationsAsync();
+        await setUserPushToken(token);
+      }
 
       store.dispatch({ type: types.SET_AUTHENTICATED_STATUS, status: true });
       store.dispatch({

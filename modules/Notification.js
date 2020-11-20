@@ -5,9 +5,6 @@ import { Platform } from "react-native";
 import { store } from "../store/index";
 import moment from "moment";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { setUserPushToken } from "./Firebase";
-import * as firebase from "./Firebase";
-import { firebaseConfig } from "../config";
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
