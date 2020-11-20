@@ -37,13 +37,13 @@ const CombinedDefaultTheme = {
 };
 
 import initializeFirebase from "./modules/Firebase";
-import { registerForPushNotificationsAsync } from "./modules/LocalNotification";
-initializeFirebase(store);
+import { registerForPushNotificationsAsync } from "./modules/Notification";
 
 const App = () => {
   useEffect(() => {
     (async () => {
       await registerForPushNotificationsAsync();
+      await initializeFirebase(store);
     })();
   }, []);
 

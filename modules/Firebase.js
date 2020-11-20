@@ -4,6 +4,7 @@ import "firebase/auth";
 import { firebaseConfig } from "../config";
 import moment from "moment";
 import * as types from "../store/actions/actionTypes";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default (store) => {
   if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
@@ -19,6 +20,8 @@ export default (store) => {
   firebase.auth().onAuthStateChanged(async (user) => {
     if (user != null) {
       const profileMeta = await getUserProfileMeta(user.providerData[0].uid);
+      const pushToken = await AsyncStorage.getItem("expoPushToken");
+      await setUserPushToken(user.providerData[0].uid, pushToken);
 
       store.dispatch({ type: types.SET_AUTHENTICATED_STATUS, status: true });
       store.dispatch({
@@ -43,6 +46,14 @@ const getUserProfileMeta = async (uid) => {
     .doc(uid)
     .get();
   return snapshot.data();
+};
+
+const setUserPushToken = async (uid, token) => {
+  await firebase
+    .firestore()
+    .collection("users")
+    .doc(uid)
+    .update({ pushToken: token });
 };
 
 export const mapDocumentsWithId = (snapshot) =>

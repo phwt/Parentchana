@@ -1,7 +1,7 @@
 import * as types from "./actionTypes";
 import { calendarConfig } from "../../config";
 import axios from "axios";
-import { scheduleEventNotification } from "../../modules/LocalNotification";
+import { scheduleEventNotification } from "../../modules/Notification";
 import { cancelScheduledNotificationAsync } from "expo-notifications";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 

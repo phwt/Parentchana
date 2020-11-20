@@ -4,6 +4,7 @@ import * as Permissions from "expo-permissions";
 import { Platform } from "react-native";
 import { store } from "../store/index";
 import moment from "moment";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -60,5 +61,6 @@ export const registerForPushNotificationsAsync = async () => {
     });
   }
 
+  await AsyncStorage.setItem("expoPushToken", token);
   return token;
 };
