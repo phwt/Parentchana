@@ -9,7 +9,7 @@ import Constants from "expo-constants";
 
 let userId;
 
-export default (store) => {
+export default async (store) => {
   if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
 
   /***

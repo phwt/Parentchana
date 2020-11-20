@@ -9,6 +9,8 @@ import {
 } from "../store/actions/calendarActions";
 import * as Notifications from "expo-notifications";
 import { fetchStudents } from "../store/actions/pickupActions";
+import initializeFirebase from "../modules/Firebase";
+import { store } from "../store";
 
 const Menu = (props) => {
   const authenticated = useSelector((state) => state.auth.authenticated);
@@ -45,8 +47,11 @@ const Menu = (props) => {
   }, [dispatch]);
 
   useEffect(() => {
-    loadStudents();
-  }, [loadStudents]);
+    (async () => {
+      await initializeFirebase(store);
+      await loadStudents();
+    })();
+  }, []);
 
   return (
     <View>

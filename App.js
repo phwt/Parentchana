@@ -36,13 +36,7 @@ const CombinedDefaultTheme = {
   },
 };
 
-import initializeFirebase from "./modules/Firebase";
-
 const App = () => {
-  useEffect(() => {
-    initializeFirebase(store);
-  }, []);
-
   return (
     <ReduxProvider store={store}>
       <PaperProvider theme={CombinedDefaultTheme}>
