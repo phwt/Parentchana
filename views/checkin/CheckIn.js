@@ -7,7 +7,7 @@ import CheckInTable from "../../components/checkin/CheckInTable";
 import { computeMarkedDates } from "../../modules/CheckinUtils";
 import { fetchCheckinList } from "../../store/actions/checkinActions";
 
-const CheckIn = () => {
+const CheckIn = (props) => {
   const [selectedRange, setSelectedRange] = useState(
     moment("01/10/2020", "DD/MM/YYYY")
   );
@@ -19,7 +19,7 @@ const CheckIn = () => {
 
   const loadCheckinList = useCallback(async () => {
     try {
-      await dispatch(fetchCheckinList("12345")); // TODO: Handle student selection
+      await dispatch(fetchCheckinList(props.selectedStudent)); // TODO: Handle student selection
       setLoaded(true);
     } catch (error) {
       console.log(error);
