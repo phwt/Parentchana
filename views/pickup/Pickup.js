@@ -4,8 +4,9 @@ import { Col, Row, Grid } from "react-native-easy-grid";
 import { BarCodeScanner } from "expo-barcode-scanner";
 import { useSelector } from "react-redux";
 import { insertPickupStudent } from "../../modules/Firebase";
+import { Appbar } from "react-native-paper";
 
-const Pickup = () => {
+const Pickup = ({ navigation }) => {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
   const [scanData, setScanData] = useState({});
@@ -49,43 +50,55 @@ const Pickup = () => {
   }
 
   return (
-    <Grid>
-      <Row size={75}>
-        {!scanned && (
-          <BarCodeScanner
-            onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
-            style={StyleSheet.absoluteFillObject}
-          />
-        )}
-        {scanned && (
-          <View
-            style={{
-              backgroundColor: "#333333",
-              ...styles.centerXY,
-            }}
-          >
-            <Text style={{ color: "white", fontWeight: "bold" }}>Success!</Text>
-            <Text
-              style={{ color: "white", textAlign: "center" }}
-            >{`Type: ${scanData.type}\nData: ${scanData.data}`}</Text>
-          </View>
-        )}
-      </Row>
-      <Row size={25}>
-        <View style={styles.centerXY}>
-          <Button
-            title={"Simulate Send"}
-            onPress={() =>
-              handleBarCodeScanned({ type: "Simulate", data: "No Data" })
-            }
-          />
-          {!scanned && <Text>Scan QR code at school entrance</Text>}
-          {scanned && (
-            <Button title={"Scan Again"} onPress={() => setScanned(false)} />
+    <>
+      <Appbar.Header>
+        <Appbar.BackAction
+          onPress={() => {
+            navigation.goBack();
+          }}
+        />
+        <Appbar.Content title="Student Pickup" subtitle="Scan for pickup" />
+      </Appbar.Header>
+      <Grid>
+        <Row size={75}>
+          {!scanned && (
+            <BarCodeScanner
+              onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
+              style={StyleSheet.absoluteFillObject}
+            />
           )}
-        </View>
-      </Row>
-    </Grid>
+          {scanned && (
+            <View
+              style={{
+                backgroundColor: "#333333",
+                ...styles.centerXY,
+              }}
+            >
+              <Text style={{ color: "white", fontWeight: "bold" }}>
+                Success!
+              </Text>
+              <Text
+                style={{ color: "white", textAlign: "center" }}
+              >{`Type: ${scanData.type}\nData: ${scanData.data}`}</Text>
+            </View>
+          )}
+        </Row>
+        <Row size={25}>
+          <View style={styles.centerXY}>
+            <Button
+              title={"Simulate Send"}
+              onPress={() =>
+                handleBarCodeScanned({ type: "Simulate", data: "No Data" })
+              }
+            />
+            {!scanned && <Text>Scan QR code at school entrance</Text>}
+            {scanned && (
+              <Button title={"Scan Again"} onPress={() => setScanned(false)} />
+            )}
+          </View>
+        </Row>
+      </Grid>
+    </>
   );
 };
 

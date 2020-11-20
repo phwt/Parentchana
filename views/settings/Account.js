@@ -1,6 +1,6 @@
 import React from "react";
 import { Text, StyleSheet, View, Image } from "react-native";
-import { Button } from "react-native-paper";
+import { Appbar, Button } from "react-native-paper";
 import * as firebase from "firebase";
 import { useSelector } from "react-redux";
 import { Col, Row, Grid } from "react-native-easy-grid";
@@ -24,6 +24,14 @@ const Account = (props) => {
   console.log(currentUser.phoneNumber);
   return (
     <>
+      <Appbar.Header>
+        <Appbar.BackAction
+          onPress={() => {
+            props.navigation.popToTop();
+          }}
+        />
+        <Appbar.Content title="Account" subtitle="Account info and settings" />
+      </Appbar.Header>
       <Grid>
         <Row
           size={30}

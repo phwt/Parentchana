@@ -11,8 +11,9 @@ import {
   fetchCalendarFavorites,
   toggleCalendarFavorite,
 } from "../../store/actions/calendarActions";
+import { Appbar } from "react-native-paper";
 
-const Calendar = () => {
+const Calendar = ({ navigation }) => {
   const events = useSelector((state) => state.calendar.events);
   const favoriteEvents = useSelector((state) => state.calendar.favorite);
   const [computedEvents, setComputedEvents] = useState({});
@@ -103,13 +104,23 @@ const Calendar = () => {
     );
   };
   return (
-    <View style={{ flex: 1 }}>
-      <Agenda
-        items={computedEvents}
-        selected={moment(Date.now()).format("YYYY-MM-DD")}
-        renderItem={renderItem}
-      />
-    </View>
+    <>
+      <Appbar.Header>
+        <Appbar.BackAction
+          onPress={() => {
+            navigation.popToTop();
+          }}
+        />
+        <Appbar.Content title="Calendar" subtitle="School's Events" />
+      </Appbar.Header>
+      <View style={{ flex: 1 }}>
+        <Agenda
+          items={computedEvents}
+          selected={moment(Date.now()).format("YYYY-MM-DD")}
+          renderItem={renderItem}
+        />
+      </View>
+    </>
   );
 };
 

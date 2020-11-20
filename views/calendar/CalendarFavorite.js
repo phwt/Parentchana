@@ -1,10 +1,10 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { FlatList } from "react-native";
-import { DataTable } from "react-native-paper";
+import { Appbar, DataTable } from "react-native-paper";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCalendarEvents } from "../../store/actions/calendarActions";
 
-const CalendarFavorite = () => {
+const CalendarFavorite = ({ navigation }) => {
   const events = useSelector((state) => state.calendar.events);
   const favoriteEvents = useSelector((state) => state.calendar.favorite);
   const [favoriteList, setFavoriteList] = useState([]);
@@ -42,6 +42,17 @@ const CalendarFavorite = () => {
 
   return (
     <>
+      <Appbar.Header>
+        <Appbar.BackAction
+          onPress={() => {
+            navigation.popToTop();
+          }}
+        />
+        <Appbar.Content
+          title="Event Notifications"
+          subtitle="Your notification enabled events"
+        />
+      </Appbar.Header>
       <DataTable>
         <DataTable.Header>
           <DataTable.Title>Date</DataTable.Title>

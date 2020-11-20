@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { TextInput, Button } from "react-native-paper";
+import { TextInput, Button, Appbar } from "react-native-paper";
 import * as firebase from "firebase";
 
 const Login = (props) => {
@@ -19,6 +19,17 @@ const Login = (props) => {
 
   return (
     <>
+      <Appbar.Header>
+        <Appbar.BackAction
+          onPress={() => {
+            props.navigation.popToTop();
+          }}
+        />
+        <Appbar.Content
+          title="Login"
+          subtitle="Login to parent or teacher account"
+        />
+      </Appbar.Header>
       <TextInput
         label="Email"
         value={email}
