@@ -4,7 +4,9 @@ import "firebase/auth";
 import { firebaseConfig } from "../config";
 import moment from "moment";
 import * as types from "../store/actions/actionTypes";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { registerForPushNotificationsAsync } from "./Notification";
+
+let userId;
 
 export default (store) => {
   if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
@@ -20,8 +22,10 @@ export default (store) => {
   firebase.auth().onAuthStateChanged(async (user) => {
     if (user != null) {
       const profileMeta = await getUserProfileMeta(user.providerData[0].uid);
-      const pushToken = await AsyncStorage.getItem("expoPushToken");
-      await setUserPushToken(user.providerData[0].uid, pushToken);
+      userId = user.providerData[0].uid;
+
+      const token = await registerForPushNotificationsAsync();
+      await setUserPushToken(token);
 
       store.dispatch({ type: types.SET_AUTHENTICATED_STATUS, status: true });
       store.dispatch({
@@ -48,11 +52,11 @@ const getUserProfileMeta = async (uid) => {
   return snapshot.data();
 };
 
-const setUserPushToken = async (uid, token) => {
+export const setUserPushToken = async (token) => {
   await firebase
     .firestore()
     .collection("users")
-    .doc(uid)
+    .doc(userId)
     .update({ pushToken: token });
 };
 
