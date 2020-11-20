@@ -101,12 +101,7 @@ CheckInRow.propTypes = {
   checkinData: PropTypes.object.isRequired,
 };
 
-const CheckInTable = ({
-  checkinList,
-  selectedRange,
-  refreshing,
-  onRefresh,
-}) => {
+const CheckInTable = ({ checkinList, selectedRange }) => {
   const [checkinData, setCheckinData] = useState([]);
 
   useEffect(() => {
@@ -142,8 +137,6 @@ const CheckInTable = ({
           <CheckInRow item={item} checkinData={checkinData} />
         )}
         keyExtractor={(item) => item}
-        refreshing={refreshing}
-        onRefresh={onRefresh}
       />
     </>
   );
@@ -152,8 +145,6 @@ const CheckInTable = ({
 CheckInTable.propTypes = {
   checkinList: PropTypes.array.isRequired,
   selectedRange: PropTypes.object.isRequired,
-  refreshing: PropTypes.bool.isRequired,
-  onRefresh: PropTypes.func.isRequired,
 };
 
 export default CheckInTable;
