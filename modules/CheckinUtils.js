@@ -1,5 +1,5 @@
 import moment from "moment";
-
+import React, { useCallback, useEffect, useState } from "react";
 export const currentMonthDays = ({
   toDate,
   defaultItemValue = {},
@@ -79,61 +79,117 @@ export const computeMarkedDates = (dateList) => {
     }
   }
 
-  let aux = "";
-  const swarp = (arr, i1, i2) => { //swarp item in array
-    aux = arr[i1];
-    arr[i1] = arr[i2];
-    arr[i2] = aux;
-    return arr;
-  };
-  // console.log(API);
-  let isSorted = false;
-  let lastUnsorted = API.length - 1;
-  while (!isSorted) { // sort arr by date
-    for (i = 0; i < lastUnsorted; i++) {
-      isSorted = true;
-      if (moment.unix(API[i].timestamp.seconds).format("YYYY-MM-DD") > moment.unix(API[(i + 1)].timestamp.seconds).format("YYYY-MM-DD")) {
-        swarp(API, i, i + 1);
-        isSorted = false;
-      }
-    }
-    lastUnsorted--;
-  }
+  // let y = { "aaa": { seconds: 456 }, "bbb": { seconds: 123 } }
+  // Object.fromEntries(Object.entries(y).sort((x, y) => x[1].seconds - y[1].seconds))
 
-  // let isSorted2 = false;
-  // let lastUnsorted2 = API.length - 1;
-  // while (!isSorted2) { // sort arr by type (arrival between departure)
-  //   for (i = 0; i < lastUnsorted2; i++) {
-  //     isSorted2 = true;
-  //     if (API[i].type == "departure" && API[i + 1].type == "arrival" && moment.unix(API[i].timestamp.seconds).format("YYYY-MM-DD") == moment.unix(API[(i + 1)].timestamp.seconds).format("YYYY-MM-DD")) {
+  let listConvert = currentMonthDays({
+    toDate: moment(new Date(), "DD/MM/YYYY"),
+    keyFormat: "YYYY-MM-DD",
+    weekdayOnly: true,
+  })
+
+  API.map((item) => {
+    // console.log(moment.unix(item.timestamp.seconds).format("YYYY-MM-DD"));
+    const date = moment.unix(item.timestamp.seconds).format("YYYY-MM-DD");
+    // console.log(listConvert[date]);
+    if (Object.entries(listConvert[date]).length == 0) {
+      var addObject = {
+        ontime: item.ontime,
+        type: item.type,
+        date: date,
+      };
+    }
+    else {
+      var addObject = {
+        ontime: listConvert[date].ontime,
+        type: listConvert[date].type,
+        date: listConvert[date].date,
+        ontime2: item.ontime,
+        type2: item.type,
+        date2: date,
+      };
+    }
+    listConvert[date] = addObject;
+  });
+  // console.log(listConvert);
+  API.sort((a, b) =>
+    a.timestamp.seconds > b.timestamp.seconds
+      ? 1
+      : b.timestamp.seconds > a.timestamp.seconds
+        ? -1
+        : 0
+  );
+
+  // let cc = Object.fromEntries(Object.entries(API).sort((a1, a2) => a1[1].timestamp.seconds - a2[1].timestamp.seconds))
+  // console.log(cc);
+  // let aux = "";
+  // const swarp = (arr, i1, i2) => { //swarp item in array
+  //   aux = arr[i1];
+  //   arr[i1] = arr[i2];
+  //   arr[i2] = aux;
+  //   return arr;
+  // };
+  // console.log(API);
+  // let isSorted = false;
+  // let lastUnsorted = API.length - 1;
+  // while (!isSorted) { // sort arr by date
+  //   for (i = 0; i < lastUnsorted; i++) {
+  //     isSorted = true;
+  //     if (moment.unix(API[i].timestamp.seconds).format("YYYY-MM-DD") > moment.unix(API[(i + 1)].timestamp.seconds).format("YYYY-MM-DD")) {
   //       swarp(API, i, i + 1);
-  //       isSorted2 = false;
+  //       isSorted = false;
   //     }
   //   }
-  //   lastUnsorted2--;
+  //   lastUnsorted--;
   // }
 
-
-  for (i = 0; i < API.length; i++) {
-    console.log("-----------------------------------", API.length);
-    console.log(moment.unix(API[i].timestamp.seconds).format("YYYY-MM-DD"));
-    console.log(API[i].ontime)
-    console.log(API[i].type)
-
-    if (API[i].type === "arrival") {
-      if (API[i].ontime) {
-        checkinData[moment.unix(API[i].timestamp.seconds).format("YYYY-MM-DD")] = { textColor: "white", startingDay: true, endingDay: true, color: "#249d3c", };
+  Object.keys(listConvert).map((item) => {
+    console.log(item);
+    
+    // console.log(Object.entries(listConvert[item]).length);
+    if (Object.entries(listConvert[item]).length == 3) {
+      if (listConvert[item].ontime) {
+        checkinData[listConvert[item].date] = { textColor: "white", startingDay: true, endingDay: true, color: "#249d3c", };
       }
       else {
-        checkinData[moment.unix(API[i].timestamp.seconds).format("YYYY-MM-DD")] = { textColor: "white", startingDay: true, endingDay: true, color: "#ff9a00", };
+        checkinData[listConvert[item].date] = { textColor: "white", startingDay: true, endingDay: true, color: "#ff9a00", };
       }
     }
-    else if (API[i].type === "departure") {
-      if (!API[i].ontime) {
-        checkinData[moment.unix(API[i].timestamp.seconds).format("YYYY-MM-DD")] = { textColor: "white", startingDay: true, endingDay: true, color: "#ff9a00", };
+    else if (Object.entries(listConvert[item]).length == 6) {
+      if (listConvert[item].ontime == true & listConvert[item].ontime2 == true) {
+        checkinData[listConvert[item].date] = { textColor: "white", startingDay: true, endingDay: true, color: "#249d3c", };
+      }
+      else {
+        checkinData[listConvert[item].date] = { textColor: "white", startingDay: true, endingDay: true, color: "#ff9a00", };
       }
     }
-  }
+    else if (Object.entries(listConvert[item]).length == 0){
+      checkinData[item] = { textColor: "white", startingDay: true, endingDay: true, color: "#d72f3c", };
+    }
+
+  })
+
+  // console.log(checkinData);
+  // console.log(Object.keys(listConvert).length);
+  // for (i = 0; i < API.length; i++) {
+  // console.log("-----------------------------------", API.length);
+  // console.log(moment.unix(API[i].timestamp.seconds).format("YYYY-MM-DD"));
+  // console.log(API[i].ontime)
+  // console.log(API[i].type)
+  //   if (API[i].type === "arrival") {
+  //     if (API[i].ontime) {
+  //       checkinData[moment.unix(API[i].timestamp.seconds).format("YYYY-MM-DD")] = { textColor: "white", startingDay: true, endingDay: true, color: "#249d3c", };
+  //     }
+  //     else {
+  //       checkinData[moment.unix(API[i].timestamp.seconds).format("YYYY-MM-DD")] = { textColor: "white", startingDay: true, endingDay: true, color: "#ff9a00", };
+  //     }
+  //   }
+  //   else if (API[i].type === "departure") {
+  //     if (!API[i].ontime) {
+  //       checkinData[moment.unix(API[i].timestamp.seconds).format("YYYY-MM-DD")] = { textColor: "white", startingDay: true, endingDay: true, color: "#ff9a00", };
+  //     }
+  //   }
+  // }
 
   return checkinData;
 };

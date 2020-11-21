@@ -103,6 +103,8 @@ CheckInRow.propTypes = {
 
 const CheckInTable = ({ checkinList, selectedRange }) => {
   const [checkinData, setCheckinData] = useState([]);
+  // console.log(selectedRange);
+  
   useEffect(() => {
     let checkinTable = currentMonthDays({
       toDate: selectedRange,
