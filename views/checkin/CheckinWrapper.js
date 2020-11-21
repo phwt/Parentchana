@@ -56,7 +56,7 @@ const CheckInWrapper = ({ navigation }) => {
             }
           >
             {userStudents.map((item) => (
-              <Picker.Item label={item} value={item} />
+              <Picker.Item label={item} value={item} key={item} />
             ))}
           </Picker>
           <Button
