@@ -86,19 +86,19 @@ export const computeMarkedDates = (dateList) => {
     arr[i2] = aux;
     return arr;
   };
-
-  // let isSorted = false;
-  // let lastUnsorted = API.length - 1;
-  // while (!isSorted) { // sort arr by date
-  //   for (i = 0; i < lastUnsorted; i++) {
-  //     isSorted = true;
-  //     if (moment.unix(API[i].timestamp.seconds).format("YYYY-MM-DD") > moment.unix(API[(i + 1)].timestamp.seconds).format("YYYY-MM-DD")) {
-  //       swarp(API, i, i + 1);
-  //       isSorted = false;
-  //     }
-  //   }
-  //   lastUnsorted--;
-  // }
+  // console.log(API);
+  let isSorted = false;
+  let lastUnsorted = API.length - 1;
+  while (!isSorted) { // sort arr by date
+    for (i = 0; i < lastUnsorted; i++) {
+      isSorted = true;
+      if (moment.unix(API[i].timestamp.seconds).format("YYYY-MM-DD") > moment.unix(API[(i + 1)].timestamp.seconds).format("YYYY-MM-DD")) {
+        swarp(API, i, i + 1);
+        isSorted = false;
+      }
+    }
+    lastUnsorted--;
+  }
 
   // let isSorted2 = false;
   // let lastUnsorted2 = API.length - 1;
@@ -115,10 +115,10 @@ export const computeMarkedDates = (dateList) => {
 
 
   for (i = 0; i < API.length; i++) {
-    // console.log("-----------------------------------", API.length);
-    // console.log(moment.unix(API[i].timestamp.seconds).format("YYYY-MM-DD"));
-    // console.log(API[i].ontime)
-    // console.log(API[i].type)
+    console.log("-----------------------------------", API.length);
+    console.log(moment.unix(API[i].timestamp.seconds).format("YYYY-MM-DD"));
+    console.log(API[i].ontime)
+    console.log(API[i].type)
 
     if (API[i].type === "arrival") {
       if (API[i].ontime) {
