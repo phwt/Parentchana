@@ -87,31 +87,31 @@ export const computeMarkedDates = (dateList) => {
     return arr;
   };
 
-  let isSorted = false;
-  let lastUnsorted = API.length - 1;
-  while (!isSorted) { // sort arr by date
-    for (i = 0; i < lastUnsorted; i++) {
-      isSorted = true;
-      if (moment.unix(API[i].timestamp.seconds).format("YYYY-MM-DD") > moment.unix(API[(i + 1)].timestamp.seconds).format("YYYY-MM-DD")) {
-        swarp(API, i, i + 1);
-        isSorted = false;
-      }
-    }
-    lastUnsorted--;
-  }
+  // let isSorted = false;
+  // let lastUnsorted = API.length - 1;
+  // while (!isSorted) { // sort arr by date
+  //   for (i = 0; i < lastUnsorted; i++) {
+  //     isSorted = true;
+  //     if (moment.unix(API[i].timestamp.seconds).format("YYYY-MM-DD") > moment.unix(API[(i + 1)].timestamp.seconds).format("YYYY-MM-DD")) {
+  //       swarp(API, i, i + 1);
+  //       isSorted = false;
+  //     }
+  //   }
+  //   lastUnsorted--;
+  // }
 
-  let isSorted2 = false;
-  let lastUnsorted2 = API.length - 1;
-  while (!isSorted2) { // sort arr by type (arrival between departure)
-    for (i = 0; i < lastUnsorted2; i++) {
-      isSorted2 = true;
-      if (API[i].type == "departure" && API[i + 1].type == "arrival" && moment.unix(API[i].timestamp.seconds).format("YYYY-MM-DD") == moment.unix(API[(i + 1)].timestamp.seconds).format("YYYY-MM-DD")) {
-        swarp(API, i, i + 1);
-        isSorted2 = false;
-      }
-    }
-    lastUnsorted2--;
-  }
+  // let isSorted2 = false;
+  // let lastUnsorted2 = API.length - 1;
+  // while (!isSorted2) { // sort arr by type (arrival between departure)
+  //   for (i = 0; i < lastUnsorted2; i++) {
+  //     isSorted2 = true;
+  //     if (API[i].type == "departure" && API[i + 1].type == "arrival" && moment.unix(API[i].timestamp.seconds).format("YYYY-MM-DD") == moment.unix(API[(i + 1)].timestamp.seconds).format("YYYY-MM-DD")) {
+  //       swarp(API, i, i + 1);
+  //       isSorted2 = false;
+  //     }
+  //   }
+  //   lastUnsorted2--;
+  // }
 
 
   for (i = 0; i < API.length; i++) {
