@@ -102,9 +102,8 @@ CheckInRow.propTypes = {
 };
 
 const CheckInTable = ({ checkinList, selectedRange }) => {
-  const [checkinData, setCheckinData] = useState([]);
-  // console.log(selectedRange);
-  
+  const [checkinData, setCheckinData] = useState({});
+
   useEffect(() => {
     let checkinTable = currentMonthDays({
       toDate: selectedRange,
@@ -127,7 +126,15 @@ const CheckInTable = ({ checkinList, selectedRange }) => {
         },
       };
     });
-    setCheckinData(checkinTable);
+
+    const filteredFutureDates = Object.keys(checkinTable)
+      .filter((key) => moment(key).isBefore(moment(), "day"))
+      .reduce((obj, key) => {
+        obj[key] = checkinTable[key];
+        return obj;
+      }, {});
+
+    setCheckinData(filteredFutureDates);
   }, [checkinList, selectedRange]);
 
   return (

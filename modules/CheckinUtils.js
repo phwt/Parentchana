@@ -72,7 +72,6 @@ export const computeMarkedDates = (dateList) => {
     weekdayOnly: true,
   });
   console.log(moment(new Date(), "DD/MM/YYYY"));
-  
 
   API.map((item) => {
     const date = moment.unix(item.timestamp.seconds).format("YYYY-MM-DD");
@@ -99,11 +98,12 @@ export const computeMarkedDates = (dateList) => {
     a.timestamp.seconds > b.timestamp.seconds
       ? 1
       : b.timestamp.seconds > a.timestamp.seconds
-        ? -1
-        : 0
+      ? -1
+      : 0
   );
 
-  Object.keys(listConvert).map((item) => { // display color on calendar
+  Object.keys(listConvert).map((item) => {
+    // display color on calendar
     if (Object.entries(listConvert[item]).length === 3) {
       if (listConvert[item].ontime) {
         checkinData[listConvert[item].date] = {
@@ -151,27 +151,48 @@ export const computeMarkedDates = (dateList) => {
   let itemBefore = {};
   let sDate = Boolean;
 
-  Object.keys(checkinData).map((item) => { // Same color welding
+  Object.keys(checkinData).map((item) => {
+    // Same color welding
     if (Object.entries(itemBefore).length == 0) {
-      checkinData[item] = { textColor: "white", startingDay: true, endingDay: true, color: checkinData[item].color, };
-      itemBefore = { color: checkinData[item].color, date: item};
+      checkinData[item] = {
+        textColor: "white",
+        startingDay: true,
+        endingDay: true,
+        color: checkinData[item].color,
+      };
+      itemBefore = { color: checkinData[item].color, date: item };
       sDate = true;
-    }
-    else {
-      if (checkinData[item].color == itemBefore.color && (Number(itemBefore.date.substring(8, 10))+1 == Number(item.substring(8, 10)))){
-        checkinData[itemBefore.date] = { textColor: "white", startingDay: sDate, endingDay: false, color: checkinData[item].color, };
-        checkinData[item] = { textColor: "white", startingDay: false, endingDay: true, color: checkinData[item].color, };
-        itemBefore = { color: checkinData[item].color, date: item};
+    } else {
+      if (
+        checkinData[item].color == itemBefore.color &&
+        Number(itemBefore.date.substring(8, 10)) + 1 ==
+          Number(item.substring(8, 10))
+      ) {
+        checkinData[itemBefore.date] = {
+          textColor: "white",
+          startingDay: sDate,
+          endingDay: false,
+          color: checkinData[item].color,
+        };
+        checkinData[item] = {
+          textColor: "white",
+          startingDay: false,
+          endingDay: true,
+          color: checkinData[item].color,
+        };
+        itemBefore = { color: checkinData[item].color, date: item };
         sDate = false;
-      }
-      else {
+      } else {
         sDate = true;
-        itemBefore = { color: checkinData[item].color, date: item};
+        itemBefore = { color: checkinData[item].color, date: item };
       }
     }
-
-
   });
 
-  return checkinData;
+  return Object.keys(checkinData)
+    .filter((key) => moment(key, "YYYY-MM-DD").isBefore(moment(), "day"))
+    .reduce((obj, key) => {
+      obj[key] = checkinData[key];
+      return obj;
+    }, {});
 };
