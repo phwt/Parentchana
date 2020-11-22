@@ -11,6 +11,7 @@ import * as Notifications from "expo-notifications";
 import { fetchStudents } from "../store/actions/pickupActions";
 import initializeFirebase from "../modules/Firebase";
 import { store } from "../store";
+import Color from "../modules/Color";
 
 const Menu = (props) => {
   const authenticated = useSelector((state) => state.auth.authenticated);
@@ -89,7 +90,7 @@ const Menu = (props) => {
         heading="Scan QR Code"
         description="Picking-up: 12345"
         bgimg={require("../assets/qr-code.png")}
-        bgcolor="#041743"
+        bgcolor={Color.pickupKey}
         bgdis="#b7bcc6"
         z={1}
         onSelect={() => props.navigation.navigate("Pickup")}
@@ -100,7 +101,7 @@ const Menu = (props) => {
         heading="Student arrival and departures"
         description="Check-in: 09.14 - Late"
         bgimg={require("../assets/clock.png")}
-        bgcolor="#043c7b"
+        bgcolor={Color.checkinKey}
         bgdis="#b7c5d4"
         z={0}
         onSelect={() => props.navigation.navigate("CheckIn")}
@@ -111,7 +112,7 @@ const Menu = (props) => {
         heading="School activities"
         description="Upcoming: Final Examination (21/09/20)"
         bgimg={require("../assets/calendar.png")}
-        bgcolor="#209ccf"
+        bgcolor={Color.calendarKey}
         bgdis="#209ccf"
         z={-1}
         onSelect={() => props.navigation.navigate("Calendar")}

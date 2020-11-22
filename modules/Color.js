@@ -19,4 +19,8 @@ export default {
   danger: "#e56767",
   light: () => this.gray100,
   dark: () => this.gray800,
+
+  pickupKey: "#041743",
+  checkinKey: "#043c7b",
+  calendarKey: "#209ccf",
 };
