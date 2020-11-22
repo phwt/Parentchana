@@ -52,6 +52,12 @@ const CalendarFavorite = ({ navigation }) => {
           title="Event Notifications"
           subtitle="Your notification enabled events"
         />
+        <Appbar.Action
+          icon="settings"
+          onPress={() => {
+            navigation.navigate("Settings");
+          }}
+        />
       </Appbar.Header>
       <DataTable>
         <DataTable.Header>

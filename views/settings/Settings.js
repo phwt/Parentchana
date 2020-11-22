@@ -13,7 +13,7 @@ const Settings = ({ navigation }) => {
       <Appbar.Header>
         <Appbar.BackAction
           onPress={() => {
-            navigation.popToTop();
+            navigation.goBack();
           }}
         />
         <Appbar.Content

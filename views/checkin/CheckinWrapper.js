@@ -34,6 +34,14 @@ const CheckInWrapper = ({ navigation }) => {
             resetting ? "Select student" : `Showing ${selectedStudent}'s info`
           }
         />
+        {resetting && (
+          <Appbar.Action
+            icon="settings"
+            onPress={() => {
+              navigation.navigate("Settings");
+            }}
+          />
+        )}
         {!resetting && (
           <>
             <Appbar.Action

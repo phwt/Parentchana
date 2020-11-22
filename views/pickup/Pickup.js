@@ -58,6 +58,12 @@ const Pickup = ({ navigation }) => {
           }}
         />
         <Appbar.Content title="Student Pickup" subtitle="Scan for pickup" />
+        <Appbar.Action
+          icon="settings"
+          onPress={() => {
+            navigation.navigate("Settings");
+          }}
+        />
       </Appbar.Header>
       <Grid>
         <Row size={75}>

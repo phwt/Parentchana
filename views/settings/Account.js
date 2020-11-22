@@ -27,7 +27,7 @@ const Account = (props) => {
       <Appbar.Header>
         <Appbar.BackAction
           onPress={() => {
-            props.navigation.popToTop();
+            props.navigation.goBack();
           }}
         />
         <Appbar.Content title="Account" subtitle="Account info and settings" />
