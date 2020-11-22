@@ -3,6 +3,7 @@ import { FlatList } from "react-native";
 import { Appbar, DataTable } from "react-native-paper";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCalendarEvents } from "../../store/actions/calendarActions";
+import Color from "../../modules/Color";
 
 const CalendarFavorite = ({ navigation }) => {
   const events = useSelector((state) => state.calendar.events);
@@ -42,7 +43,7 @@ const CalendarFavorite = ({ navigation }) => {
 
   return (
     <>
-      <Appbar.Header>
+      <Appbar.Header style={{ backgroundColor: Color.calendarKey }}>
         <Appbar.BackAction
           onPress={() => {
             navigation.popToTop();

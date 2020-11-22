@@ -3,6 +3,7 @@ import { Picker } from "react-native";
 import { Appbar, Button } from "react-native-paper";
 import CheckIn from "./CheckIn";
 import { useSelector } from "react-redux";
+import Color from "../../modules/Color";
 
 const CheckInWrapper = ({ navigation }) => {
   const [resetting, setResetting] = useState(true);
@@ -22,7 +23,7 @@ const CheckInWrapper = ({ navigation }) => {
 
   return (
     <>
-      <Appbar.Header>
+      <Appbar.Header style={{ backgroundColor: Color.checkinKey }}>
         <Appbar.BackAction
           onPress={() => {
             navigation.goBack();

@@ -5,6 +5,7 @@ import moment from "moment";
 import { loadPickupStudents, onPickupListChange } from "../../modules/Firebase";
 import { PropTypes } from "prop-types";
 import { useSelector } from "react-redux";
+import Color from "../../modules/Color";
 
 const PickupItem = ({ item, studentList }) => {
   return (
@@ -52,7 +53,7 @@ const PickupList = ({ navigation }) => {
 
   return (
     <>
-      <Appbar.Header>
+      <Appbar.Header style={{ backgroundColor: Color.pickupKey }}>
         <Appbar.BackAction
           onPress={() => {
             navigation.goBack();

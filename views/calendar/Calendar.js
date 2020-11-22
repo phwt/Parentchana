@@ -12,6 +12,7 @@ import {
   toggleCalendarFavorite,
 } from "../../store/actions/calendarActions";
 import { Appbar } from "react-native-paper";
+import Color from "../../modules/Color";
 
 const Calendar = ({ navigation }) => {
   const events = useSelector((state) => state.calendar.events);
@@ -105,7 +106,7 @@ const Calendar = ({ navigation }) => {
   };
   return (
     <>
-      <Appbar.Header>
+      <Appbar.Header style={{ backgroundColor: Color.calendarKey }}>
         <Appbar.BackAction
           onPress={() => {
             navigation.popToTop();

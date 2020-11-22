@@ -11,6 +11,7 @@ import * as Notifications from "expo-notifications";
 import { fetchStudents } from "../store/actions/pickupActions";
 import initializeFirebase from "../modules/Firebase";
 import { store } from "../store";
+import { Appbar } from "react-native-paper";
 import Color from "../modules/Color";
 
 const Menu = (props) => {
@@ -56,6 +57,10 @@ const Menu = (props) => {
 
   return (
     <View>
+      <Appbar.Header
+        statusBarHeight={-16}
+        style={{ backgroundColor: "white" }}
+      />
       <View style={styles.topMenu}>
         <View style={styles.col}>
           {authenticated && (

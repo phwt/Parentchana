@@ -5,6 +5,7 @@ import { BarCodeScanner } from "expo-barcode-scanner";
 import { useSelector } from "react-redux";
 import { insertPickupStudent } from "../../modules/Firebase";
 import { Appbar } from "react-native-paper";
+import Color from "../../modules/Color";
 
 const Pickup = ({ navigation }) => {
   const [hasPermission, setHasPermission] = useState(null);
@@ -51,7 +52,7 @@ const Pickup = ({ navigation }) => {
 
   return (
     <>
-      <Appbar.Header>
+      <Appbar.Header style={{ backgroundColor: Color.pickupKey }}>
         <Appbar.BackAction
           onPress={() => {
             navigation.goBack();
