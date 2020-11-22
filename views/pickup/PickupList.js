@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, FlatList } from "react-native";
+import { View, Text, FlatList, StatusBar } from "react-native";
 import { Card, Title, Paragraph, Button, Appbar } from "react-native-paper";
 import moment from "moment";
 import { loadPickupStudents, onPickupListChange } from "../../modules/Firebase";
@@ -53,6 +53,7 @@ const PickupList = ({ navigation }) => {
 
   return (
     <>
+      <StatusBar barStyle="light-content" />
       <Appbar.Header style={{ backgroundColor: Color.pickupKey }}>
         <Appbar.BackAction
           onPress={() => {

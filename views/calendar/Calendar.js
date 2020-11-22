@@ -1,5 +1,11 @@
 import React, { useEffect, useState, useCallback } from "react";
-import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  StatusBar,
+} from "react-native";
 import { Agenda } from "react-native-calendars";
 import { Ionicons } from "@expo/vector-icons";
 import { useSelector, useDispatch } from "react-redux";
@@ -106,6 +112,7 @@ const Calendar = ({ navigation }) => {
   };
   return (
     <>
+      <StatusBar barStyle="light-content" />
       <Appbar.Header style={{ backgroundColor: Color.calendarKey }}>
         <Appbar.BackAction
           onPress={() => {

@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, StyleSheet, View, Image } from "react-native";
+import { Text, StyleSheet, View, Image, StatusBar } from "react-native";
 import { Appbar, Button } from "react-native-paper";
 import * as firebase from "firebase";
 import { useSelector } from "react-redux";
@@ -24,6 +24,7 @@ const Account = (props) => {
   console.log(currentUser.phoneNumber);
   return (
     <>
+      <StatusBar barStyle="light-content" />
       <Appbar.Header>
         <Appbar.BackAction
           onPress={() => {

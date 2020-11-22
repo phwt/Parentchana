@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { FlatList } from "react-native";
+import { FlatList, StatusBar } from "react-native";
 import { Appbar, DataTable } from "react-native-paper";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCalendarEvents } from "../../store/actions/calendarActions";
@@ -43,6 +43,7 @@ const CalendarFavorite = ({ navigation }) => {
 
   return (
     <>
+      <StatusBar barStyle="light-content" />
       <Appbar.Header style={{ backgroundColor: Color.calendarKey }}>
         <Appbar.BackAction
           onPress={() => {

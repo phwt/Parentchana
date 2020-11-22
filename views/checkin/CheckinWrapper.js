@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Picker } from "react-native";
+import { Picker, StatusBar } from "react-native";
 import { Appbar, Button } from "react-native-paper";
 import CheckIn from "./CheckIn";
 import { useSelector } from "react-redux";
@@ -23,6 +23,7 @@ const CheckInWrapper = ({ navigation }) => {
 
   return (
     <>
+      <StatusBar barStyle="light-content" />
       <Appbar.Header style={{ backgroundColor: Color.checkinKey }}>
         <Appbar.BackAction
           onPress={() => {

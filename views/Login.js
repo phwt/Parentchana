@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { TextInput, Button, Appbar } from "react-native-paper";
 import * as firebase from "firebase";
+import { StatusBar } from "react-native";
 
 const Login = (props) => {
   const [email, setEmail] = useState("");
@@ -19,6 +20,7 @@ const Login = (props) => {
 
   return (
     <>
+      <StatusBar barStyle="light-content" />
       <Appbar.Header>
         <Appbar.BackAction
           onPress={() => {

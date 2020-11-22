@@ -4,12 +4,14 @@ import StudentSection from "../../components/settings/StudentSection";
 import NotificationSection from "../../components/settings/NotificationSection";
 import { useSelector } from "react-redux";
 import { Appbar } from "react-native-paper";
+import { StatusBar } from "react-native";
 
 const Settings = ({ navigation }) => {
   const role = useSelector((state) => state.auth.role);
 
   return (
     <>
+      <StatusBar barStyle="light-content" />
       <Appbar.Header>
         <Appbar.BackAction
           onPress={() => {
