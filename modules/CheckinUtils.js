@@ -103,7 +103,7 @@ export const computeMarkedDates = (dateList) => {
         : 0
   );
 
-  Object.keys(listConvert).map((item) => {
+  Object.keys(listConvert).map((item) => { // display color on calendar
     if (Object.entries(listConvert[item]).length === 3) {
       if (listConvert[item].ontime) {
         checkinData[listConvert[item].date] = {
@@ -151,7 +151,7 @@ export const computeMarkedDates = (dateList) => {
   let itemBefore = {};
   let sDate = Boolean;
 
-  Object.keys(checkinData).map((item) => {
+  Object.keys(checkinData).map((item) => { // Same color welding
     if (Object.entries(itemBefore).length == 0) {
       checkinData[item] = { textColor: "white", startingDay: true, endingDay: true, color: checkinData[item].color, };
       itemBefore = { color: checkinData[item].color, date: item};
