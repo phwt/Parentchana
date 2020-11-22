@@ -97,9 +97,10 @@ export const computeMarkedDates = (dateList) => {
     a.timestamp.seconds > b.timestamp.seconds
       ? 1
       : b.timestamp.seconds > a.timestamp.seconds
-      ? -1
-      : 0
+        ? -1
+        : 0
   );
+  let dataBefore = [];
 
   Object.keys(listConvert).map((item) => {
     if (Object.entries(listConvert[item]).length === 3) {
@@ -145,6 +146,30 @@ export const computeMarkedDates = (dateList) => {
         color: "#d72f3c",
       };
     }
+  });
+  let itemBefore = {};
+  let sDate = Boolean;
+
+  Object.keys(checkinData).map((item) => {
+    if (Object.entries(itemBefore).length == 0) {
+      checkinData[item] = { textColor: "white", startingDay: true, endingDay: true, color: checkinData[item].color, };
+      itemBefore = { color: checkinData[item].color, date: item};
+      sDate = true;
+    }
+    else {
+      if (checkinData[item].color == itemBefore.color && (Number(itemBefore.date.substring(8, 10))+1 == Number(item.substring(8, 10)))){
+        checkinData[itemBefore.date] = { textColor: "white", startingDay: sDate, endingDay: false, color: checkinData[item].color, };
+        checkinData[item] = { textColor: "white", startingDay: false, endingDay: true, color: checkinData[item].color, };
+        itemBefore = { color: checkinData[item].color, date: item};
+        sDate = false;
+      }
+      else {
+        sDate = true;
+        itemBefore = { color: checkinData[item].color, date: item};
+      }
+    }
+
+
   });
 
   return checkinData;
