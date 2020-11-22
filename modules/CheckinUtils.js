@@ -71,6 +71,8 @@ export const computeMarkedDates = (dateList) => {
     keyFormat: "YYYY-MM-DD",
     weekdayOnly: true,
   });
+  console.log(moment(new Date(), "DD/MM/YYYY"));
+  
 
   API.map((item) => {
     const date = moment.unix(item.timestamp.seconds).format("YYYY-MM-DD");
@@ -100,7 +102,6 @@ export const computeMarkedDates = (dateList) => {
         ? -1
         : 0
   );
-  let dataBefore = [];
 
   Object.keys(listConvert).map((item) => {
     if (Object.entries(listConvert[item]).length === 3) {
