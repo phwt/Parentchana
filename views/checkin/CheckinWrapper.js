@@ -45,15 +45,15 @@ const CheckInWrapper = ({ navigation }) => {
           />
         )}
         {!resetting && (
-          <>
-            <Appbar.Action
-              icon="account-edit"
-              onPress={() => {
-                setResetting(true);
-              }}
-            />
-            <Appbar.Action icon="refresh" onPress={refreshComponent} />
-          </>
+          <Appbar.Action
+            icon="account-edit"
+            onPress={() => {
+              setResetting(true);
+            }}
+          />
+        )}
+        {!resetting && (
+          <Appbar.Action icon="refresh" onPress={refreshComponent} />
         )}
       </Appbar.Header>
 
