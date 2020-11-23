@@ -6,6 +6,8 @@ import { useSelector } from "react-redux";
 import { Col, Row, Grid } from "react-native-easy-grid";
 import { Avatar } from "react-native-paper";
 import Icon from "react-native-vector-icons/Ionicons";
+import { Ionicons } from "@expo/vector-icons";
+
 // import { Icon } from 'react-native-elements'
 
 const Account = (props) => {
@@ -41,12 +43,10 @@ const Account = (props) => {
           <View style={{ justifyContent: "flex-end" }}>
             <View>
               <Avatar.Image
-                size={100}
-                source={{
-                  uri: "https://www.w3schools.com/howto/img_avatar.png",
-                }}
+                size={80}
+                source={require("../../assets/user.png")}
               />
-              {/* <Text>{currentUser.photoURL}</Text> */}
+              {/* <Ionicons name="md-person" size={50} /> */}
             </View>
           </View>
         </Row>
@@ -56,13 +56,12 @@ const Account = (props) => {
           style={{
             justifyContent: "center",
             backgroundColor: "white",
-            paddingBottom: 20,
           }}
         >
           <View style={{ justifyContent: "center" }}>
             <View>
-              <Text style={{ fontSize: 30 }}>{currentUser.displayName}</Text>
-              <Text style={{ fontSize: 30 }}>Tummasorn T</Text>
+              <Text style={{ fontSize: 32 }}>{currentUser.displayName}</Text>
+              {/* <Text style={{ fontSize: 32 }}>Tummasorn T</Text> */}
             </View>
           </View>
         </Row>
@@ -76,7 +75,7 @@ const Account = (props) => {
               <Icon name="md-mail" size={15} color="black" />
             </View>
           </Col>
-          <Col size={60} style={{ ...styles.colStyle, marginLeft: 20 }}>
+          <Col size={60} style={{ ...styles.colStyle, marginLeft: 10 }}>
             <Text>
               {/* Email{"\n"} */}
               {currentUser.email}
@@ -84,7 +83,7 @@ const Account = (props) => {
           </Col>
         </Row>
 
-        <Row
+        {/* <Row
           size={5}
           style={{ justifyContent: "center", backgroundColor: "white" }}
         >
@@ -95,13 +94,12 @@ const Account = (props) => {
           </Col>
           <Col size={60} style={{ ...styles.colStyle, marginLeft: 20 }}>
             <Text>
-              {/* Phone{"\n"} */}
               {currentUser.phoneNumber == null
                 ? "08X-XXX-XXXX(null)"
                 : currentUser.phoneNumber}
             </Text>
           </Col>
-        </Row>
+        </Row> */}
 
         <Row
           size={40}
