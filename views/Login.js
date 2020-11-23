@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { TextInput, Button, Appbar } from "react-native-paper";
 import * as firebase from "firebase";
-import { StatusBar } from "react-native";
+import { StatusBar, StyleSheet, View } from "react-native";
 
 const Login = (props) => {
   const [email, setEmail] = useState("");
@@ -32,32 +32,46 @@ const Login = (props) => {
           subtitle="Login to parent or teacher account"
         />
       </Appbar.Header>
-      <TextInput
-        label="Email"
-        value={email}
-        onChangeText={setEmail}
-        textContentType="emailAddress"
-        autoCompleteType="email"
-        autoCapitalize="none"
-      />
-      <TextInput
-        label="Password"
-        value={password}
-        secureTextEntry={true}
-        onChangeText={setPassword}
-        textContentType="password"
-        autoCompleteType="password"
-      />
-      <Button
-        icon="login"
-        mode="contained"
-        onPress={login}
-        disabled={email === "" || password === ""}
-      >
-        Login
-      </Button>
+      <View style={styles.container}>
+        <TextInput
+          style={styles.pb}
+          label="Email"
+          value={email}
+          onChangeText={setEmail}
+          textContentType="emailAddress"
+          autoCompleteType="email"
+          autoCapitalize="none"
+        />
+        <TextInput
+          style={styles.pb}
+          label="Password"
+          value={password}
+          secureTextEntry={true}
+          onChangeText={setPassword}
+          textContentType="password"
+          autoCompleteType="password"
+        />
+        <Button
+          icon="login"
+          mode="contained"
+          onPress={login}
+          disabled={email === "" || password === ""}
+        >
+          Login
+        </Button>
+      </View>
     </>
   );
 };
+const styles = StyleSheet.create({
+  container: {
+    paddingTop: 120,
+    paddingLeft: 20,
+    paddingRight: 20,
+  },
+  pb: {
+    marginBottom: 20,
+  },
+});
 
 export default Login;
