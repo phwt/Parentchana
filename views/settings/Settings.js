@@ -5,6 +5,7 @@ import NotificationSection from "../../components/settings/NotificationSection";
 import { useSelector } from "react-redux";
 import { Appbar } from "react-native-paper";
 import { StatusBar } from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
 
 const Settings = ({ navigation }) => {
   const role = useSelector((state) => state.auth.role);
@@ -23,13 +24,15 @@ const Settings = ({ navigation }) => {
           subtitle="Application related settings"
         />
       </Appbar.Header>
-      <NotificationSection />
-      {role === 1 && (
-        <>
-          <PlateSection />
-          <StudentSection />
-        </>
-      )}
+      <ScrollView>
+        <NotificationSection />
+        {role === 1 && (
+          <>
+            <PlateSection />
+            <StudentSection />
+          </>
+        )}
+      </ScrollView>
     </>
   );
 };
