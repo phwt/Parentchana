@@ -14,7 +14,7 @@ const StatusItem = ({ checkinItem, icon }) => {
           <Ionicons
             name={icon}
             size={16}
-            color={checkinItem.ontime ? "green" : "orange"}
+            color={checkinItem.ontime ? "#28a745" : "#ffa400"}
           />{" "}
           {moment(checkinItem.timestamp).format("HH:mm")}
         </>
@@ -74,8 +74,8 @@ const CheckInRow = ({ item, checkinData }) => {
               color={
                 currentItem.arrival.ontime &&
                 (currentItem.departure ? currentItem.departure.ontime : true)
-                  ? "green"
-                  : "orange"
+                  ? "#28a745"
+                  : "#ffa400"
               }
             />
           )}
