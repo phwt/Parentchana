@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet, Button, StatusBar } from "react-native";
+import { View, Text, StyleSheet, StatusBar } from "react-native";
+import { Button } from "react-native-paper";
 import { Col, Row, Grid } from "react-native-easy-grid";
 import { BarCodeScanner } from "expo-barcode-scanner";
 import { useSelector } from "react-redux";
@@ -96,14 +97,24 @@ const Pickup = ({ navigation }) => {
         <Row size={25}>
           <View style={styles.centerXY}>
             <Button
-              title={"Simulate Send"}
+              style={styles.mb}
+              mode="outlined"
+              color="#041743"
               onPress={() =>
                 handleBarCodeScanned({ type: "Simulate", data: "No Data" })
               }
-            />
+            >
+              Simulate Send
+            </Button>
             {!scanned && <Text>Scan QR code at school entrance</Text>}
             {scanned && (
-              <Button title={"Scan Again"} onPress={() => setScanned(false)} />
+              <Button
+                mode="contained"
+                color="#041743"
+                onPress={() => setScanned(false)}
+              >
+                Scan Again
+              </Button>
             )}
           </View>
         </Row>
@@ -114,6 +125,7 @@ const Pickup = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   centerXY: { flex: 1, justifyContent: "center", alignItems: "center" },
+  mb: { marginBottom: 5 },
 });
 
 export default Pickup;
