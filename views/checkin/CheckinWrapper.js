@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Picker, StatusBar } from "react-native";
+import { Picker, StatusBar, View, StyleSheet } from "react-native";
 import { Appbar, Button } from "react-native-paper";
 import CheckIn from "./CheckIn";
 import { useSelector } from "react-redux";
@@ -58,7 +58,7 @@ const CheckInWrapper = ({ navigation }) => {
       </Appbar.Header>
 
       {resetting && (
-        <>
+        <View style={styles.container}>
           <Picker
             selectedValue={selectedStudent}
             onValueChange={(itemValue, itemIndex) =>
@@ -70,18 +70,28 @@ const CheckInWrapper = ({ navigation }) => {
             ))}
           </Picker>
           <Button
+          color="#043c7b"
+          mode="contained"
             onPress={() => {
               setResetting(false);
             }}
           >
             Select Student
           </Button>
-        </>
+        </View>
       )}
 
       {!resetting && <CheckIn selectedStudent={selectedStudent} />}
     </>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    paddingTop: 120,
+    paddingLeft: 20,
+    paddingRight: 20,
+  },
+});
 
 export default CheckInWrapper;
