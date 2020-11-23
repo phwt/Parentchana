@@ -1,6 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, FlatList, StatusBar } from "react-native";
-import { Card, Title, Paragraph, Button, Appbar } from "react-native-paper";
+import { View, FlatList, StatusBar } from "react-native";
+import {
+  Card,
+  Title,
+  Paragraph,
+  Button,
+  Appbar,
+  Text,
+} from "react-native-paper";
 import moment from "moment";
 import { loadPickupStudents, onPickupListChange } from "../../modules/Firebase";
 import { PropTypes } from "prop-types";
@@ -11,18 +18,29 @@ const PickupItem = ({ item, studentList }) => {
   return (
     <Card>
       <Card.Content>
-        <Title>{item.plate}</Title>
-        <Paragraph>
+        <Text
+          style={{
+            fontSize: 30,
+            borderRadius: 5,
+            shadowColor: "black",
+            padding: 8,
+            width: 120,
+            backgroundColor: "#f1f1f1",
+          }}
+        >
+          {item.plate}
+        </Text>
+        <Paragraph style={{ color: "gray" }}>
           {moment.unix(item.timestamp.seconds).format("HH:mm - MM/DD/YYYY")}
         </Paragraph>
-        <Paragraph>
+        <Text style={{ fontSize: 18 }}>
           {item.students
             .map((i) => {
               const student = studentList.find((student) => student.id === i);
-              return `- ${i} | ${student.firstname} ${student.lastname}`;
+              return `${i} \t\t ${student.firstname} ${student.lastname}`;
             })
             .join("\n")}
-        </Paragraph>
+        </Text>
       </Card.Content>
     </Card>
   );
