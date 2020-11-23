@@ -35,7 +35,11 @@ const PickupTabs = () => (
 
 const CalendarTab = createBottomTabNavigator();
 const CalendarTabs = () => (
-  <CalendarTab.Navigator>
+  <CalendarTab.Navigator
+    tabBarOptions={{
+      activeTintColor: "#209ccf",
+    }}
+  >
     <CalendarTab.Screen
       name="Calendar"
       component={Calendar}
