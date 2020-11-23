@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 import { insertPickupStudent } from "../../modules/Firebase";
 import { Appbar } from "react-native-paper";
 import Color from "../../modules/Color";
+import { Ionicons } from "@expo/vector-icons";
 
 const Pickup = ({ navigation }) => {
   const [hasPermission, setHasPermission] = useState(null);
@@ -78,15 +79,16 @@ const Pickup = ({ navigation }) => {
           {scanned && (
             <View
               style={{
-                backgroundColor: "#333333",
+                backgroundColor: "#f1f1f1",
                 ...styles.centerXY,
               }}
             >
-              <Text style={{ color: "white", fontWeight: "bold" }}>
-                Success!
+              <Ionicons name="md-checkmark-circle" size={140} color="#28a745" />
+              <Text style={{ fontWeight: "bold", fontSize: 25 }}>
+                Scan Success
               </Text>
               <Text
-                style={{ color: "white", textAlign: "center" }}
+                style={{ color: "grey", textAlign: "center", paddingTop: 10 }}
               >{`Type: ${scanData.type}\nData: ${scanData.data}`}</Text>
             </View>
           )}
