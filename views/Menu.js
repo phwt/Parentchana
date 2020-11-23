@@ -157,13 +157,12 @@ const Menu = (props) => {
 const styles = StyleSheet.create({
   col: {
     flex: 1,
-    alignItems: "center",
   },
   topMenu: {
     flexDirection: "row",
     backgroundColor: "white",
     height: 100,
-    paddingTop: 30,
+    paddingTop: 25,
     paddingLeft: 50,
     paddingRight: 50,
     borderBottomLeftRadius: 50,
@@ -171,9 +170,10 @@ const styles = StyleSheet.create({
   },
   topMenuText: {
     fontSize: 10,
+    textAlign: "center",
   },
   topMenuIcon: {
-    paddingLeft: 5,
+    textAlign: "center",
   },
 });
 
