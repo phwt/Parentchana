@@ -1,9 +1,10 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { FlatList, StatusBar } from "react-native";
-import { Appbar, DataTable } from "react-native-paper";
+import { Appbar, List  } from "react-native-paper";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCalendarEvents } from "../../store/actions/calendarActions";
 import Color from "../../modules/Color";
+import moment from "moment";
 
 const CalendarFavorite = ({ navigation }) => {
   const events = useSelector((state) => state.calendar.events);
@@ -34,10 +35,15 @@ const CalendarFavorite = ({ navigation }) => {
 
   const renderFavoriteItem = (itemData) => {
     return (
-      <DataTable.Row>
-        <DataTable.Cell>{itemData.item.start.date.toString()}</DataTable.Cell>
-        <DataTable.Cell>{itemData.item.summary}</DataTable.Cell>
-      </DataTable.Row>
+      <List.Item
+        title={itemData.item.summary}
+        description={moment(itemData.item.start.date).format("DD/MM/YYYY")}
+        left={(props) => <List.Icon {...props} icon="calendar-blank" />}
+      />
+      // <DataTable.Row>
+      //   <DataTable.Cell>{itemData.item.start.date.toString()}</DataTable.Cell>
+      //   <DataTable.Cell>{itemData.item.summary}</DataTable.Cell>
+      // </DataTable.Row>
     );
   };
 
@@ -61,17 +67,17 @@ const CalendarFavorite = ({ navigation }) => {
           }}
         />
       </Appbar.Header>
-      <DataTable>
+      {/* <DataTable>
         <DataTable.Header>
           <DataTable.Title>Date</DataTable.Title>
           <DataTable.Title>Name</DataTable.Title>
-        </DataTable.Header>
-        <FlatList
-          style={{ width: "100%" }}
-          data={favoriteList}
-          renderItem={renderFavoriteItem}
-        />
-      </DataTable>
+        </DataTable.Header> */}
+      <FlatList
+        style={{ width: "100%" }}
+        data={favoriteList}
+        renderItem={renderFavoriteItem}
+      />
+      {/* </DataTable> */}
     </>
   );
 };
