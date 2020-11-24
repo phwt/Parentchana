@@ -24,6 +24,7 @@ const Calendar = ({ navigation }) => {
   const events = useSelector((state) => state.calendar.events);
   const favoriteEvents = useSelector((state) => state.calendar.favorite);
   const [computedEvents, setComputedEvents] = useState({});
+  const authenticated = useSelector((state) => state.auth.authenticated);
   const dispatch = useDispatch();
 
   const toggleFavoriteHandler = useCallback(
@@ -91,7 +92,7 @@ const Calendar = ({ navigation }) => {
     return (
       <View style={[styles.item, { height: 50 }]}>
         <Text style={styles.eventText}>{item.name}</Text>
-        {item.date.diff(moment()) > 0 && (
+        {item.date.diff(moment()) > 0 && authenticated && (
           <TouchableOpacity
             style={styles.fav}
             onPress={() => toggleFavoriteHandler(item.id)}
