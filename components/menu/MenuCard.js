@@ -24,7 +24,7 @@ const MenuCard = (props) => {
       >
         <Text style={styles.heading}>{props.heading}</Text>
         <Text style={styles.title}>{props.title}</Text>
-        <Text style={styles.description}>{props.description}</Text>
+        {/*<Text style={styles.description}>{props.description}</Text>*/}
         <Image style={styles.bgimg} source={props.bgimg} />
       </TouchableOpacity>
       <View
