@@ -24,7 +24,6 @@ const PickupItem = ({ item, studentList }) => {
             borderRadius: 5,
             shadowColor: "black",
             padding: 8,
-            width: 120,
             backgroundColor: "#f1f1f1",
           }}
         >
