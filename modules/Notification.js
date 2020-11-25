@@ -27,7 +27,7 @@ export const scheduleEventNotification = async (eventId) => {
       body: event.summary,
       data: { type: "calendar", eventId },
     },
-    trigger: { seconds: 5 }, // TODO: Use triggerSeconds on production
+    trigger: { seconds: 10 }, // TODO: Use triggerSeconds on production
   });
 };
 
