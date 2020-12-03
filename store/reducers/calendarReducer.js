@@ -10,7 +10,8 @@ const calendarReducer = (state = initialState.calendar, action) => {
     case types.ADD_CALENDAR_FAVORITE:
       return {
         ...state,
-        favorite: [
+        favorite:
+        [
           ...state.favorite,
           { eventId: action.eventId, identifier: action.identifier },
         ],
