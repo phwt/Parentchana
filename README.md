@@ -13,6 +13,12 @@ Parent assisting application
 
 ## Development Setup
 
+Config the `config.js` file
+
+- Fill in the required config parameters from Firebase Console and Google Calendar API
+- You can view the example in `config-example.js` file
+- `config.js` file is ignored by default
+
 Install required packages
 
 ```
