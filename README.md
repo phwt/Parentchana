@@ -6,7 +6,7 @@
 สนับสนุนรวมถึงส่งเสริมตัวนักเรียนได้อย่างถูกต้อง ซึ่งนอกจากอํานวยความสะดวกแล้ว ยังช่วยเพิ่มความสบาย
 ใจต่อความปลอดภัยของตัวนักเรียนให้กับตัวผู้ปกครองอีกด้วย
 
-![](/capture/01_Main_Menu.png)
+<img width="200" src="/capture/01_Main_Menu.png">
 
 ## Functions
 1. Student Pick-up
@@ -30,8 +30,8 @@
 ## Screenshots
 
 School Calendar
-![](/capture/calendar/Simulator Screen Shot - iPhone 12 Pro - 2020-11-24 at 19.21.28.png)
-![](/capture/calendar/Simulator Screen Shot - iPhone 12 Pro - 2020-11-24 at 21.50.25.png)
+![](/capture/calendar/01_Calendar_Agenda.png)
+![](/capture/calendar/02_EventList.png)
 
 Time Check-in
 ![](/capture/checkin/01_Select.png)
