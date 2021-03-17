@@ -6,7 +6,7 @@
 สนับสนุนรวมถึงส่งเสริมตัวนักเรียนได้อย่างถูกต้อง ซึ่งนอกจากอํานวยความสะดวกแล้ว ยังช่วยเพิ่มความสบาย
 ใจต่อความปลอดภัยของตัวนักเรียนให้กับตัวผู้ปกครองอีกด้วย
 
-<img width="200" src="/capture/01_Main_Menu.png">
+<img width="300" src="/capture/01_Main_Menu.png">
 
 ## Functions
 1. Student Pick-up
@@ -30,17 +30,23 @@
 ## Screenshots
 
 School Calendar
-![](/capture/calendar/01_Calendar_Agenda.png)
-![](/capture/calendar/02_EventList.png)
+
+<img width="300" src="/capture/calendar/01_Calendar_Agenda.png">
+<img width="300" src="/capture/calendar/02_EventList.png">
+
 
 Time Check-in
-![](/capture/checkin/01_Select.png)
-![](/capture/checkin/02_CheckIn_Selected.png)
+
+<img width="300" src="/capture/checkin/01_Select.png">
+<img width="300" src="/capture/checkin/02_CheckIn_Selected.png">
+
 
 Student Pick-up
-![](/capture/pickup/01_Scan.png)
-![](/capture/pickup/02_Success.png)
-![](/capture/pickup/03_TeacherList.png)
+
+<img width="300" src="/capture/pickup/01_Scan.png">
+<img width="300" src="/capture/pickup/02_Success.png">
+<img width="300" src="/capture/pickup/03_TeacherList.png">
+
 
 ## Demo User Account
 
