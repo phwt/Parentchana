@@ -31,20 +31,20 @@
 
 School Calendar
 
-<img width="300" src="/capture/calendar/01_Calendar_Agenda.png">
+<img width="300" align="left" src="/capture/calendar/01_Calendar_Agenda.png">
 <img width="300" src="/capture/calendar/02_EventList.png">
 
 
 Time Check-in
 
-<img width="300" src="/capture/checkin/01_Select.png">
+<img width="300" align="left" src="/capture/checkin/01_Select.png">
 <img width="300" src="/capture/checkin/02_CheckIn_Selected.png">
 
 
 Student Pick-up
 
-<img width="300" src="/capture/pickup/01_Scan.png">
-<img width="300" src="/capture/pickup/02_Success.png">
+<img width="300" align="left" src="/capture/pickup/01_Scan.png">
+<img width="300" align="left" src="/capture/pickup/02_Success.png">
 <img width="300" src="/capture/pickup/03_TeacherList.png">
 
 
