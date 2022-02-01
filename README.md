@@ -1,26 +1,21 @@
 # Parentchana
 
-การที่จะทําให้การเรียนรู้ในโรงเรียนจะมีประสิทธิภาพนั้น ผู้ที่เกี่ยวข้องไม่ได้มีเพียงแค่ครูและนักเรียน
-เท่านั้น แต่ยังรวมถึงผู้ปกครองของตัวนักเรียนด้วย การที่ผู้ปกครองสามารถมีปฏิสัมพันธ์กับโรงเรียนได้ง่ายและ
-สะดวกยิ่งขึ้น จะทําให้ผู้ปกครองสามารถเข้าใจตัวนักเรียนขณะที่อยู่ที่โรงเรียนได้มากขึ้น และสามารถ
-สนับสนุนรวมถึงส่งเสริมตัวนักเรียนได้อย่างถูกต้อง ซึ่งนอกจากอํานวยความสะดวกแล้ว ยังช่วยเพิ่มความสบาย
-ใจต่อความปลอดภัยของตัวนักเรียนให้กับตัวผู้ปกครองอีกด้วย
+It is not only the responsibility of the teacher and the students to create an efficient learning environment, but also of the student's parent.
+The ease of interaction between parents and schools will assist parents in understanding how things work at school and can promote the student in the proper manner.
 
 <img width="300" src="/capture/01_Main_Menu.png">
 
-## Functions
+## Features
+
 1. Student Pick-up
-- ระบบเช็คอินรับนักเรียน นํามาช่วยลดความติดขัดของจราจรในช่วงเย็น โดยตามปกติเมื่อผู้ปกครองไป
-ถึงจุดรับแล้วรอให้ลูกของตนมาขึ้นรถ อาจก่อให้เกิดปัญหาเช่น ลูกไม่พร้อมขึ้นรถ หรือไม่ได้อยู่ที่จุดรับ ซึ่งจะ
-ส่งผลให้เกิดความล่าช้า และทําให้จราจรติดขัดได้โดยระบบนี้จะทําให้สามารถแจ้งเตือนไปยังคุณครูประจําจุด
-รับนักเรียนว่าผู้ปกครองของนักเรียนคนนั้นกําลังจะมาถึง และให้นักเรียนเตรียมตัวขึ้นรถ เพื่อความรวดเร็วของ
-การรับลูกของผู้ปกครองทุกคน
+   - Pick-up queue system to mitigate traffic jams usually occurs in the evening. Normally, the parent would wait at the pick-up point for their children, which causes a number of issues, such as the student not being ready or being too far away from the pick-up point, resulting in a traffic jam.
+   - This system will allow the parent to notify the teacher in charge of the pick-up point of their arrival. As a result, they can look for the student and prepare them to be picked up once the parent arrives.
+
 2. Time Check-in
-- ระบบเช็คเวลาเข้าเรียน ผู้ปกครองจะได้รับการแจ้งเตือนมาที่เครื่องเมื่อลูกของตนเดินได้ทางเข้า/ออก
-จากโรงเรียน และยังสามารถตรวจสอบเวลาเข้า/ออกโรงเรียนย้อนหลังในแต่ละวันได้
+   - Notify parents of their children's arrival/departure from school, with the option of viewing historical check-in/out times.
+
 3. School Calendar
-- เป็นปฏิทินแสดงกิจกรรมของโรงเรียนโดยผู้ปกครองสามารถตั้งแจ้งเตือนบนกิจกรรมที่ตนเองสนใจได้
-เช่น ตั้งให้ส่งแจ้งเตือนกิจกรรม “วันสอบกลางภาคเรียน” ในเวลา 18:00 ของวันก่อนที่จะถึงกิจกรรมนั้น ๆ
+   - Displays events at the school and allows you to receive notifications about upcoming events.
 
 ## Technology Stack
   - React Native
@@ -29,33 +24,21 @@
 
 ## Screenshots
 
-School Calendar
-
-<img width="300" align="left" src="/capture/calendar/01_Calendar_Agenda.png">
-<img width="300" src="/capture/calendar/02_EventList.png">
-
-
-Time Check-in
-
-<img width="300" align="left" src="/capture/checkin/01_Select.png">
-<img width="300" src="/capture/checkin/02_CheckIn_Selected.png">
-
-
-Student Pick-up
+### Student Pick-up
 
 <img width="300" align="left" src="/capture/pickup/01_Scan.png">
 <img width="300" align="left" src="/capture/pickup/02_Success.png">
 <img width="300" src="/capture/pickup/03_TeacherList.png">
 
+### Time Check-in
 
-## Demo User Account
+<img width="300" align="left" src="/capture/checkin/01_Select.png">
+<img width="300" src="/capture/checkin/02_CheckIn_Selected.png">
 
-- Parent
-  - E-Mail: parent@test.com
-  - Password: P@ssw0rd
-- Teacher
-  - E-Mail: teacher@test.com
-  - Password: P@ssw0rd
+### School Calendar
+
+<img width="300" align="left" src="/capture/calendar/01_Calendar_Agenda.png">
+<img width="300" src="/capture/calendar/02_EventList.png">
 
 ## Development Setup
 
